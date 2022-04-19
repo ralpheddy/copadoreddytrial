@@ -12,6 +12,8 @@
     <label>Manage</label>
     <navType>Standard</navType>
     <tabs>Link__c</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Manage_UtilityBar</utilityBar>
 </CustomApplication>
