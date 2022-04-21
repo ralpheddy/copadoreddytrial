@@ -9,6 +9,7 @@
     <label>Sales</label>
     <navType>Standard</navType>
     <tabs>standard-home</tabs>
+    <tabs>TestPage</tabs>
     <tabs>standard-Opportunity</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Task</tabs>
