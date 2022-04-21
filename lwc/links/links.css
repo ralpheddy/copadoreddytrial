@@ -1,0 +1,6 @@
+.rowOver:hover{background-color: rgb(196, 211, 245);}
+.linkOver:hover{color:red; text-decoration:none;}
+.linkOver{text-decoration:none;}
+.headerRow{padding-bottom:4px; border-bottom: #aaa 1px solid;}
+.bigBet{color:#6161ff;}
+.floatLeft{float: left}
