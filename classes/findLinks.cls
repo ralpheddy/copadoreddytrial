@@ -1,5 +1,5 @@
 public with sharing class findLinks {
-    
+    // comment
     @AuraEnabled(cacheable=true) 
     public static LIST<link__c> getLinks() {
         String q = 'SELECT id, Name, Details__c ' + 
