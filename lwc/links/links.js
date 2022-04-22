@@ -5,6 +5,7 @@ import findLinks from '@salesforce/apex/findLinks.getLinks';
 export default class LinksList extends LightningElement {
     links;
     version = 1;
+    x = 1;
 
     handleSearch(event) {
         findLinks() // ({searchValue: this.isBigBetChecked, isSortByRVPchecked: this.isSortByRVPchecked, isSortByADchecked: this.isSortByADchecked})
