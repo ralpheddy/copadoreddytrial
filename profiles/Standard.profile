@@ -4938,6 +4938,10 @@
         <apexClass>copado__webhookLookupController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>findLinks</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
         <editable>false</editable>
@@ -6782,6 +6786,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Link__c.Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Link__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
