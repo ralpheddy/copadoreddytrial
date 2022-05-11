@@ -4,7 +4,7 @@ import findLinks from '@salesforce/apex/findLinks.getLinks';
 
 export default class LinksList extends LightningElement {
     links;
-    version = 2;
+    version = 2.1;
     x = 1;
 
     handleSearch(event) {
