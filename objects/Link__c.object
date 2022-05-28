@@ -162,6 +162,17 @@
         <type>TextArea</type>
     </fields>
     <fields>
+        <fullName>EditLink__c</fullName>
+        <externalId>false</externalId>
+        <formula>&apos;/lightning/r/Link__c/&apos; &amp; Id &amp; &apos;/view&apos;</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>EditLink</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Type__c</fullName>
         <externalId>false</externalId>
         <label>Type</label>
