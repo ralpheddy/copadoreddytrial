@@ -4,11 +4,23 @@ import findLinks from '@salesforce/apex/findLinks.getLinks';
 
 export default class LinksList extends LightningElement {
     links;
-    version = 1;
+    version = 3.2;
     x = 1;
+    searchText = 'sm';
+    searchValue = '';
+
+    searchKeyword(event) {
+        this.searchValue = event.target.value;  // alert (this.searchValue);
+    }
+
+    handleEnter(event){
+        if(event.keyCode === 13){
+          this.handleSearch();
+        }
+    }
 
     handleSearch(event) {
-        findLinks() // ({searchValue: this.isBigBetChecked, isSortByRVPchecked: this.isSortByRVPchecked, isSortByADchecked: this.isSortByADchecked})
+        findLinks({searchValue: this.searchValue}) // ({searchValue: this.isBigBetChecked, isSortByRVPchecked: this.isSortByRVPchecked, isSortByADchecked: this.isSortByADchecked})
             .then((result) => {
                 this.links = result;
                 this.error = undefined;
@@ -36,4 +48,5 @@ export default class LinksList extends LightningElement {
     }
     
 
+    
 }
