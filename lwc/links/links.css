@@ -1,6 +1,11 @@
 .rowOver:hover{background-color: rgb(196, 211, 245);}
 .linkOver:hover{color:red; text-decoration:none;}
-.linkOver{text-decoration:none;}
-.headerRow{padding-bottom:4px; border-bottom: #aaa 1px solid;}
+.linkOver{text-decoration:none; }
+.newOver:hover{color:red; text-decoration:none;}
+.newOver{text-decoration:none; color:white;}
+.headerRow{padding-bottom:4px; padding-top:4px; border-bottom: #aaa 1px solid; color:white; font-weight:normal;}
 .bigBet{color:#6161ff;}
 .floatLeft{float: left}
+.floatRight{float: right}
+.topRowCells{vertical-align: bottom; padding-left:10px; color:darkred;}  
+table {cursor:default;}
