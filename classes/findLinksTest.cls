@@ -4,7 +4,9 @@ private class findLinksTest {
 
     static testMethod void runLinks() {
 
-        findLinks.getLinks();
+        string searchValueTest = 'sm';
+        
+        findLinks.getLinks(searchValueTest);
 
     }
 }
