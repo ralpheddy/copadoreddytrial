@@ -1,23 +1,49 @@
 <template>
-    <lightning-card title="Links Galore" icon-name="custom:custom63">
+    <lightning-card ><!-- title="Links Galore" icon-name="custom:custom63" -->
         <div>
-            <div>
-                <div class="floatRight" style="padding-left:10px;">version: {version}</div>
-                <div class="floatRight" style="padding-right:20px;">
-                    <lightning-button variant="brand" label="Refresh" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
-                </div>
+            <div class="slds-form-element" >
                 
-            </div>
+                <!--<div class="floatRight" style="padding-right:20px;">
+                    <lightning-button variant="brand" label="Refresh" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
+                </div>-->
+                <table border="0" cellpadding="8" cellspacing="8">
+                <tr>
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small" style="width:50%">
+                            <lightning-input type="text"
+                            value={searchValue}
+                            label="Filter this list:"
+                            onchange={searchKeyword}
+                            onkeypress={handleEnter}
+                            placeholder="What…"
+                            style="width:400px"
+                            ></lightning-input>
+                        </div>
+                    </td>
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small floatLeft">
+                            <lightning-button label="Search" onclick={handleSearch} variant="brand"></lightning-button>
+                        </div>
+                    </td > 
+                    <td class="topRowCells" width="90px">
+                        <div class="slds-m-bottom_small floatRight" style="padding-left:10px;">version: {version}</div>
+                    </td> 
+                    <td width="80%">&nbsp;</td>
+                </tr>
+                </table>
 
-            <table class="slds-table_cell-buffer " border="0" cellpadding="0" cellspacing="0">
+            </div>
+           
+            <table class="slds-table_cell-buffer "  border="0" cellpadding="0" cellspacing="0">
                 <thead>
-                <tr class="slds-line-height_reset" style="padding-bottom:5px;">
+                <tr class="slds-line-height_reset" style="padding-bottom:5px; background-color:#19548a;">
+                    <th class="headerRow" scope="col"><div class="slds-truncate" title="Company">&nbsp;</div></th>
                     <th class="headerRow" scope="col"><div class="slds-truncate" title="Company">Name</div></th>
                     <th class="headerRow" scope="col"><div class="slds-truncate" title="AE">URL</div></th>
                     <th class="headerRow" scope="col"><div class="slds-truncate" title="AE">Types</div></th>
                     <th class="headerRow" scope="col">
                         <div class="slds-truncate" title="Edit">
-                            <a class="linkOver" href="/lightning/o/Link__c/new" target="_blank">New</a>
+                            <a class="newOver" href="/lightning/o/Link__c/new" target="_blank">New</a>
                         </div>
                     </th>
                 </tr>
@@ -26,10 +52,17 @@
                 <template if:true={links}> <!-- <template if:true={links.data}> -->
                     <template for:each={links} for:item="link"> <!-- <template for:each={companies.data} for:item="company"> -->
                         <tr class="slds-hint-parent rowOver" key={link.Id}>
+                            <td>
+                                <div class="slds-truncate slds-m-around_none slds-text-body_medium bigBet">
+                                    <a href={link.EditLink__c} target="_blank" class="linkOver">edit</a>
+                                </div>
+                            </td>
                             <td><div class="slds-truncate slds-m-around_none slds-text-body_medium bigBet">{link.Name}</div></td>
                             <td style="padding-right:2px">
                                 <div class="slds-truncate slds-m-around_none slds-text-body_medium bigBet">
-                                    <a href={link.URL__c} target="_blank" class="linkOver">view</a>
+                                    <template if:true={link.URL__c}>
+                                        <a href={link.URL__c} target="_blank" class="linkOver">open</a>
+                                    </template>
                                 </div>
                             </td>
                             <td>
