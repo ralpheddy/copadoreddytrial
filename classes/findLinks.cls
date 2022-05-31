@@ -6,9 +6,9 @@ public with sharing class findLinks {
         string whereValue = '%' + searchValue + '%';
         
         String q = 'SELECT id, Name, Details__c, URL__c, Type__c, EditLink__c ' + 
-                    ' FROM Link__c ' +
+                    'FROM Link__c ' +
                     ' WHERE name like :whereValue ' +
-                    ' ORDER BY Name';
+                    'ORDER BY Name';
         
         /*
         LIST<link__c> links = [SELECT id, Name, Details__c, URL__c, Type__c, EditLink__c 
@@ -16,7 +16,7 @@ public with sharing class findLinks {
                                WHERE name like :whereValue 
                                ORDER BY Type__c asc, Name];
         */ 
-
+        
         // system.debug(q); //
         LIST<link__c> links = Database.query(q);
 
