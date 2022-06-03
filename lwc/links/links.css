@@ -7,5 +7,6 @@
 .bigBet{color:#6161ff;}
 .floatLeft{float: left}
 .floatRight{float: right}
-.topRowCells{vertical-align: bottom; padding-left:10px; color:darkred;}  
+.topRowCells{vertical-align: bottom; padding-left:10px; }  
+.versionStyle{color:darkred; font-size:10px;}
 table {cursor:default;}

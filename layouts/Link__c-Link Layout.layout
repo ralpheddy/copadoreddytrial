@@ -26,6 +26,10 @@
                 <behavior>Readonly</behavior>
                 <field>EditLink__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Archived__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
