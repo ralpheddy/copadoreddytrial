@@ -2,13 +2,21 @@ import { LightningElement, wire } from 'lwc';
 
 import findLinks from '@salesforce/apex/findLinks.getLinks';
 
+
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import LINK_OBJECT from '@salesforce/schema/Link__c';
+import TYPE_FIELD from '@salesforce/schema/Link__c.Type__c'; 
+
 export default class LinksList extends LightningElement {
     links;
-    version = 3.2;
+    version = 3.4;
     x = 1;
     searchText = 'sm';
     searchValue = '';
-
+    allCheck = false;
+    valueOfSelectedType ='';
+    
     searchKeyword(event) {
         this.searchValue = event.target.value;  // alert (this.searchValue);
     }
@@ -19,8 +27,13 @@ export default class LinksList extends LightningElement {
         }
     }
 
+    handleAllCheck(event){
+        this.allCheck = event.target.checked;  // alert (this.allCheck);
+        // handleSearch(event);
+    }
+ 
     handleSearch(event) {
-        findLinks({searchValue: this.searchValue}) // ({searchValue: this.isBigBetChecked, isSortByRVPchecked: this.isSortByRVPchecked, isSortByADchecked: this.isSortByADchecked})
+        findLinks({searchValue: this.searchValue, allCheck: this.allCheck, valueOfSelectedType: this.valueOfSelectedType} ) // ({searchValue: this.isBigBetChecked, isSortByRVPchecked: this.isSortByRVPchecked, isSortByADchecked: this.isSortByADchecked})
             .then((result) => {
                 this.links = result;
                 this.error = undefined;
@@ -47,6 +60,21 @@ export default class LinksList extends LightningElement {
         this.handleSearch();
     }
     
-
     
+    
+    // to get the default record type id, if you dont' have any recordtypes then it will get master
+    @wire(getObjectInfo, { objectApiName: LINK_OBJECT }) linkMetadata;
+    // now get the industry picklist values
+    @wire(getPicklistValues,
+        {
+            recordTypeId: '$linkMetadata.data.defaultRecordTypeId', 
+            fieldApiName: TYPE_FIELD
+        }
+    ) linkPicklist;
+    // on select picklist value to show the selected value
+    handleChange(event) {
+        this.valueOfSelectedType = event.detail.value;
+    }
+    
+
 }
