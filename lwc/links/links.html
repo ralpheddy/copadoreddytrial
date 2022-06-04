@@ -1,7 +1,20 @@
 <template>
+
+    <lightning-card title="Get picklist values of Type field" icon-name="standard:user">
+        <div class="slds-m-around_medium">
+            <!--<template if:true={linkPicklist.data}>
+                <lightning-combobox name="Type" label="Type" value={value}
+                    options={linkPicklist.data.values} onchange={handleChange}>
+                </lightning-combobox>
+            </template>-->
+            
+        </div>
+    </lightning-card> 
+    
+
     <lightning-card ><!-- title="Links Galore" icon-name="custom:custom63" -->
         <div>
-            <div class="slds-form-element" >
+            <div class="slds-form-element" > 
                 
                 <!--<div class="floatRight" style="padding-right:20px;">
                     <lightning-button variant="brand" label="Refresh" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
@@ -9,24 +22,41 @@
                 <table border="0" cellpadding="8" cellspacing="8">
                 <tr>
                     <td class="topRowCells" width="1%">
-                        <div class="slds-m-bottom_small" style="width:50%">
+                        <div class="slds-m-bottom_small" style="width:1%">
                             <lightning-input type="text"
                             value={searchValue}
-                            label="Filter this list:"
+                            label="Filter this List:"
                             onchange={searchKeyword}
                             onkeypress={handleEnter}
                             placeholder="What…"
-                            style="width:400px"
+                            style="width:100px"
                             ></lightning-input>
                         </div>
-                    </td>
+                    </td> 
                     <td class="topRowCells" width="1%">
-                        <div class="slds-m-bottom_small floatLeft">
+                        <div class="slds-m-bottom_small floatLeft" style="white-space:nowrap;">
                             <lightning-button label="Search" onclick={handleSearch} variant="brand"></lightning-button>
                         </div>
                     </td > 
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small floatLeft" style="white-space:nowrap;">
+                            <lightning-input type="checkbox" label="All" id="allCheckbox" name="input1" value={allCheck} onchange={handleAllCheck} title="Include Archive"></lightning-input>
+                        </div>
+                    </td >
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small floatLeft" style="white-space:nowrap;">
+                            <template if:true={linkPicklist.data}>
+                                <lightning-combobox name="Type" label="Type" value={value}
+                                    options={linkPicklist.data.values} onchange={handleChange}
+                                    style="width:150px; color:black;"
+                                    placeholder="Filter by type">
+                                </lightning-combobox>
+                            </template>
+                            <div style="display:none"><p>Selected value is: {valueOfSelectedType}</p></div>
+                        </div>
+                    </td > 
                     <td class="topRowCells" width="90px">
-                        <div class="slds-m-bottom_small floatRight" style="padding-left:10px;">version: {version}</div>
+                        <div class="slds-m-bottom_small floatRight versionStyle" style="padding-left:10px; white-space:nowrap;">v{version}</div>
                     </td> 
                     <td width="80%">&nbsp;</td>
                 </tr>
