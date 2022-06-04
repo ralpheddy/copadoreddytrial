@@ -226,6 +226,11 @@
                     <default>false</default>
                     <label>Other</label>
                 </value>
+                <value>
+                    <fullName>--None--</fullName>
+                    <default>false</default>
+                    <label>--none--</label>
+                </value>
             </valueSetDefinition>
         </valueSet>
     </fields>
