@@ -10,13 +10,21 @@ import TYPE_FIELD from '@salesforce/schema/Link__c.Type__c';
 
 export default class LinksList extends LightningElement {
     links;
-    version = 3.4;
+    version = 3.5;
     x = 1;
     searchText = 'sm';
     searchValue = '';
     allCheck = false;
     valueOfSelectedType ='';
-    
+    browserURL = document.URL;
+    isLocalhost = false;
+    // myPosition = this.browserURL.substring(1, 4);  
+    recordsFound = 0;
+    myPosition = this.browserURL.indexOf("localhost");
+    // if (browserURL.indexOf("localhost"))
+    // if ( p > -1 ) isLocalhost = true;
+   
+
     searchKeyword(event) {
         this.searchValue = event.target.value;  // alert (this.searchValue);
     }
@@ -58,6 +66,7 @@ export default class LinksList extends LightningElement {
 
     connectedCallback() {
         this.handleSearch();
+        if (this.myPosition > 0) this.browserURL = "localhost";
     }
     
     
@@ -76,5 +85,9 @@ export default class LinksList extends LightningElement {
         this.valueOfSelectedType = event.detail.value;
     }
     
+    handleOpen(event){
+        alert("open");
+        window.open('/lightning/n/Links', 'Links Tab', 'titlebar=no,menubar=no,location=no');
+    }
 
 }
