@@ -1,5 +1,35 @@
 public with sharing class findLinks {
-    // comment
+    
+    @AuraEnabled(cacheable=true) 
+    public static LIST<AE__c> getAEs() {
+        LIST<AE__c> AEs = [SELECT id, Name, Region__c, Manager__c, APOid__c
+                           FROM AE__c 
+                           WHERE Active__c=true
+                           ORDER BY Name];
+       return AEs;
+    }
+
+    @AuraEnabled(cacheable=true) 
+    public static LIST<Account> getAccounts(id aeId) {
+        LIST<Account> Accounts = [SELECT id, Name, AE__c, Type, URL__c
+                           FROM Account 
+                           WHERE AE__c = :aeId
+                           ORDER BY Name];
+       return Accounts;
+    }
+
+    @AuraEnabled(cacheable=true) 
+    public static LIST<Subscription__c> getSubscriptions(id accountId) {
+        LIST<Subscription__c> Subscriptions = [SELECT id, Name, Account__c, APOSubscriptionId__c, APOcontractURL__c, 
+                                               Quantity__c, QuantityString__c, Monthly__c, MonthlyString__c, Total__c, TotalString__c,
+                                               End__c, EndString__c, Start__c, StartString__c
+                           FROM Subscription__c 
+                           WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
+                           ORDER BY Name ];
+       return Subscriptions;
+    }
+
+
     @AuraEnabled(cacheable=true) 
     public static LIST<link__c> getLinks(string searchValue, boolean allCheck, string valueOfSelectedType) {
 
