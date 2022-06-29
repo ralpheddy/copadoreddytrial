@@ -11,9 +11,9 @@ public with sharing class findLinks {
 
     @AuraEnabled(cacheable=true) 
     public static LIST<Account> getAccounts(id aeId) {
-        LIST<Account> Accounts = [SELECT id, Name, AE__c, Type, URL__c
+        LIST<Account> Accounts = [SELECT id, Name, Type, URL__c // AE__c, AE__r.id, 
                            FROM Account 
-                           WHERE AE__c = :aeId
+                           WHERE AE__r.id = :aeId
                            ORDER BY Name];
        return Accounts;
     }
