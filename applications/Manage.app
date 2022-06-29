@@ -11,10 +11,14 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Manage</label>
     <navType>Standard</navType>
-    <tabs>LinksPage</tabs>
-    <tabs>Link__c</tabs>
+    <tabs>Manage</tabs>
+    <tabs>AE__c</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>Subscription__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>LinksPage</tabs>
+    <tabs>Link__c</tabs>
     <tabs>Links</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Manage_UtilityBar</utilityBar>
