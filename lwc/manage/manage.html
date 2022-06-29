@@ -1,0 +1,86 @@
+<template>
+<div class="bodyDiv">
+   <!--<lightning-card title="Manage" icon-name="custom:custom63">-->
+            <div class="version">{version} - {showError}</div>
+
+            <div class="AEList">
+                <div class="AEListHeader ">AE</div>
+                <div class="AEListNames ">
+                    <template if:true={aes}> 
+                        <template for:each={aes} for:item="ae"> 
+                            <div id={ae.Id} key={ae.Id} data-name={ae.Name} data-item={ae.Id} onclick={aeSelected} class="dataRow rowOver AEListItems ">
+                                {ae.Name} - ABC
+                            </div>
+                        </template>
+                    </template> 
+                </div>
+            </div>  
+
+            <div class="AccountListAEName">{aeSelectedName}</div>
+            <div class="AccountList">
+                <div class="AEListHeader AccountListHeader">Accounts</div>
+                <table width="198px">
+                    <template if:true={accounts}> 
+                        <template for:each={accounts} for:item="account"> 
+                            <tr class="rowOver" key={account.Id} id={account.Id}>
+                                <td width="90px" class="dataRow" id={account.Id} data-id={account.Id} data-name={account.Name} onclick={accountSelected}>{account.Name}</td>
+                                <td width="70px" class="dataRow" style="font-size:75%">{account.Type}</td>
+                                <td width="8px" class="dataRow">
+                                    <a href={account.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
+                                </td> <!--  -->
+                            </tr>
+                        </template>
+                    </template>
+                </table>
+            </div>
+            
+            <!-- <div class="AccountList">
+                <div class="AEListHeader ">Accounts</div>
+                <div class="AEListNames AccountListNames">
+                    <template if:true={accounts}> 
+                        <template for:each={accounts} for:item="account"> 
+                            <div id={account.Id} key={account.Id} onclick={accountSelected} class="dataRow rowOver">
+                                {account.Name} - {account.Type}
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div> -->
+
+            <div class="CurrentLicensesAccountName">{accountSelectedName}</div>
+            <div class="CurrentLicenses">
+                <div class="AEListHeader" style="width:600px;">Current Licenses</div>
+                <table width="600px" border="0">
+                    <template if:true={subscriptions}> 
+                        <template for:each={subscriptions} for:item="subscription"> 
+                            <tr class="rowOver" key={subscription.Id} id={subscription.Id}>
+                                <td width="90px" class="dataRow" >{subscription.Name}</td>
+                                <td width="8px" class="dataRow tdRight" >{subscription.QuantityString__c}</td>
+                                <td width="8px" class="dataRow tdRight" >{subscription.MonthlyString__c}</td>
+                                <td width="8px" class="dataRow tdRight" >{subscription.TotalString__c}</td>
+                                <td width="8px" class="dataRow tdCenter" >{subscription.StartString__c}</td>
+                                <td width="8px" class="dataRow tdCenter" >{subscription.EndString__c}</td>
+                                <td width="8px" class="dataRow">
+                                    <a href={subscription.APOcontractURL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+                </table>
+            </div>
+
+            <!--    <div class="CurrentLicenses">
+                <div class="AEListHeader ">Current Licenses</div>
+                <div class="AEListNames CurrentLicensesNames">
+                    <template if:true={subscriptions}> 
+                        <template for:each={subscriptions} for:item="subscription"> 
+                            <div id={subscription.Id} key={subscription.Id} class="dataRow rowOver">
+                                {subscription.Name}
+                            </div>
+                        </template>
+                    </template>
+                </div> -->
+       
+     <!--</lightning-card>-->
+</div>
+</template>
