@@ -8,7 +8,9 @@ private class findLinksTest {
         findLinks.getLinks(searchValueTest,true,searchValueTest);
 
         findLinks.getAEs();
-        findLinks.getAccounts(searchValueTest);
-        findLinks.getSubscriptions(searchValueTest);
+
+        id SearchUsingId = 'a0201000002AjoPAAS';
+        findLinks.getAccounts(SearchUsingId);
+        findLinks.getSubscriptions(SearchUsingId);
     }
 }
