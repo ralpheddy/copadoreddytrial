@@ -16396,6 +16396,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Manage</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>TestPage</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
