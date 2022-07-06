@@ -154,6 +154,42 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
+        <fullName>ACV_APOString__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(  ACV_APO__c   &lt; 0, &quot;(&quot;, &quot;&quot;) &amp; &quot;$&quot; &amp;
+IF(ABS(ACV_APO__c) &gt;= 1000000, TEXT(FLOOR(ABS(ACV_APO__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
+IF(ABS(ACV_APO__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(ACV_APO__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
+RIGHT(TEXT(FLOOR(ABS(ACV_APO__c))), 3) &amp;
+
+IF(ACV_APO__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>ACV APOString</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ACV_APO__c</fullName>
+        <externalId>false</externalId>
+        <label>ACV APO</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ACVcalculated__c</fullName>
+        <externalId>false</externalId>
+        <label>ACVcalculated</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>APOAccountId__c</fullName>
         <externalId>false</externalId>
         <label>APOAccountId</label>
@@ -174,9 +210,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>APOAccountOwnerManager__c</fullName>
+        <fullName>APOOppId__c</fullName>
         <externalId>false</externalId>
-        <label>APOAccountOwnerManager</label>
+        <label>APOOppId</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -184,9 +220,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>APOAccountOwner__c</fullName>
+        <fullName>Account_Manager__c</fullName>
         <externalId>false</externalId>
-        <label>APOAccountOwner</label>
+        <label>Account Manager</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -194,9 +230,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>APOContractId__c</fullName>
+        <fullName>Account_Owner__c</fullName>
         <externalId>false</externalId>
-        <label>APOContractId</label>
+        <label>Account Owner</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -204,21 +240,10 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>APOSubscriptionId__c</fullName>
+        <fullName>Account_Type__c</fullName>
         <externalId>false</externalId>
-        <label>APOSubscriptionId</label>
+        <label>Account Type</label>
         <length>80</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>APOcontractURL__c</fullName>
-        <externalId>false</externalId>
-        <formula>$Label.CopadoDomain &amp; &quot;/lightning/r/Contract/&quot; &amp;  APOContractId__c  &amp; &quot;/view&quot;</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>APOcontractURL</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -230,30 +255,49 @@
         <externalId>false</externalId>
         <label>Account</label>
         <referenceTo>Account</referenceTo>
-        <relationshipLabel>Subscriptions</relationshipLabel>
-        <relationshipName>Subscriptions</relationshipName>
+        <relationshipName>Opps</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>EndString__c</fullName>
+        <fullName>Amount__c</fullName>
         <externalId>false</externalId>
-        <formula>TEXT(Month(End__c)) &amp; &quot;/&quot; &amp; TEXT(DAY( End__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( End__c ))</formula>
+        <label>Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CloseString__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Month( Close_Date__c )) &amp; &quot;/&quot; &amp; TEXT(DAY( Close_Date__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( Close_Date__c ))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>EndString</label>
+        <label>CloseString</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>End__c</fullName>
+        <fullName>Close_Date__c</fullName>
         <externalId>false</externalId>
-        <label>End</label>
+        <label>Close Date</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Forecast__c</fullName>
+        <externalId>false</externalId>
+        <label>Forecast</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>MonthlyString__c</fullName>
@@ -282,59 +326,95 @@ IF(Monthly__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>ProcessedAccountJoin__c</fullName>
-        <defaultValue>false</defaultValue>
+        <fullName>Next_Step__c</fullName>
         <externalId>false</externalId>
-        <label>ProcessedAccountJoin</label>
+        <label>Next Step</label>
+        <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
+        <type>TextArea</type>
     </fields>
     <fields>
-        <fullName>ProcessedCreate__c</fullName>
-        <defaultValue>false</defaultValue>
+        <fullName>Opp__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>ProcessedCreate</label>
+        <label>Opp</label>
+        <referenceTo>Opp__c</referenceTo>
+        <relationshipLabel>OppRows</relationshipLabel>
+        <relationshipName>OppRows</relationshipName>
+        <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
+        <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Processed__c</fullName>
-        <defaultValue>false</defaultValue>
+        <fullName>Opportunity_Name__c</fullName>
         <externalId>false</externalId>
-        <label>Processed</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>PurchaseString__c</fullName>
-        <externalId>false</externalId>
-        <formula>IF(  Purchase_Price__c   &lt; 0, &quot;(&quot;, &quot;&quot;) &amp; &quot;$&quot; &amp;
-IF(ABS(Purchase_Price__c) &gt;= 1000000, TEXT(FLOOR(ABS(Purchase_Price__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-IF(ABS(Purchase_Price__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(Purchase_Price__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-RIGHT(TEXT(FLOOR(ABS(Purchase_Price__c))), 3) &amp;
-
-IF(Purchase_Price__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>PurchaseString</label>
+        <label>Opportunity Name</label>
+        <length>200</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Purchase_Price__c</fullName>
+        <fullName>Owner_Name__c</fullName>
         <externalId>false</externalId>
-        <label>Purchase Price</label>
-        <precision>18</precision>
+        <label>Owner Name</label>
+        <length>80</length>
         <required>false</required>
-        <scale>2</scale>
         <trackTrending>false</trackTrending>
-        <type>Currency</type>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Owner_Role__c</fullName>
+        <externalId>false</externalId>
+        <label>Owner Role</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ProcessedOppRow__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>ProcessedOppRow</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ProcessedOpp__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>ProcessedOpp</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Product_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Code</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <externalId>false</externalId>
+        <label>Product</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>QuantityString__c</fullName>
         <externalId>false</externalId>
-        <formula>IF( Quantity__c  &lt; 0, &quot;(&quot;, &quot;&quot;)  &amp;
+        <formula>IF( Quantity__c &lt; 0, &quot;(&quot;, &quot;&quot;) &amp;
 IF(ABS(Quantity__c) &gt;= 1000000, TEXT(FLOOR(ABS(Quantity__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
 IF(ABS(Quantity__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(Quantity__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
 RIGHT(TEXT(FLOOR(ABS(Quantity__c))), 3) &amp;
@@ -359,23 +439,40 @@ IF(Quantity__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>StartString__c</fullName>
+        <fullName>SalesPriceString__c</fullName>
         <externalId>false</externalId>
-        <formula>TEXT(Month(Start__c))  &amp; &quot;/&quot; &amp;  TEXT(DAY( Start__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( Start__c ))</formula>
+        <formula>IF(   Sales_Price__c    &lt; 0, &quot;(&quot;, &quot;&quot;) &amp; &quot;$&quot; &amp;
+IF(ABS(Sales_Price__c) &gt;= 1000000, TEXT(FLOOR(ABS(Sales_Price__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
+IF(ABS(Sales_Price__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(Sales_Price__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
+RIGHT(TEXT(FLOOR(ABS(Sales_Price__c))), 3) &amp;
+
+IF(Sales_Price__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>StartString</label>
+        <label>SalesPriceString</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Start__c</fullName>
+        <fullName>Sales_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Start</label>
+        <label>Sales Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Stage__c</fullName>
+        <externalId>false</externalId>
+        <label>Stage</label>
+        <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Date</type>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>TotalString__c</fullName>
@@ -403,77 +500,45 @@ IF(Total__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
-    <label>Subscription</label>
+    <fields>
+        <fullName>Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Type</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>OppRow</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>ProcessedOpp__c</columns>
+        <columns>Opportunity_Name__c</columns>
         <columns>NAME</columns>
-        <columns>Account__c</columns>
-        <columns>Quantity__c</columns>
+        <columns>Opp__c</columns>
+        <columns>Close_Date__c</columns>
+        <columns>Product__c</columns>
         <columns>QuantityString__c</columns>
-        <columns>Monthly__c</columns>
         <columns>MonthlyString__c</columns>
-        <columns>Total__c</columns>
         <columns>TotalString__c</columns>
-        <columns>End__c</columns>
-        <columns>EndString__c</columns>
-        <columns>Start__c</columns>
-        <columns>StartString__c</columns>
-        <columns>OBJECT_ID</columns>
-        <columns>APOContractId__c</columns>
-        <columns>APOSubscriptionId__c</columns>
+        <columns>Type__c</columns>
+        <columns>Forecast__c</columns>
+        <columns>Stage__c</columns>
+        <columns>Owner_Name__c</columns>
+        <columns>APOAccountName__c</columns>
+        <columns>Account_Type__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
-    <listViews>
-        <fullName>All_no_Account_Join</fullName>
-        <columns>NAME</columns>
-        <columns>Account__c</columns>
-        <columns>Quantity__c</columns>
-        <columns>QuantityString__c</columns>
-        <columns>Monthly__c</columns>
-        <columns>MonthlyString__c</columns>
-        <columns>Total__c</columns>
-        <columns>TotalString__c</columns>
-        <columns>End__c</columns>
-        <columns>EndString__c</columns>
-        <columns>Start__c</columns>
-        <columns>StartString__c</columns>
-        <columns>OBJECT_ID</columns>
-        <columns>APOContractId__c</columns>
-        <columns>APOSubscriptionId__c</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>Account__c</field>
-            <operation>equals</operation>
-        </filters>
-        <label>All - no Account Join</label>
-    </listViews>
-    <listViews>
-        <fullName>All_processed</fullName>
-        <columns>NAME</columns>
-        <columns>Processed__c</columns>
-        <columns>APOAccountOwner__c</columns>
-        <columns>ProcessedCreate__c</columns>
-        <columns>APOAccountName__c</columns>
-        <columns>Account__c</columns>
-        <columns>Quantity__c</columns>
-        <columns>QuantityString__c</columns>
-        <columns>Total__c</columns>
-        <columns>TotalString__c</columns>
-        <columns>End__c</columns>
-        <columns>EndString__c</columns>
-        <columns>Start__c</columns>
-        <columns>StartString__c</columns>
-        <columns>OBJECT_ID</columns>
-        <filterScope>Everything</filterScope>
-        <label>All - processed</label>
-    </listViews>
     <nameField>
-        <label>Service</label>
-        <type>Text</type>
+        <displayFormat>OR-{0000}</displayFormat>
+        <label>Opp Row</label>
+        <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Subscriptions</pluralLabel>
+    <pluralLabel>OppRows</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
     <visibility>Public</visibility>
 </CustomObject>
