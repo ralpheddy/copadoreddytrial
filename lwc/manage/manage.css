@@ -17,8 +17,11 @@ table {cursor:default;}
 .oneHeader {display:none}
 .floatLeft {float:left;}
 .version {position:absolute; left:20px; top:2px; font-size:9px; }
-.tdCenter {text-align:center}
+.tdCenter {text-align:center} 
+.tdVertical {vertical-align: middle;}
 .tdRight {text-align:right}
+.headerOfTable { background-color:#19548a; color:white; padding:4px;}
+.select:hover{text-decoration:underline; color:blue; }
 
 .AEList {cursor:default; 
     border: 1px solid #dddddd; 
@@ -41,5 +44,18 @@ table {cursor:default;}
     border: 1px solid #888888; 
     background-color: rgb(246, 195, 160); 
 }
-.CurrentLicensesNames { width:400px; }
 .CurrentLicensesAccountName {position:absolute; left:460px; top:15px; font-weight:bold; font-size:140%}
+
+.OppsList{
+    position:absolute; left:20px; top:285px; 
+    border: 1px solid #888888; 
+    background-color: rgb(252, 183, 249); 
+}
+.OppsAccountName {position:absolute; left:20px; top:260px; font-weight:bold; font-size:140%}
+
+.OppRowsList{
+    position:absolute; left:20px; top:525px; 
+    border: 1px solid #888888; 
+    background-color: rgb(249, 102, 242); 
+}
+.OppName {position:absolute; left:20px; top:500px; font-weight:bold; font-size:140%}
