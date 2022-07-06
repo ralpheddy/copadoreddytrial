@@ -241,6 +241,16 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>APOAccountId__c</fullName>
+        <externalId>false</externalId>
+        <label>APOAccountId</label>
+        <length>80</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>AccountNumber</fullName>
         <trackFeedHistory>false</trackFeedHistory>
     </fields>
@@ -256,6 +266,16 @@
     <fields>
         <fullName>BillingAddress</fullName>
         <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>Created_Source__c</fullName>
+        <externalId>false</externalId>
+        <label>Created Source</label>
+        <length>80</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Description</fullName>
@@ -345,7 +365,7 @@
     <fields>
         <fullName>URL__c</fullName>
         <externalId>false</externalId>
-        <formula>&quot;/lightning/r/Account/&quot; &amp;  Id &amp; &quot;/view&quot;</formula>
+        <formula>$Label.CopadoDomain &amp; &quot;/lightning/r/Account/&quot; &amp;  APOAccountId__c &amp; &quot;/view&quot;</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>URL</label>
         <required>false</required>
