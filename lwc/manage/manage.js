@@ -3,21 +3,29 @@ import { LightningElement } from 'lwc';
 import findAEs from '@salesforce/apex/findLinks.getAEs';
 import findAccounts from '@salesforce/apex/findLinks.getAccounts';
 import findSubscriptions from '@salesforce/apex/findLinks.getSubscriptions';
+import findOpps from '@salesforce/apex/findLinks.getOpps';
+import findOppRows from '@salesforce/apex/findLinks.getOppRows';
 
 export default class Manage extends LightningElement {
     version = 1.16;
     aes;
     aeSelectedId;
     aeSelectedName;
+    manager;
     accounts;
     accountSelectedId;
     accountSelectedName;
     subscriptions;
+    opps;
+    oppSelectedId;
+    oppSelectedName;
+    oppRows;
     showError;
 
     aeSelected(event){
         // alert(event.target.dataset.item);
         this.aeSelectedName = event.target.dataset.name;
+        this.manager =event.target.dataset.manager;
         // console.log("test");
         this.aeSelectedId = event.target.id;  // alert(event.target.key);
         this.aeSelectedId = this.aeSelectedId.substring(0,18); // alert(this.aeSelectedId);
@@ -33,6 +41,13 @@ export default class Manage extends LightningElement {
         // this.accountSelectedId = this.accountSelectedId.substring(0,18); // alert(this.aeSelectedId);
         this.accountSelectedId = event.target.dataset.id;
         this.searchsSubscriptions();
+        this.searchOpps();
+        // this.searchOppRows();
+    }
+    oppSelected(event){
+        this.oppSelectedId = event.target.dataset.id;
+        this.oppSelectedName = event.target.dataset.name;
+        this.searchOppRows();
     }
 
     loadAEs(event) {
@@ -112,10 +127,64 @@ export default class Manage extends LightningElement {
         });
     }
 
+    searchOpps(event){
+        findOpps({accountId: this.accountSelectedId})  // alert(this.accountSelectedId);
+        .then((result) => {
+            this.opps = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.opps = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+
+    searchOppRows(event){
+        findOppRows({oppSelectedId: this.oppSelectedId})  // alert(this.accountSelectedId);
+        .then((result) => {
+            this.oppRows = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.oppRows = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+
     connectedCallback() {
         this.loadAEs();
         // this.searchAccounts();
         this.accountSelectedId = "0010100000SniDd";
-        this.searchsSubscriptions();
+        // this.searchsSubscriptions();
+        // this.searchOpps();
+        // this.searchOppRows();
     }
 }
