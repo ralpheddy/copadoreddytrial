@@ -154,9 +154,57 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
-        <fullName>APOid__c</fullName>
+        <fullName>ACV_APOString__c</fullName>
         <externalId>false</externalId>
-        <label>APOid</label>
+        <formula>IF(  ACV_APO__c   &lt; 0, &quot;(&quot;, &quot;&quot;) &amp; &quot;$&quot; &amp;
+IF(ABS(ACV_APO__c) &gt;= 1000000, TEXT(FLOOR(ABS(ACV_APO__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
+IF(ABS(ACV_APO__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(ACV_APO__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
+RIGHT(TEXT(FLOOR(ABS(ACV_APO__c))), 3) &amp;
+
+IF(ACV_APO__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>ACV APOString</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ACV_APO__c</fullName>
+        <externalId>false</externalId>
+        <label>ACV APO</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ACVcalculated__c</fullName>
+        <externalId>false</externalId>
+        <label>ACVcalculated</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>AE__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>AE</label>
+        <referenceTo>AE__c</referenceTo>
+        <relationshipLabel>Opps</relationshipLabel>
+        <relationshipName>Opps</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>APOAccountId__c</fullName>
+        <externalId>false</externalId>
+        <label>APOAccountId</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -164,17 +212,19 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Active__c</fullName>
-        <defaultValue>true</defaultValue>
+        <fullName>APOAccountName__c</fullName>
         <externalId>false</externalId>
-        <label>Active</label>
+        <label>APOAccountName</label>
+        <length>120</length>
+        <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Created_Source__c</fullName>
+        <fullName>APOOppId__c</fullName>
         <externalId>false</externalId>
-        <label>Created Source</label>
+        <label>APOOppId</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -182,9 +232,50 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Manager__c</fullName>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Manager</label>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Opps</relationshipLabel>
+        <relationshipName>Opps2</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CloseString__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Month( Close_Date__c )) &amp; &quot;/&quot; &amp; TEXT(DAY( Close_Date__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( Close_Date__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>CloseString</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Close_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Close Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Forecast__c</fullName>
+        <externalId>false</externalId>
+        <label>Forecast</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -192,31 +283,70 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Region__c</fullName>
+        <fullName>Owner_Name__c</fullName>
         <externalId>false</externalId>
-        <label>Region</label>
+        <label>Owner Name</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
-    <label>AE</label>
+    <fields>
+        <fullName>Stage__c</fullName>
+        <externalId>false</externalId>
+        <label>Stage</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Type</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>URL__c</fullName>
+        <externalId>false</externalId>
+        <formula>$Label.CopadoDomain &amp; &quot;/lightning/r/Opportunity/&quot; &amp;   APOOppId__c  &amp; &quot;/view&quot;</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Opp</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>Manager__c</columns>
-        <columns>OBJECT_ID</columns>
-        <columns>Created_Source__c</columns>
+        <columns>Account__c</columns>
+        <columns>AE__c</columns>
+        <columns>ACV_APO__c</columns>
+        <columns>ACV_APOString__c</columns>
+        <columns>Close_Date__c</columns>
+        <columns>Forecast__c</columns>
+        <columns>Owner_Name__c</columns>
+        <columns>Stage__c</columns>
+        <columns>Type__c</columns>
+        <columns>APOOppId__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
     <nameField>
-        <label>AE Name</label>
+        <label>Opp Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>AEs</pluralLabel>
+    <pluralLabel>Opps</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
     <visibility>Public</visibility>
 </CustomObject>
