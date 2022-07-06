@@ -381,8 +381,9 @@
         <columns>ACCOUNT.NAME</columns>
         <columns>AE__c</columns>
         <columns>ACCOUNT.TYPE</columns>
-        <columns>ACCOUNT.PHONE1</columns>
-        <columns>CORE.USERS.ALIAS</columns>
+        <columns>Created_Source__c</columns>
+        <columns>APOAccountId__c</columns>
+        <columns>URL__c</columns>
         <filterScope>Everything</filterScope>
         <label>All Accounts</label>
     </listViews>
