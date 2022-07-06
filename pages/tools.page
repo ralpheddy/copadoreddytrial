@@ -1,0 +1,98 @@
+<apex:page controller="toolsController">
+<apex:form >
+
+<style>
+    .button{ width:200px;}
+    #wrapper { font-weight:bold; background-color:#dddddd; border:0px solid blue; color:#C80000;}
+    .toolsBox { display:block; float:left; width:250px; height:440px;  background-color:#dddddd; border-radius:10px; 
+                box-shadow:4px 4px 4px #888888; text-align:center; padding-top:10px; padding-bottom:10px; margin-right:16px; margin-bottom:10px;}
+    #OppTools {  }
+    #SFTools {  }
+    #OppRowsTools { }
+    .toolTitle { font-weight:normal; color:blue; font-size:16px; text-shadow:1px 1px #888888;}
+    .importLabel { font-weight:bold; color:black; }
+</style>
+
+<center>{!comment}</center><br/>
+
+<div id="wrapper">
+<script>
+    function confirmAEDelete(){
+        if (confirm("Delete all AEs?") == true ) {
+            
+            FunctionDeleteAllAEs();
+            // alert("yes");
+        }
+    }
+    
+</script>
+<apex:actionFunction name="FunctionDeleteAllAEs" action="{!deleteAllAEs}" />
+
+    <div>
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">AEs - Accounts - Opps</div>
+        <br/>
+        <div style="color:black"><b>Delete OppRows &amp; Import</b></div><br/>
+        <!--<button onclick="confirmAEDelete()">Delete</button><br/>-->
+        <apex:commandButton action="{!deleteAllAEs}" value="Delete All AEs" styleClass="button" />&nbsp;{!countDeletedAEs}<br/>
+        <br/>
+        <apex:commandButton action="{!CreateAEsFromRows}" value="Create AEs" styleClass="button" />&nbsp;{!countCreatedAEs}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        <apex:commandButton action="{!deleteAllAccounts}" value="Delete All Accounts" styleClass="button" />&nbsp;{!countDeletedAccounts}<br/>
+        <br/>
+        <apex:commandButton action="{!CreateAccountsFromRows}" value="Create Accounts" styleClass="button" />&nbsp;{!countCreatedAccounts}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        <apex:commandButton action="{!deleteAllOpps}" value="Delete All Opps" styleClass="button" />&nbsp;{!countDeletedOpps}<br/>
+        <br/>
+        <apex:commandButton action="{!CreateOppsFromRows}" value="Create Opps" styleClass="button" />&nbsp;{!countCreatedOpps}<br/>
+        {!commentOppsProcessed}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        <apex:commandButton action="{!deleteAllOppRows}" value="Delete All OppRows" styleClass="button" />&nbsp;{!countDeletedOppRows}<br/>
+        <br/>
+        <apex:commandButton action="{!joinOppRowsToOpps}" value="Join OppRows To Opps" styleClass="button" />&nbsp;{!countJoinOppRowsToOpps}<br/>
+        <br/>
+    </div>
+    
+    
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">Subscriptions</div>
+        <br/>
+        <div style="color:black"><b>Delete Subscriptions &amp; Import</b></div><br/>
+        <br/>
+        <apex:commandButton action="{!deleteAllSubscriptions}" value="Delete All Subscriptions" styleClass="button" />&nbsp;{!countDeletedSubscriptions}<br/>
+        <br/>
+        
+        <apex:commandButton action="{!createAEsFromSubscriptions}" value="Create AEs from Subscriptions" styleClass="button" />&nbsp;{!countCreatedAEsSub}<br/>
+        <font style="color:black; font-weight:normal;">
+            {!commentCreateAEsFromSubscriptions}<br/>
+        </font>
+        <br/>
+        <font style="color:black; font-weight:normal;">
+        <apex:commandButton action="{!createAccountsFromSubscriptions}" value="Create Accounts from Subscriptions" styleClass="button" />&nbsp;{!countCreatedAccountsSub}<br/>
+        {!commentSubscriptionsProcessedForCreate}<br/>
+        <br/>
+        <apex:commandButton action="{!joinSubscriptionsToAccounts}" value="Join Subscriptions To Accounts" styleClass="button" /><br/>
+        {!commentSubscriptionsProcessed}<br/>
+        
+        </font>
+        <br/>
+        
+    </div>
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">Utilities</div>
+        <br/>
+        <apex:commandButton action="{!clearOppRowProcessed}" value="Clear OppRow Processed" styleClass="button" />&nbsp;{!countClearProcessed}<br/>
+        <br/>
+        <apex:commandButton action="{!clearSubscriptionsProcessed}" value="Clear Subscriptions Processed" styleClass="button" />&nbsp;{!countClearProcessedSubs}<br/>
+        <br/>
+    </div>
+    </div>
+</div>
+</apex:form>
+</apex:page>

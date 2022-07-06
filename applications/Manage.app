@@ -2,6 +2,8 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <brand>
         <headerColor>#0070D2</headerColor>
+        <logo>Calvin</logo>
+        <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <formFactors>Small</formFactors>
@@ -15,11 +17,13 @@
     <tabs>AE__c</tabs>
     <tabs>standard-Account</tabs>
     <tabs>Subscription__c</tabs>
-    <tabs>standard-report</tabs>
-    <tabs>standard-Dashboard</tabs>
-    <tabs>LinksPage</tabs>
+    <tabs>OppRow__c</tabs>
+    <tabs>Opp__c</tabs>
+    <tabs>Tool</tabs>
     <tabs>Link__c</tabs>
     <tabs>Links</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Manage_UtilityBar</utilityBar>
 </CustomApplication>
