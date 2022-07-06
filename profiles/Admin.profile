@@ -16821,6 +16821,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Tool</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Tools</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
