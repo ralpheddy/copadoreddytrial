@@ -237,9 +237,58 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>ContractEndString__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Month(  Contract_End__c  )) &amp; &quot;/&quot; &amp; TEXT(DAY( Contract_End__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( Contract_End__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>ContractEndString</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ContractStartString__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Month( Contract_Start__c )) &amp; &quot;/&quot; &amp; TEXT(DAY( Contract_Start__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( Contract_Start__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>ContractStartString</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contract_End__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract End</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Start__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Start</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Term__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Term</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>EndString__c</fullName>
         <externalId>false</externalId>
-        <formula>TEXT(Month(End__c)) &amp; &quot;/&quot; &amp; TEXT(DAY( End__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( End__c ))</formula>
+        <formula>TEXT(Month(End__c)) &amp; &quot;/&quot; &amp; TEXT(DAY( End__c )) &amp; &quot;/&quot; &amp; RIGHT(TEXT(YEAR( End__c )), 2)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>EndString</label>
         <required>false</required>

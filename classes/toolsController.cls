@@ -65,7 +65,7 @@ public class toolsController {
     public void LoadOpps(){
         opps = [SELECT id, Name,
                 Account__c, AE__c,
-                ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c,
+                ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
                 APOAccountId__c, APOAccountName__c,
                 APOOppId__c, URL__c,
                 Close_Date__c, CloseString__c,
@@ -81,6 +81,8 @@ public class toolsController {
                                 Quantity__c, QuantityString__c, Total__c, TotalString__c,
                                 Purchase_Price__c, PurchaseString__c,
                                 End__c, EndString__c, Start__c, StartString__c,
+                                Contract_End__c, Contract_Start__c, ContractEndString__c, ContractStartString__c,
+                                Contract_Term__c,
                                 Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c
                          FROM Subscription__c];
     }
@@ -193,7 +195,7 @@ public class toolsController {
                     opp.Stage__c = oppRows[j].Stage__c;
                     opp.Type__c = oppRows[j].Type__c;
                     opp.Owner_Name__c = oppRows[j].Owner_Name__c;
-                                    
+                    opp.Amount__c = oppRows[j].Amount__c;                
                     string accountAPOid = oppRows[j].APOAccountId__c;
                     for (Account acc : accounts ){
                         if ( accountAPOid == acc.APOAccountId__c ) opp.Account__c = acc.Id;
