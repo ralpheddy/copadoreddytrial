@@ -1,85 +1,135 @@
 <template>
 <div class="bodyDiv">
    <!--<lightning-card title="Manage" icon-name="custom:custom63">-->
-            <div class="version">{version} - {showError}</div>
+    <div class="version">{version} - {showError}</div>
 
-            <div class="AEList">
-                <div class="AEListHeader ">AE</div>
-                <div class="AEListNames ">
-                    <template if:true={aes}> 
-                        <template for:each={aes} for:item="ae"> 
-                            <div id={ae.Id} key={ae.Id} data-name={ae.Name} data-item={ae.Id} onclick={aeSelected} class="dataRow rowOver AEListItems ">
-                                {ae.Name} - ABC
-                            </div>
-                        </template>
-                    </template> 
-                </div>
-            </div>  
+    <div class="AEList">
+        <div class="AEListHeader ">AE</div>
+        <div class="AEListNames ">
+            <template if:true={aes}> 
+                <template for:each={aes} for:item="ae"> 
+                    <div id={ae.Id} key={ae.Id} data-name={ae.Name} data-item={ae.Id} data-manager={ae.Manager__c}
+                         onclick={aeSelected} class="dataRow rowOver AEListItems ">
+                        {ae.Name}
+                    </div>
+                </template>
+            </template> 
+        </div>
+    </div>  
 
-            <div class="AccountListAEName">{aeSelectedName}</div>
-            <div class="AccountList">
-                <div class="AEListHeader AccountListHeader">Accounts</div>
-                <table width="198px">
-                    <template if:true={accounts}> 
-                        <template for:each={accounts} for:item="account"> 
-                            <tr class="rowOver" key={account.Id} id={account.Id}>
-                                <td width="90px" class="dataRow" id={account.Id} data-id={account.Id} data-name={account.Name} onclick={accountSelected}>{account.Name}</td>
-                                <td width="70px" class="dataRow" style="font-size:75%">{account.Type}</td>
-                                <td width="8px" class="dataRow">
-                                    <a href={account.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
-                                </td> <!--  -->
-                            </tr>
-                        </template>
+    <div class="AccountListAEName">{aeSelectedName}<font style="font-size:9px"> - {manager}</font></div>
+    <div class="AccountList">
+        <div class="AEListHeader AccountListHeader">Accounts</div>
+        <div class="AccountData">
+            <table width="200" border="0">
+                <template if:true={accounts}> 
+                    <template for:each={accounts} for:item="account"> 
+                        <tr class="rowOver" key={account.Id} id={account.Id}>
+                            <td width="90px" class="dataRow select" id={account.Id} data-id={account.Id} data-name={account.Name} onclick={accountSelected}>{account.Name}</td>
+                            <td width="45px" class="dataRow" style="font-size:75%">{account.Type}</td>
+                            <td width="4px" class="dataRow tdCenter">
+                                <a href={account.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
+                            </td> <!--  -->
+                        </tr>
                     </template>
-                </table>
-            </div>
-            
-            <!-- <div class="AccountList">
-                <div class="AEListHeader ">Accounts</div>
-                <div class="AEListNames AccountListNames">
-                    <template if:true={accounts}> 
-                        <template for:each={accounts} for:item="account"> 
-                            <div id={account.Id} key={account.Id} onclick={accountSelected} class="dataRow rowOver">
-                                {account.Name} - {account.Type}
-                            </div>
-                        </template>
-                    </template>
-                </div>
-            </div> -->
+                </template>
+            </table>
+        </div>
+    </div>
+    
+    <!-- <div class="AccountList">
+        <div class="AEListHeader ">Accounts</div>
+        <div class="AEListNames AccountListNames">
+            <template if:true={accounts}> 
+                <template for:each={accounts} for:item="account"> 
+                    <div id={account.Id} key={account.Id} onclick={accountSelected} class="dataRow rowOver">
+                        {account.Name} - {account.Type}
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div> -->
 
-            <div class="CurrentLicensesAccountName">{accountSelectedName}</div>
-            <div class="CurrentLicenses">
-                <div class="AEListHeader" style="width:600px;">Current Licenses</div>
-                <table width="600px" border="0">
-                    <template if:true={subscriptions}> 
-                        <template for:each={subscriptions} for:item="subscription"> 
-                            <tr class="rowOver" key={subscription.Id} id={subscription.Id}>
-                                <td width="90px" class="dataRow" >{subscription.Name}</td>
-                                <td width="8px" class="dataRow tdRight" >{subscription.QuantityString__c}</td>
-                                <td width="8px" class="dataRow tdRight" >{subscription.MonthlyString__c}</td>
-                                <td width="8px" class="dataRow tdRight" >{subscription.TotalString__c}</td>
-                                <td width="8px" class="dataRow tdCenter" >{subscription.StartString__c}</td>
-                                <td width="8px" class="dataRow tdCenter" >{subscription.EndString__c}</td>
-                                <td width="8px" class="dataRow">
-                                    <a href={subscription.APOcontractURL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
-                                </td>
-                            </tr>
-                        </template>
-                    </template>
-                </table>
-            </div>
+    <div class="CurrentLicensesAccountName">{accountSelectedName}</div>
+    <div class="CurrentLicenses">
+        <div class="AEListHeader" style="width:600px;">Current Licenses</div>
+        <table width="600px" border="0">
+            <template if:true={subscriptions}> 
+                <template for:each={subscriptions} for:item="subscription"> 
+                    <tr class="rowOver" key={subscription.Id} id={subscription.Id}>
+                        <td width="90px" class="dataRow" >{subscription.Name}</td>
+                        <td width="8px" class="dataRow tdRight" >{subscription.QuantityString__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{subscription.PurchaseString__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{subscription.TotalString__c}</td>
+                        <td width="8px" class="dataRow tdCenter" >{subscription.StartString__c}</td>
+                        <td width="8px" class="dataRow tdCenter" >{subscription.EndString__c}</td>
+                        <td width="8px" class="dataRow">
+                            <a href={subscription.APOcontractURL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
+                        </td>
+                    </tr>
+                </template>
+            </template>
+        </table>
+    </div>
 
-            <!--    <div class="CurrentLicenses">
-                <div class="AEListHeader ">Current Licenses</div>
-                <div class="AEListNames CurrentLicensesNames">
-                    <template if:true={subscriptions}> 
-                        <template for:each={subscriptions} for:item="subscription"> 
-                            <div id={subscription.Id} key={subscription.Id} class="dataRow rowOver">
-                                {subscription.Name}
-                            </div>
-                        </template>
-                    </template>
-                </div> -->
+    <div class="OppsAccountName">{accountSelectedName}</div>
+    <div class="OppsList">
+        <div class="AEListHeader" style="width:1000px;">Open Opportunities</div>
+        <table width="1000px" border="1">
+            <tr>
+                <td>Opportunity</td>
+                <td>Forecast</td>
+                <td>Stage</td>
+                <td>Type</td>
+                <td>Close</td>
+                <td>ACV</td>
+                <td>Amount</td>
+                <td>Owner Name</td>
+                <td>APO</td>
+            </tr>
+            <template if:true={opps}> 
+                <template for:each={opps} for:item="opp"> 
+                    <tr class="rowOver" key={opp.Id} id={opp.Id}> 
+                        <td width="90px" class="dataRow select" data-id={opp.Id} data-name={opp.Name} onclick={oppSelected}>{opp.Name}</td>
+                        <td width="90px" class="dataRow" >{opp.Forecast__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{opp.Stage__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{opp.Type__c}</td>
+                        <td width="8px" class="dataRow tdCenter" >{opp.CloseString__c}</td>
+                        <td width="8px" class="dataRow tdCenter" >{opp.ACV_APOString__c}</td>
+                        <td width="8px" class="dataRow tdCenter" >{opp.AmountString__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{opp.Owner_Name__c}</td>
+                        <td width="8px" class="dataRow">
+                            <a href={opp.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
+                        </td>
+                    </tr>
+                </template> 
+            </template>
+        </table> 
+    </div>
+
+    <div class="OppName">{oppSelectedName}</div>
+    <div class="OppRowsList">
+        <div class="AEListHeader" style="width:1000px;">Opportunity Products</div>
+        <table width="1000px" border="0">
+            <tr >
+                <td class="headerOfTable" >Product</td>
+                <td class="headerOfTable tdRight" >Quantity</td>
+                <td class="headerOfTable tdRight" >Sales Price</td>
+                <td class="headerOfTable tdRight" >Total</td>
+            </tr>
+            <template if:true={oppRows}> 
+                <template for:each={oppRows} for:item="oppRow"> 
+                    <tr class="rowOver" key={oppRow.Id} id={oppRow.Id}>
+                        <td width="90px" class="dataRow" >{oppRow.Product__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{oppRow.QuantityString__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{oppRow.SalesPriceString__c}</td>
+                        <td width="8px" class="dataRow tdRight" >{oppRow.TotalString__c}</td>
+                    </tr>
+                </template>
+            </template> 
+        </table>
+    </div>
+       
        
      <!--</lightning-card>-->
 </div>
