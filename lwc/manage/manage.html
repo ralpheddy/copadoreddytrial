@@ -20,19 +20,21 @@
     <div class="AccountListAEName">{aeSelectedName}<font style="font-size:9px"> - {manager}</font></div>
     <div class="AccountList">
         <div class="AEListHeader AccountListHeader">Accounts</div>
-        <table width="198px">
-            <template if:true={accounts}> 
-                <template for:each={accounts} for:item="account"> 
-                    <tr class="rowOver" key={account.Id} id={account.Id}>
-                        <td width="90px" class="dataRow select" id={account.Id} data-id={account.Id} data-name={account.Name} onclick={accountSelected}>{account.Name}</td>
-                        <td width="70px" class="dataRow" style="font-size:75%">{account.Type}</td>
-                        <td width="8px" class="dataRow">
-                            <a href={account.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
-                        </td> <!--  -->
-                    </tr>
+        <div class="AccountData">
+            <table width="200" border="0">
+                <template if:true={accounts}> 
+                    <template for:each={accounts} for:item="account"> 
+                        <tr class="rowOver" key={account.Id} id={account.Id}>
+                            <td width="90px" class="dataRow select" id={account.Id} data-id={account.Id} data-name={account.Name} onclick={accountSelected}>{account.Name}</td>
+                            <td width="45px" class="dataRow" style="font-size:75%">{account.Type}</td>
+                            <td width="4px" class="dataRow tdCenter">
+                                <a href={account.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
+                            </td> <!--  -->
+                        </tr>
+                    </template>
                 </template>
-            </template>
-        </table>
+            </table>
+        </div>
     </div>
     
     <!-- <div class="AccountList">
@@ -73,7 +75,18 @@
     <div class="OppsAccountName">{accountSelectedName}</div>
     <div class="OppsList">
         <div class="AEListHeader" style="width:1000px;">Open Opportunities</div>
-        <table width="1000px" border="0">
+        <table width="1000px" border="1">
+            <tr>
+                <td>Opportunity</td>
+                <td>Forecast</td>
+                <td>Stage</td>
+                <td>Type</td>
+                <td>Close</td>
+                <td>ACV</td>
+                <td>Amount</td>
+                <td>Owner Name</td>
+                <td>APO</td>
+            </tr>
             <template if:true={opps}> 
                 <template for:each={opps} for:item="opp"> 
                     <tr class="rowOver" key={opp.Id} id={opp.Id}> 
@@ -83,6 +96,7 @@
                         <td width="8px" class="dataRow tdRight" >{opp.Type__c}</td>
                         <td width="8px" class="dataRow tdCenter" >{opp.CloseString__c}</td>
                         <td width="8px" class="dataRow tdCenter" >{opp.ACV_APOString__c}</td>
+                        <td width="8px" class="dataRow tdCenter" >{opp.AmountString__c}</td>
                         <td width="8px" class="dataRow tdRight" >{opp.Owner_Name__c}</td>
                         <td width="8px" class="dataRow">
                             <a href={opp.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
@@ -100,7 +114,7 @@
             <tr >
                 <td class="headerOfTable" >Product</td>
                 <td class="headerOfTable tdRight" >Quantity</td>
-                <td class="headerOfTable tdRight" >Monthly</td>
+                <td class="headerOfTable tdRight" >Sales Price</td>
                 <td class="headerOfTable tdRight" >Total</td>
             </tr>
             <template if:true={oppRows}> 

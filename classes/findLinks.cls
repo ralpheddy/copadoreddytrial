@@ -28,6 +28,8 @@ public with sharing class findLinks {
                                                Purchase_Price__c, PurchaseString__c,
                                                // Monthly__c, MonthlyString__c, 
                                                End__c, EndString__c, Start__c, StartString__c,
+                                               Contract_End__c, Contract_Start__c, ContractEndString__c, ContractStartString__c,
+                                               Contract_Term__c,
                                                Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c
                            FROM Subscription__c 
                            WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
@@ -39,7 +41,7 @@ public with sharing class findLinks {
     public static LIST<Opp__c> getOpps(id accountId) {
         LIST<Opp__c> Opps = [SELECT id, Name,
                                 Account__c, AE__c,
-                                ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c,
+                                ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
                                 APOAccountId__c, APOAccountName__c,
                                 APOOppId__c, URL__c,
                                 Close_Date__c, CloseString__c,
