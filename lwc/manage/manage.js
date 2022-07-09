@@ -20,6 +20,7 @@ export default class Manage extends LightningElement {
     opps;
     oppSelectedId;
     oppSelectedName;
+    oppsSearchAllForAE;
     oppRows;
     showError;
     testing;
@@ -62,6 +63,31 @@ export default class Manage extends LightningElement {
         this.oppSelectedId = event.target.dataset.id;
         this.oppSelectedName = event.target.dataset.name;
         this.searchOppRows();
+    }
+    allOppsSelected(event){
+        if ( this.aeSelectedId == null ) {
+            alert("Select an AE.");
+        } else {
+            this.oppsSearchAllForAE = this.aeSelectedId;
+            this.searchOpps();
+            this.oppsSearchAllForAE = "";
+        }
+    }
+
+    clearSubscriptions(){
+        this.accountSelectedNameSub = "";
+        this.subscriptions = [];
+        // this.clearOpps();
+    }
+    clearOpps(){
+        this.opps = [];
+        this.oppSelectedId = "";
+        this.accountSelectedNameOpp = "";
+        // this.clearOppRows();
+    }
+    clearOppRows(){
+        this.oppRows = [];
+        this.oppSelectedName = "";
     }
 
     clearSubscriptions(){
@@ -158,7 +184,7 @@ export default class Manage extends LightningElement {
     }
 
     searchOpps(event){
-        findOpps({accountId: this.accountSelectedId})  // alert(this.accountSelectedId);
+        findOpps({accountId: this.accountSelectedId, allAEid: this.oppsSearchAllForAE})  // alert(this.accountSelectedId);
         .then((result) => {
             this.opps = result;
             this.error = undefined; 
@@ -216,5 +242,6 @@ export default class Manage extends LightningElement {
         // this.searchsSubscriptions();
         // this.searchOpps();
         // this.searchOppRows();
+        this.oppsSearchAllForAE = ""; // set to empty string
     }
 }
