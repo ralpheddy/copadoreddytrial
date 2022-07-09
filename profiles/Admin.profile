@@ -7090,6 +7090,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>OppRow__c.Incremental__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>OppRow__c.MonthlyString__c</field>
         <readable>true</readable>
@@ -7242,6 +7247,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Opp__c.Forecast__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opp__c.IncrementalString__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opp__c.Incremental__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

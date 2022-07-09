@@ -13,5 +13,6 @@ private class findLinksTest {
         findLinks.getAccounts(SearchUsingId);
         findLinks.getSubscriptions(SearchUsingId);
         findLinks.getOpps(SearchUsingId);
+        findLinks.getOppRows(SearchUsingId);
     }
 }
