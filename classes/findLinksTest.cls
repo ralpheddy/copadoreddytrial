@@ -12,5 +12,7 @@ private class findLinksTest {
         id SearchUsingId = 'a0201000002AjoPAAS';
         findLinks.getAccounts(SearchUsingId);
         findLinks.getSubscriptions(SearchUsingId);
+        findLinks.getOpps(SearchUsingId);
+        findLinks.getOppRows(SearchUsingId);
     }
 }

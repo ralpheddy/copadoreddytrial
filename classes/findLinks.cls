@@ -11,7 +11,8 @@ public with sharing class findLinks {
 
     @AuraEnabled(cacheable=true) 
     public static LIST<Account> getAccounts(id aeId) {
-        LIST<Account> Accounts = [SELECT id, Name, Type, URL__c, Created_Source__c // AE__c, AE__r.id, 
+        LIST<Account> Accounts = [SELECT id, Name, Type, URL__c, APOAccountOwner__c,
+                                Created_Source__c // AE__c, AE__r.id, 
                            FROM Account 
                            WHERE AE__r.id = :aeId
                            ORDER BY Name];
@@ -38,19 +39,41 @@ public with sharing class findLinks {
     }
 
     @AuraEnabled(cacheable=true) 
-    public static LIST<Opp__c> getOpps(id accountId) {
-        LIST<Opp__c> Opps = [SELECT id, Name,
-                                Account__c, AE__c,
-                                ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
-                                APOAccountId__c, APOAccountName__c,
-                                APOOppId__c, URL__c,
-                                Close_Date__c, CloseString__c,
-                                Forecast__c, Stage__c, Type__c,
-                                Owner_Name__c
-                           FROM Opp__c 
-                           WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
-                           ORDER BY Name ];
-       return Opps;
+    // public static LIST<Opp__c> getOpps(id accountId) { // }, id allAEid) {
+    public static LIST<Opp__c> getOpps(string accountId, string allAEid) {
+        // System.Debug('x' + allAEid + 'x');  
+        /* LIST<Opp__c> Opps = [SELECT id, Name,
+            Account__c, AE__c,
+            ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
+            APOAccountId__c, APOAccountName__c,
+            APOOppId__c, URL__c,
+            Incremental__c, IncrementalString__c,
+            Close_Date__c, CloseString__c,
+            Forecast__c, Stage__c, Type__c,
+            Owner_Name__c
+        FROM Opp__c 
+        WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
+        ORDER BY Name ]; */
+       // return Opps;
+        string q =   'SELECT id, Name, ' +
+                        ' Account__c, AE__c, ' +
+                        ' ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c, ' +
+                        ' APOAccountId__c, APOAccountName__c, ' +
+                        ' APOOppId__c, URL__c, ' +
+                        ' Incremental__c, IncrementalString__c, ' +
+                        ' Close_Date__c, CloseString__c, ' +
+                        ' Forecast__c, Stage__c, Type__c, ' +
+                        ' Owner_Name__c ' +
+                    ' FROM Opp__c  ' +
+                    ' WHERE ';
+                    if ( allAEid != '' ) {
+                        q+= ' AE__c = \'' + allAEid + '\' ';
+                    } else {
+                        q+= ' Account__c = \'' + accountId + '\' ';   // account id in this Salesforce, not APO's
+                    }
+                q+= ' ORDER BY Name  ';
+        // System.Debug(q);  
+        return Database.query(q);
     } 
 
     @AuraEnabled(cacheable=true) 
@@ -65,7 +88,8 @@ public with sharing class findLinks {
                                 Forecast__c, Stage__c, Type__c,
                                 Product__c, Quantity__c, QuantityString__c, // Monthly__c, MonthlyString__c,
                                 Sales_Price__c, SalesPriceString__c,
-                                Total__c, TotalString__c
+                                Total__c, TotalString__c,
+                                Incremental__c
                                 // Product_Code__c, Owner_Role__c, Next_Step__c
                            FROM OppRow__c 
                            WHERE Opp__c = :oppSelectedId  // oppSelectedId id in this Salesforce, not APO's

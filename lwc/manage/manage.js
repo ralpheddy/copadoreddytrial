@@ -7,20 +7,23 @@ import findOpps from '@salesforce/apex/findLinks.getOpps';
 import findOppRows from '@salesforce/apex/findLinks.getOppRows';
 
 export default class Manage extends LightningElement {
-    version = 1.16;
+    version = 1.2;
     aes;
     aeSelectedId;
     aeSelectedName;
     manager;
     accounts;
     accountSelectedId;
-    accountSelectedName;
+    accountSelectedNameOpp;
+    accountSelectedNameSub;
     subscriptions;
     opps;
     oppSelectedId;
     oppSelectedName;
+    oppsSearchAllForAE;
     oppRows;
     showError;
+    testing;
 
     aeSelected(event){
         // alert(event.target.dataset.item);
@@ -30,24 +33,61 @@ export default class Manage extends LightningElement {
         this.aeSelectedId = event.target.id;  // alert(event.target.key);
         this.aeSelectedId = this.aeSelectedId.substring(0,18); // alert(this.aeSelectedId);
         this.searchAccounts();
+        this.accountSelectedId = "";
+        this.clearSubscriptions();
+        this.clearOpps();
+        this.clearOppRows();
         // this.subscriptions = null;
         // this.accountSelectedId = "";
         // this.searchsSubscriptions(event)
     }
     accountSelected(event){
         // alert(event.target.dataset.id);
-        this.accountSelectedName = event.target.dataset.name;
+        this.accountSelectedId = event.target.dataset.id;
+        this.accountSelectedNameOpp = event.target.dataset.name;
+        this.accountSelectedNameSub = event.target.dataset.name;
+        // this.testing = event.target.attributes[7].value;
+        // alert(event.target.dataset.type);
+        if ( event.target.dataset.type == "Prospect" ) {
+            this.clearSubscriptions();
+        } else {
+            this.searchsSubscriptions();
+        }
         // this.accountSelectedId = event.target.id;  // alert(event.target.key);
         // this.accountSelectedId = this.accountSelectedId.substring(0,18); // alert(this.aeSelectedId);
-        this.accountSelectedId = event.target.dataset.id;
-        this.searchsSubscriptions();
+         // this.showError = this.accountSelectedId;
         this.searchOpps();
-        // this.searchOppRows();
+        this.clearOppRows();
     }
     oppSelected(event){
         this.oppSelectedId = event.target.dataset.id;
         this.oppSelectedName = event.target.dataset.name;
         this.searchOppRows();
+    }
+    allOppsSelected(event){
+        if ( this.aeSelectedId == null ) {
+            alert("Select an AE.");
+        } else {
+            this.oppsSearchAllForAE = this.aeSelectedId;
+            this.searchOpps();
+            this.oppsSearchAllForAE = "";
+        }
+    }
+
+    clearSubscriptions(){
+        this.accountSelectedNameSub = "";
+        this.subscriptions = [];
+        // this.clearOpps();
+    }
+    clearOpps(){
+        this.opps = [];
+        this.oppSelectedId = "";
+        this.accountSelectedNameOpp = "";
+        // this.clearOppRows();
+    }
+    clearOppRows(){
+        this.oppRows = [];
+        this.oppSelectedName = "";
     }
 
     loadAEs(event) {
@@ -128,7 +168,7 @@ export default class Manage extends LightningElement {
     }
 
     searchOpps(event){
-        findOpps({accountId: this.accountSelectedId})  // alert(this.accountSelectedId);
+        findOpps({accountId: this.accountSelectedId, allAEid: this.oppsSearchAllForAE})  // alert(this.accountSelectedId);
         .then((result) => {
             this.opps = result;
             this.error = undefined; 
@@ -182,9 +222,10 @@ export default class Manage extends LightningElement {
     connectedCallback() {
         this.loadAEs();
         // this.searchAccounts();
-        this.accountSelectedId = "0010100000SniDd";
+        this.accountSelectedId = "0010100000SoV7dAAF";
         // this.searchsSubscriptions();
         // this.searchOpps();
         // this.searchOppRows();
+        this.oppsSearchAllForAE = ""; // set to empty string
     }
 }

@@ -79,12 +79,11 @@
         <br/>
         <apex:commandButton action="{!joinSubscriptionsToAccounts}" value="Join Subscriptions To Accounts" styleClass="button" /><br/>
         {!commentSubscriptionsProcessed}<br/>
-        
         </font>
-        Join Accounts with no AE to AE<br/>
         <br/>
-        Add Contract Start, End and Term to Account<br/>
-        
+        <apex:commandButton action="{!joinAccountsToAEs}" value="Join Accounts to AEs" styleClass="button" />&nbsp;{!countJoinAccountsToAEs}<br/>
+        <br/>
+
         <br/>
         
     </div>
