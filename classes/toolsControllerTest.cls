@@ -25,6 +25,10 @@ private class toolsControllerTest {
         sub.APOAccountOwnerManager__c = 'Account_Manager';
         insert sub;
 
+        AE__c ae = new AE__c();
+        ae.Name = 'Account_Owner';
+        insert ae;
+
         toolsController TC = new toolsController();
         // TC.toolsController();
         TC.LoadOppRows();
@@ -47,7 +51,9 @@ private class toolsControllerTest {
         TC.createAccountsFromSubscriptions();
         TC.joinSubscriptionsToAccounts();
         TC.deleteAllSubscriptions();
+        TC.joinAccountsToAEs();
         TC.clearSubscriptionsProcessed();
+        
 
     }
 }

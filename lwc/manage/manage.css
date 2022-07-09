@@ -6,8 +6,11 @@
 .newOver{text-decoration:none; color:darkblue; font-size:120%;  background-color:white; 
     padding-left:4px; padding-right:4px; padding-bottom:2px; padding-top:2px;}
 .headerRow{padding-bottom:4px; padding-top:4px; border-bottom: #aaa 1px solid; color:white; font-weight:normal;}
-.dataRow{padding-bottom:2px; padding-top:2px;  padding-left:4px; border-bottom: 1px #eeeeee solid;}
+.dataRow{padding-bottom:2px; padding-top:2px; padding-left:4px; border-bottom: 1px #eeeeee solid;}
+.dataRowTitle{padding-bottom:0px; padding-top:0px; padding-left:4px; }
 .dataBottom { border-bottom: 1px #eeeeee solid;}
+.shrinkNumbers {font-size:90%}
+.miniNumbers {font-size:70%; padding-top:4px;}
 .bigBet{color:#6161ff;}
 .floatLeft{float: left}
 .floatRight{float: right}
@@ -24,38 +27,43 @@ table {cursor:default;}
 .select:hover{text-decoration:underline; color:blue; }
 
 .AEList {cursor:default; 
-    border: 1px solid #dddddd; 
+    border: 0px solid #dddddd; 
     position:absolute; left:20px; top:40px; height:300px; }
-.AEListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; background-color:#19548a; 
+.AEListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
+    background-color:#19548a; 
     border-bottom: #888888 1px solid; color:white; font-weight:normal;}
 .AEListNames { width:140px; height:280px; overflow: auto; background-color: lightskyblue; }
 .AEListItems {border-bottom: #dddddd 1px solid;}
 
 .AccountList {cursor:default; 
-    border: 1px solid #dddddd; 
-    position:absolute; left:200px; top:40px; 
+    border: 0px solid #dddddd; 
+    position:absolute; left:185px; top:40px; 
     background-color: lightpink; }
 .AccountListHeader {text-align:center; width:250px; }
 .AccountData{ height:280px; overflow: auto; width:250px;}
-.AccountListAEName  {position:absolute; left:200px; top:15px; font-weight:bold; font-size:140%}
+.AccountListAEName  {position:absolute; left:185px; top:15px; font-weight:bold; font-size:140%}
 
-.CurrentLicenses{
+.SubscriptionList{
     position:absolute; left:460px; top:40px; 
-    border: 1px solid #888888; 
-    background-color: rgb(246, 195, 160); 
+    border: 0px solid #888888; 
+    background-color: lightskyblue; 
 }
-.CurrentLicensesAccountName {position:absolute; left:460px; top:15px; font-weight:bold; font-size:140%}
+.SubscriptionData{ height:280px; overflow: auto; width:600px;}
+.SubscriptionAccountName {position:absolute; left:460px; top:15px; font-weight:bold; font-size:140%}
+
 
 .OppsList{
     position:absolute; left:20px; top:385px; 
-    border: 1px solid #888888; 
-    background-color: rgb(252, 183, 249); 
+    border: 0px solid #888888; 
 }
+.OppsData {    background-color: lightskyblue }
+.OppsTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
 .OppsAccountName {position:absolute; left:20px; top:360px; font-weight:bold; font-size:140%}
 
 .OppRowsList{
-    position:absolute; left:20px; top:525px; 
-    border: 1px solid #888888; 
-    background-color: rgb(249, 102, 242); 
-}
-.OppName {position:absolute; left:20px; top:500px; font-weight:bold; font-size:140%}
+    /* position:absolute; left:20px; top:525px; */
+    border: 0px solid #888888; 
+    background-color: lightskyblue; 
+} 
+.OppName { /*position:absolute; left:20px; top:500px; */
+    font-weight:bold; font-size:140%}

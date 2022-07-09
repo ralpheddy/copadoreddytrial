@@ -31,6 +31,8 @@ public class toolsController {
     public integer countJoinSubscriptionsRunningTotalProcessed {get;set;}
     public string commentSubscriptionsProcessed {get;set;}
     
+    public integer countJoinAccountsToAEs {get;set;}
+    
     public toolsController(){
         countCreatedOppsRunningTotalOppRowsProcessed = 0;
         countJoinSubscriptionsRunningTotalProcessed = 0;
@@ -60,7 +62,8 @@ public class toolsController {
         aes = [SELECT id, Name, Manager__c from AE__c];
     }
     public void LoadAccounts(){
-        accounts = [SELECT id, Name, AE__c, Type, APOAccountId__c, Created_Source__c from Account];
+        accounts = [SELECT id, Name, AE__c, Type, APOAccountId__c, APOAccountOwner__c, 
+                           Created_Source__c from Account];
     }
     public void LoadOpps(){
         opps = [SELECT id, Name,
@@ -146,6 +149,7 @@ public class toolsController {
                 a.name = oppRow.APOAccountName__c;
                 a.APOAccountId__c = oppRow.APOAccountId__c;
                 a.Type = oppRow.Account_Type__c;
+                a.APOAccountOwner__c = oppRow.Account_Owner__c;
                 a.Created_Source__c = 'OppRow';
                 string accOwner = oppRow.Account_Owner__c;
                 for (AE__c ae : aes ){
@@ -366,6 +370,23 @@ public class toolsController {
         subscriptions = [SELECT id from Subscription__c];
         countDeletedSubscriptions = subscriptions.size();
         delete subscriptions;
+    }
+    
+    public void joinAccountsToAEs(){
+        LoadAccounts();
+        LoadAEs();
+        countJoinAccountsToAEs = 0;
+        for (Account acc: accounts){
+            if ( acc.AE__c == null ){
+                for (AE__c ae : aes ) {
+                    if ( acc.APOAccountOwner__c != null ) {
+                        if ( ae.name == acc.APOAccountOwner__c ) acc.AE__c = ae.Id;
+                        countJoinAccountsToAEs++;
+                    }
+                }
+            }
+        }
+        update accounts;
     }
     
     public void clearSubscriptionsProcessed(){
