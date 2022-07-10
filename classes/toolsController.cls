@@ -53,6 +53,7 @@ public class toolsController {
                     Product__c, Quantity__c, QuantityString__c, 
                     Sales_Price__c, SalesPriceString__c,
                     Total__c, TotalString__c,
+                    Incremental__c,
                     ProcessedOpp__c, ProcessedOppRow__c
                     // Product_Code__c, Owner_Role__c, Next_Step__c
                    FROM OppRow__c 
@@ -71,6 +72,7 @@ public class toolsController {
                 ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
                 APOAccountId__c, APOAccountName__c,
                 APOOppId__c, URL__c,
+                Incremental__c, IncrementalString__c,
                 Close_Date__c, CloseString__c,
                 Forecast__c, Stage__c, Type__c,
                 Owner_Name__c
@@ -200,6 +202,7 @@ public class toolsController {
                     opp.Type__c = oppRows[j].Type__c;
                     opp.Owner_Name__c = oppRows[j].Owner_Name__c;
                     opp.Amount__c = oppRows[j].Amount__c;                
+                    opp.Incremental__c = oppRows[j].Incremental__c;              
                     string accountAPOid = oppRows[j].APOAccountId__c;
                     for (Account acc : accounts ){
                         if ( accountAPOid == acc.APOAccountId__c ) opp.Account__c = acc.Id;

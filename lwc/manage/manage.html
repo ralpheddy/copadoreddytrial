@@ -1,7 +1,7 @@
 <template>
 <div class="bodyDiv">
    <!--<lightning-card title="Manage" icon-name="custom:custom63">-->
-    <div class="version">{version}&nbsp;&nbsp;{showError}</div>
+    <div class="version">{version}&nbsp;&nbsp;{showError}-{accountSelectedId}-{aeSelectedId}-{oppsSearchAllForAE}</div>
 
     <div class="AEList">
         <div class="AEListHeader ">AE</div>
@@ -74,14 +74,14 @@
                 <tr>
                     <td width="10%">&nbsp;</td>
                     <td width="80%" class="tdCenter">Open Opportunities</td>
-                    <td width="10%" class="tdCenter"><a style="color:yellow" href="">All</a></td>
+                    <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}>All</td>
                 </tr>
             </table>
-        </div>
+        </div> 
         <div class="OppsData">
             <table width="1040px" border="0">
                 <tr>
-                    <td class="OppsTableHeader">Opportunity</td>
+                    <td class="OppsTableHeader" style="padding-left: 4px;">Opportunity</td>
                     <td class="OppsTableHeader tdCenter">Forecast</td>
                     <td class="OppsTableHeader tdCenter">Stage</td>
                     <td class="OppsTableHeader tdCenter">Type</td>
