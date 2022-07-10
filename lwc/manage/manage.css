@@ -25,6 +25,7 @@ table {cursor:default;}
 .tdRight {text-align:right}
 .headerOfTable { background-color:#19548a; color:white; padding:4px;}
 .select:hover{text-decoration:underline; color:blue; }
+.selectAll:hover{text-decoration:underline; color:yellow; }
 
 .AEList {cursor:default; 
     border: 0px solid #dddddd; 
