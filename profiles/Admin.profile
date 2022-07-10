@@ -4950,6 +4950,10 @@
         <apexClass>toolsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>toolsControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>false</custom>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
@@ -5063,6 +5067,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.APOAccountId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.APOAccountOwner__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
