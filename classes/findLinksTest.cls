@@ -10,9 +10,10 @@ private class findLinksTest {
         findLinks.getAEs();
 
         id SearchUsingId = 'a0201000002AjoPAAS';
+        string fakeId = 'a0201000002AjoPAAS';
         findLinks.getAccounts(SearchUsingId);
         findLinks.getSubscriptions(SearchUsingId);
-        findLinks.getOpps(SearchUsingId);
+        findLinks.getOpps(fakeId, fakeId, true);
         findLinks.getOppRows(SearchUsingId);
     }
 }

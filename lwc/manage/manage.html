@@ -1,7 +1,7 @@
 <template>
 <div class="bodyDiv">
    <!--<lightning-card title="Manage" icon-name="custom:custom63">-->
-    <div class="version">{version}&nbsp;&nbsp;{showError}{oppsSearchAllForAE}</div>
+    <div class="version">{version}&nbsp;&nbsp;{showError}-{accountSelectedId}-{aeSelectedId}-{oppsSearchAllForAE}</div>
 
     <div class="AEList">
         <div class="AEListHeader ">AE</div>
@@ -81,7 +81,7 @@
         <div class="OppsData">
             <table width="1040px" border="0">
                 <tr>
-                    <td class="OppsTableHeader">Opportunity</td>
+                    <td class="OppsTableHeader" style="padding-left: 4px;">Opportunity</td>
                     <td class="OppsTableHeader tdCenter">Forecast</td>
                     <td class="OppsTableHeader tdCenter">Stage</td>
                     <td class="OppsTableHeader tdCenter">Type</td>
