@@ -40,9 +40,9 @@ public with sharing class findLinks {
 
     @AuraEnabled(cacheable=true) 
     // public static LIST<Opp__c> getOpps(id accountId) { // }, id allAEid) {
-    public static LIST<Opp__c> getOpps(string accountId, string allAEid) {
-        // System.Debug('x' + allAEid + 'x');  
-        /* LIST<Opp__c> Opps = [SELECT id, Name,
+    public static LIST<Opp__c> getOpps(string accountId, string aeId, boolean searchAll) {
+        /*
+        LIST<Opp__c> Opps = [SELECT id, Name,
             Account__c, AE__c,
             ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
             APOAccountId__c, APOAccountName__c,
@@ -53,8 +53,11 @@ public with sharing class findLinks {
             Owner_Name__c
         FROM Opp__c 
         WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
-        ORDER BY Name ]; */
-       // return Opps;
+        ORDER BY Name ]; 
+       return Opps;
+        */
+
+       
         string q =   'SELECT id, Name, ' +
                         ' Account__c, AE__c, ' +
                         ' ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c, ' +
@@ -64,16 +67,24 @@ public with sharing class findLinks {
                         ' Close_Date__c, CloseString__c, ' +
                         ' Forecast__c, Stage__c, Type__c, ' +
                         ' Owner_Name__c ' +
-                    ' FROM Opp__c  ' +
-                    ' WHERE ';
-                    if ( allAEid != '' ) {
-                        q+= ' AE__c = \'' + allAEid + '\' ';
+                    ' FROM Opp__c ' +
+                    ' WHERE '; 
+                if ( searchAll ) {
+                     q+= ' AE__c = \'' + aeId + '\' ';
+                } else {
+                    q+= ' Account__c = \'' + accountId + '\' '; 
+                }
+                q+= ' ORDER BY Name ';
+        /*             
+                        q+= ' AE__c = \'' + aeId + '\' ';
                     } else {
                         q+= ' Account__c = \'' + accountId + '\' ';   // account id in this Salesforce, not APO's
                     }
                 q+= ' ORDER BY Name  ';
         // System.Debug(q);  
+        */
         return Database.query(q);
+        
     } 
 
     @AuraEnabled(cacheable=true) 
