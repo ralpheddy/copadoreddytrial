@@ -142,6 +142,10 @@
                 <behavior>Edit</behavior>
                 <field>ProcessedOppRow__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Incremental__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
