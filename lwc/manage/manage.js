@@ -87,22 +87,6 @@ export default class Manage extends LightningElement {
         this.oppSelectedName = "";
     }
 
-    clearSubscriptions(){
-        this.accountSelectedNameSub = "";
-        this.subscriptions = [];
-        // this.clearOpps();
-    }
-    clearOpps(){
-        this.opps = [];
-        this.oppSelectedId = "";
-        this.accountSelectedNameOpp = "";
-        // this.clearOppRows();
-    }
-    clearOppRows(){
-        this.oppRows = [];
-        this.oppSelectedName = "";
-    }
-
     loadAEs(event) {
         findAEs() 
             .then((result) => {

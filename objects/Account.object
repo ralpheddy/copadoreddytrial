@@ -278,6 +278,14 @@
         <trackFeedHistory>false</trackFeedHistory>
     </fields>
     <fields>
+        <fullName>CreateWSProcessed__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>CreateWSProcessed</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Created_Source__c</fullName>
         <externalId>false</externalId>
         <label>Created Source</label>
@@ -392,8 +400,9 @@
         <columns>AE__c</columns>
         <columns>ACCOUNT.TYPE</columns>
         <columns>Created_Source__c</columns>
-        <columns>APOAccountId__c</columns>
         <columns>URL__c</columns>
+        <columns>APOAccountId__c</columns>
+        <columns>APOAccountOwner__c</columns>
         <filterScope>Everything</filterScope>
         <label>All Accounts</label>
     </listViews>
