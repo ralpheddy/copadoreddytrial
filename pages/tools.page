@@ -4,7 +4,7 @@
 <style>
     .button{ width:200px;}
     #wrapper { font-weight:bold; background-color:#dddddd; border:0px solid blue; color:#C80000;}
-    .toolsBox { display:block; float:left; width:250px; height:440px;  background-color:#dddddd; border-radius:10px; 
+    .toolsBox { display:block; float:left; width:250px; height:540px;  background-color:#dddddd; border-radius:10px; 
                 box-shadow:4px 4px 4px #888888; text-align:center; padding-top:10px; padding-bottom:10px; margin-right:16px; margin-bottom:10px;}
     #OppTools {  }
     #SFTools {  }
@@ -57,6 +57,12 @@
         <br/>
         <apex:commandButton action="{!joinOppRowsToOpps}" value="Join OppRows To Opps" styleClass="button" />&nbsp;{!countJoinOppRowsToOpps}<br/>
         <br/>
+        <br/>
+        <apex:commandButton action="{!joinOppRowsToAccounts}" value="Join OppRows To Accounts" styleClass="button" /><br/>
+        {!commentJoinOppRowsToAccount}<br/>
+         <br/>&nbsp;
+         <br/>
+        <br/>
     </div>
     
     
@@ -69,24 +75,53 @@
         <br/>
         
         <apex:commandButton action="{!createAEsFromSubscriptions}" value="Create AEs from Subscriptions" styleClass="button" />&nbsp;{!countCreatedAEsSub}<br/>
-        <font style="color:black; font-weight:normal;">
+        <!--<font style="color:black; font-weight:normal;">-->
             {!commentCreateAEsFromSubscriptions}<br/>
-        </font>
         <br/>
-        <font style="color:black; font-weight:normal;">
         <apex:commandButton action="{!createAccountsFromSubscriptions}" value="Create Accounts from Subscriptions" styleClass="button" />&nbsp;{!countCreatedAccountsSub}<br/>
         {!commentSubscriptionsProcessedForCreate}<br/>
         <br/>
-        <apex:commandButton action="{!joinSubscriptionsToAccounts}" value="Join Subscriptions To Accounts" styleClass="button" /><br/>
+        <apex:commandButton action="{!joinSubscriptionsToAccounts}" value="Join Subscriptions To Accounts" styleClass="button" />&nbsp;{!createdJoinSubscriptionsToAccounts}<br/>
         {!commentSubscriptionsProcessed}<br/>
-        </font>
+        
         <br/>
         <apex:commandButton action="{!joinAccountsToAEs}" value="Join Accounts to AEs" styleClass="button" />&nbsp;{!countJoinAccountsToAEs}<br/>
         <br/>
 
         <br/>
+    </div>
+        
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">SKUs &amp; Groups</div>
+        <br/>
+        <apex:commandButton action="{!postOppRowNumbersToSKUs}" value="Post OppRow Numbers to SKUs" styleClass="button" /><br/>
+        {!commentPostOppRowNumbersToSKUs}<br/>
+        <br/>
+        <apex:commandButton action="{!postSubscriptionNumbersToSKUs}" value="Post Subscription Numbers to SKUs" styleClass="button" /><br/>
+        {!commentPostSubscriptionNumbersToSKUs}<br/>
+        <br/>
+        <apex:commandButton action="{!joinSubscriptionsToGroups}" value="Join Subscriptions To Groups" styleClass="button" />&nbsp;{!countJoinSubscriptionsToGroups}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        <!--<apex:commandButton action="{!createWhiteSpaceRecords}" value="Create Whitespaces Records" styleClass="button" disabled="true" /><br/>
+        {!commentCreateWhitespace}<br/>
+        <br/>
+        <br/>-->
+        <apex:commandButton action="{!createWhiteSpaceFromRows}" value="Create Whitespaces from OppRows" styleClass="button" /><br/>
+        {!commentOppRowsCreateWhitespace}<br/>
+        <br/>
+        <br/>
+        <apex:commandButton action="{!createWhiteSpaceFromSubscriptions}" value="Create Whitespace Subscriptions" styleClass="button" /><br/>
+        {!commentSubscriptionsCreateWhitespace}<br/>
+        {!mydebug}
+        <br/>
+        <br/>
+        <apex:commandButton action="{!deleteAllWhiteSpace}" value="Delete All Whitespaces" styleClass="button" disabled="false" />&nbsp;{!deleteWhiteSpace}<br/>
+        <br/>
         
     </div>
+    
     <div id="xOppTools" class="toolsBox">
         <div class="toolTitle">Utilities</div>
         <br/>
@@ -94,7 +129,25 @@
         <br/>
         <apex:commandButton action="{!clearSubscriptionsProcessed}" value="Clear Subscriptions Processed" styleClass="button" />&nbsp;{!countClearProcessedSubs}<br/>
         <br/>
+        clear accounts processed
+        <br/>
+        delete all WS<br/>
+        <br/>
+        <input type="text" /><br/>
+        <br/>
+        {!tempWScount}
+        <div style="color:black; font-weight:normal;">
+            <apex:repeat value="{!wsGroups}" var="ws">
+                {!ws.Name}{!ws.OppTotal__c}{!ws.SubTotal__c}<br/>
+            </apex:repeat>
+        </div>
+        <div style="color:red; font-weight:normal;">
+            <apex:repeat value="{!wsAccount}" var="wsa">
+                {!wsa.GroupName__c}{!wsa.OppTotal__c}{!wsa.SubTotal__c}<br/>
+            </apex:repeat>
+        </div>
     </div>
+    
     </div>
 </div>
 </apex:form>
