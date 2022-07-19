@@ -5,6 +5,8 @@ import findAccounts from '@salesforce/apex/findLinks.getAccounts';
 import findSubscriptions from '@salesforce/apex/findLinks.getSubscriptions';
 import findOpps from '@salesforce/apex/findLinks.getOpps';
 import findOppRows from '@salesforce/apex/findLinks.getOppRows';
+// import findWhiteSpace from '@salesforce/apex/findLinks.getWhiteSpace';
+import getWSGroups from '@salesforce/apex/findLinks.getWSGroups';
 
 export default class Manage extends LightningElement {
     version = 1.2;
@@ -22,6 +24,8 @@ export default class Manage extends LightningElement {
     oppSelectedName;
     oppsSearchAllForAE; // true or
     oppRows;
+    whitespaces; // not using
+    wsGroups; // the actual whitespace
     showError;
     testing;
 
@@ -54,6 +58,7 @@ export default class Manage extends LightningElement {
         this.oppsSearchAllForAE = false;
         this.searchOpps();
         this.clearOppRows();
+        this.getWhiteSpaceGroups();
     }
     oppSelected(event){
         this.oppSelectedId = event.target.dataset.id;
@@ -219,6 +224,60 @@ export default class Manage extends LightningElement {
         });
     }
 
+    /*
+    searchWhiteSpace(event){
+        findWhiteSpace({accountId: this.aeSelectedId})
+        .then((result) => {
+            this.whitespaces = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.whitespaces = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }*/
+
+    
+    getWhiteSpaceGroups(event){ // alert(this.aeSelectedId);
+        getWSGroups({accountId: this.accountSelectedId})
+        .then((result) => {
+            this.wsGroups = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.wsGroups = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+
     connectedCallback() {
         this.loadAEs();
         // this.searchAccounts();
@@ -226,6 +285,9 @@ export default class Manage extends LightningElement {
         // this.searchsSubscriptions();
         // this.searchOpps();
         // this.searchOppRows();
+        // this.accountSelectedId = "0010100000TJrvEAAT";
+        // this.searchWhiteSpace();
+
         this.accountSelectedId = "";
         this.oppsSearchAllForAE = ""; // set to empty string
     }

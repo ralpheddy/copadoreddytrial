@@ -11,6 +11,7 @@
 .dataBottom { border-bottom: 1px #eeeeee solid;}
 .shrinkNumbers {font-size:90%}
 .miniNumbers {font-size:70%; padding-top:4px;}
+.miniNumbers2 {font-size:60%; padding-top:4px;}
 .bigBet{color:#6161ff;}
 .floatLeft{float: left}
 .floatRight{float: right}
@@ -26,6 +27,9 @@ table {cursor:default;}
 .headerOfTable { background-color:#19548a; color:white; padding:4px;}
 .select:hover{text-decoration:underline; color:blue; }
 .selectAll:hover{text-decoration:underline; color:yellow; }
+.wsTDRight{text-align:right;}
+.wsTDCenter{text-align:center;}
+.wsTDPadding {padding:3px;}
 
 .AEList {cursor:default; 
     border: 0px solid #dddddd; 
@@ -46,12 +50,16 @@ table {cursor:default;}
 
 .SubscriptionList{
     position:absolute; left:460px; top:40px; 
-    border: 0px solid #888888; 
+    border: 0px solid #cfcfcf; 
     background-color: lightskyblue; 
 }
 .SubscriptionData{ height:280px; overflow: auto; width:600px;}
 .SubscriptionAccountName {position:absolute; left:460px; top:15px; font-weight:bold; font-size:140%}
 
+.WhiteSpace{
+    position:absolute; left:1085px; top:40px; 
+    background-color: lightskyblue; 
+}
 
 .OppsList{
     position:absolute; left:20px; top:385px; 
