@@ -21,6 +21,7 @@ table {cursor:default;}
 .oneHeader {display:none}
 .floatLeft {float:left;}
 .version {position:absolute; left:20px; top:2px; font-size:9px; }
+.version2 {position:absolute; left:20px; top:10px; font-size:9px; }
 .tdCenter {text-align:center} 
 .tdVertical {vertical-align: middle;}
 .tdRight {text-align:right}
@@ -31,48 +32,57 @@ table {cursor:default;}
 .wsTDCenter{text-align:center;}
 .wsTDPadding {padding:3px;}
 
+.ManagerList {top:30px;}
 .AEList {cursor:default; 
     border: 0px solid #dddddd; 
     position:absolute; left:20px; top:40px; height:300px; }
 .AEListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
     background-color:#19548a; 
-    border-bottom: #888888 1px solid; color:white; font-weight:normal;}
+    border-bottom: #888888 1px solid; color:white; font-weight:normal;
+    border-top-left-radius:5px; border-top-right-radius:5px;
+}
 .AEListNames { width:140px; height:280px; overflow: auto; background-color: lightskyblue; }
 .AEListItems {border-bottom: #dddddd 1px solid;}
 
 .AccountList {cursor:default; 
     border: 0px solid #dddddd; 
     position:absolute; left:185px; top:40px; 
-    background-color: lightpink; }
+    }
 .AccountListHeader {text-align:center; width:250px; }
-.AccountData{ height:280px; overflow: auto; width:250px;}
+.AccountData{ height:280px; overflow: auto; width:250px; background-color: lightpink; }
 .AccountListAEName  {position:absolute; left:185px; top:15px; font-weight:bold; font-size:140%}
 
 .SubscriptionList{
     position:absolute; left:460px; top:40px; 
-    border: 0px solid #cfcfcf; 
-    background-color: lightskyblue; 
+    border: 0px solid #cfcfcf;
 }
-.SubscriptionData{ height:280px; overflow: auto; width:600px;}
+.SubscriptionData{ height:280px; overflow: auto; width:600px; background-color: lightskyblue; }
 .SubscriptionAccountName {position:absolute; left:460px; top:15px; font-weight:bold; font-size:140%}
 
 .WhiteSpace{
     position:absolute; left:1085px; top:40px; 
-    background-color: lightskyblue; 
 }
+.WhitespaceData{background-color: lightskyblue; }
+.WhitespaceTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
 
 .OppsList{
-    position:absolute; left:20px; top:385px; 
+    position:absolute; left:20px; top:395px; 
     border: 0px solid #888888; 
 }
-.OppsData {    background-color: lightskyblue }
+.OppListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
+    background-color:#19548a; 
+    border-bottom: #888888 1px solid; color:white; font-weight:normal;
+    border-top-left-radius:5px; border-top-right-radius:5px;
+}
 .OppsTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
-.OppsAccountName {position:absolute; left:20px; top:360px; font-weight:bold; font-size:140%}
+.OppsData {    background-color: lightskyblue; }
+.OppsAccountName {position:absolute; left:20px; top:370px; font-weight:bold; font-size:140%}
 
 .OppRowsList{
     /* position:absolute; left:20px; top:525px; */
     border: 0px solid #888888; 
-    background-color: lightskyblue; 
+    
 } 
+.OppRowsData{background-color: lightskyblue; }
 .OppName { /*position:absolute; left:20px; top:500px; */
-    font-weight:bold; font-size:140%}
+    font-weight:bold; font-size:140% }
