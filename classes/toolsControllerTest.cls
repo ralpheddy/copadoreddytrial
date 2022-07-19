@@ -53,6 +53,10 @@ private class toolsControllerTest {
         TC.deleteAllSubscriptions();
         TC.joinAccountsToAEs();
         TC.clearSubscriptionsProcessed();
+
+        TC.LoadSKUs();
+        TC.LoadGroups();
+        TC.LoadWhiteSpace();
         
 
     }
