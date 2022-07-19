@@ -15,5 +15,6 @@ private class findLinksTest {
         findLinks.getSubscriptions(SearchUsingId);
         findLinks.getOpps(fakeId, fakeId, true);
         findLinks.getOppRows(SearchUsingId);
+        findLinks.getWSGroups(SearchUsingId);
     }
 }
