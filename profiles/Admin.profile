@@ -16841,6 +16841,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>M1</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Manage</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
