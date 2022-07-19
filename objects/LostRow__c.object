@@ -154,35 +154,21 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
-        <fullName>OppTotalString__c</fullName>
+        <fullName>Lost__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <formula>IF(  OppTotal__c   &lt; 0, &quot;(&quot;, &quot;&quot;)  &amp;
-IF(ABS(OppTotal__c) &gt;= 1000000, TEXT(FLOOR(ABS(OppTotal__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-IF(ABS(OppTotal__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(OppTotal__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-RIGHT(TEXT(FLOOR(ABS(OppTotal__c))), 3) &amp;
-
-IF(OppTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>OppTotalString</label>
+        <label>Lost</label>
+        <referenceTo>Lost__c</referenceTo>
+        <relationshipLabel>LostRows</relationshipLabel>
+        <relationshipName>LostRows</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>OppTotal__c</fullName>
+        <fullName>Quantity__c</fullName>
         <externalId>false</externalId>
-        <label>OppTotal</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>SortOrder__c</fullName>
-        <externalId>false</externalId>
-        <label>SortOrder</label>
+        <label>Quantity</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -191,54 +177,38 @@ IF(OppTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>SubTotalString__c</fullName>
+        <fullName>SKU__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <formula>IF(  SubTotal__c   &lt; 0, &quot;(&quot;, &quot;&quot;)  &amp;
-IF(ABS(SubTotal__c) &gt;= 1000000, TEXT(FLOOR(ABS(SubTotal__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-IF(ABS(SubTotal__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(SubTotal__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-RIGHT(TEXT(FLOOR(ABS(SubTotal__c))), 3) &amp;
-
-IF(SubTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>SubTotalString</label>
+        <label>SKU</label>
+        <referenceTo>SKU__c</referenceTo>
+        <relationshipLabel>LostRows</relationshipLabel>
+        <relationshipName>LostRows</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>SubTotal__c</fullName>
+        <fullName>Total__c</fullName>
         <externalId>false</externalId>
-        <label>SubTotal</label>
+        <label>Total</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
-    <fields>
-        <fullName>showHasLost__c</fullName>
-        <externalId>false</externalId>
-        <label>showHasLost</label>
-        <length>80</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <label>Group</label>
+    <label>LostRow</label>
     <listViews>
         <fullName>All</fullName>
-        <columns>NAME</columns>
-        <columns>SortOrder__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
     <nameField>
-        <label>Group Name</label>
+        <label>LostRow Product</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Groups</pluralLabel>
+    <pluralLabel>LostRows</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
