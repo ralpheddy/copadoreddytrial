@@ -225,6 +225,17 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>AccountIDstring__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>AccountIDstring</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -267,6 +278,16 @@
         <type>Date</type>
     </fields>
     <fields>
+        <fullName>Contract_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Number</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Contract_Start__c</fullName>
         <externalId>false</externalId>
         <label>Contract Start</label>
@@ -303,6 +324,40 @@
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GroupIDstring__c</fullName>
+        <externalId>false</externalId>
+        <formula>SKU__r.Group__r.Id</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>GroupIDstring</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GroupName__c</fullName>
+        <externalId>false</externalId>
+        <formula>SKU__r.Group__r.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>GroupName</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Group</label>
+        <referenceTo>Group__c</referenceTo>
+        <relationshipLabel>Subscriptions</relationshipLabel>
+        <relationshipName>Subscriptions</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>MonthlyString__c</fullName>
@@ -343,6 +398,14 @@ IF(Monthly__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>ProcessedCreate</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ProcessedWhiteSpace__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>ProcessedWhiteSpace</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -408,6 +471,18 @@ IF(Quantity__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>SKU__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>SKU</label>
+        <referenceTo>SKU__c</referenceTo>
+        <relationshipLabel>Subscriptions</relationshipLabel>
+        <relationshipName>Subscriptions</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>StartString__c</fullName>
         <externalId>false</externalId>
         <formula>TEXT(Month(Start__c))  &amp; &quot;/&quot; &amp;  TEXT(DAY( Start__c )) &amp; &quot;/&quot; &amp; TEXT(YEAR( Start__c ))</formula>
@@ -456,20 +531,17 @@ IF(Total__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
+        <columns>GroupName__c</columns>
         <columns>Account__c</columns>
         <columns>Quantity__c</columns>
-        <columns>QuantityString__c</columns>
         <columns>Monthly__c</columns>
-        <columns>MonthlyString__c</columns>
         <columns>Total__c</columns>
-        <columns>TotalString__c</columns>
-        <columns>End__c</columns>
-        <columns>EndString__c</columns>
         <columns>Start__c</columns>
-        <columns>StartString__c</columns>
-        <columns>OBJECT_ID</columns>
-        <columns>APOContractId__c</columns>
-        <columns>APOSubscriptionId__c</columns>
+        <columns>End__c</columns>
+        <columns>Contract_Start__c</columns>
+        <columns>Contract_End__c</columns>
+        <columns>SKU__c</columns>
+        <columns>Contract_Term__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
@@ -500,20 +572,17 @@ IF(Total__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
     <listViews>
         <fullName>All_processed</fullName>
         <columns>NAME</columns>
-        <columns>Processed__c</columns>
-        <columns>APOAccountOwner__c</columns>
-        <columns>ProcessedCreate__c</columns>
-        <columns>APOAccountName__c</columns>
+        <columns>APOAccountId__c</columns>
         <columns>Account__c</columns>
-        <columns>Quantity__c</columns>
-        <columns>QuantityString__c</columns>
+        <columns>AccountIDstring__c</columns>
+        <columns>Group__c</columns>
         <columns>Total__c</columns>
-        <columns>TotalString__c</columns>
-        <columns>End__c</columns>
-        <columns>EndString__c</columns>
-        <columns>Start__c</columns>
-        <columns>StartString__c</columns>
-        <columns>OBJECT_ID</columns>
+        <columns>GroupIDstring__c</columns>
+        <columns>Processed__c</columns>
+        <columns>ProcessedCreate__c</columns>
+        <columns>ProcessedAccountJoin__c</columns>
+        <columns>SKU__c</columns>
+        <columns>APOAccountName__c</columns>
         <filterScope>Everything</filterScope>
         <label>All - processed</label>
     </listViews>
