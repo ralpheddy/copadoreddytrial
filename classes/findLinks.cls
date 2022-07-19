@@ -30,11 +30,12 @@ public with sharing class findLinks {
                                                // Monthly__c, MonthlyString__c, 
                                                End__c, EndString__c, Start__c, StartString__c,
                                                Contract_End__c, Contract_Start__c, ContractEndString__c, ContractStartString__c,
-                                               Contract_Term__c,
-                                               Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c
+                                               Contract_Term__c, Contract_Number__c,
+                                               Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c,
+                                               SKU__c, Group__c, GroupName__c 
                            FROM Subscription__c 
                            WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
-                           ORDER BY Name ];
+                           ORDER BY Group__r.SortOrder__c]; // Name ];
        return Subscriptions;
     }
 
@@ -43,17 +44,17 @@ public with sharing class findLinks {
     public static LIST<Opp__c> getOpps(string accountId, string aeId, boolean searchAll) {
         /*
         LIST<Opp__c> Opps = [SELECT id, Name,
-                                Account__c, AE__c,
-                                ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
-                                APOAccountId__c, APOAccountName__c,
-                                APOOppId__c, URL__c,
+            Account__c, AE__c,
+            ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c, AmountString__c,
+            APOAccountId__c, APOAccountName__c,
+            APOOppId__c, URL__c,
             Incremental__c, IncrementalString__c,
-                                Close_Date__c, CloseString__c,
-                                Forecast__c, Stage__c, Type__c,
-                                Owner_Name__c
-                           FROM Opp__c 
-                           WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
-                           ORDER BY Name ];
+            Close_Date__c, CloseString__c,
+            Forecast__c, Stage__c, Type__c,
+            Owner_Name__c
+        FROM Opp__c 
+        WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
+        ORDER BY Name ]; 
        return Opps;
         */
 
@@ -87,6 +88,10 @@ public with sharing class findLinks {
         
     } 
 
+
+
+
+
     @AuraEnabled(cacheable=true) 
     public static LIST<OppRow__c> getOppRows(id oppSelectedId) {
         LIST<OppRow__c> OppRows = [SELECT id, Name, 
@@ -100,15 +105,61 @@ public with sharing class findLinks {
                                 Product__c, Quantity__c, QuantityString__c, // Monthly__c, MonthlyString__c,
                                 Sales_Price__c, SalesPriceString__c,
                                 Total__c, TotalString__c,
-                                Incremental__c
+                                Incremental__c, IncrementalString__c,
+                                SKU__C, Group__c, GroupName__c
                                 // Product_Code__c, Owner_Role__c, Next_Step__c
                            FROM OppRow__c 
                            WHERE Opp__c = :oppSelectedId  // oppSelectedId id in this Salesforce, not APO's
-                           ORDER BY Name ];
+                           ORDER BY SKU__r.Group__r.SortOrder__c]; // Name ];
        return OppRows;
     }
 
+    //not being used
+    /*
+    @AuraEnabled(cacheable=true) 
+    public static LIST<WhiteSpace__c> getWhiteSpace(id accountId) {
+        LIST<WhiteSpace__c> ws = [SELECT Account__c, Group__c, GroupName__c, GroupSort__c,
+                                         OppTotal__c, OppQuantity__c,
+                                         SubTotal__c, SubQuantity__c
+                                 FROM WhiteSpace__c 
+                                 WHERE Account__c = '0010100000TJrvEAAT' // WHERE Account__c = :accountId
+                                 ORDER BY GroupSort__c];
+       return ws;
+    }*/
 
+    
+    @AuraEnabled(cacheable=true) 
+    public static LIST<Group__c> getWSGroups(id accountId) {
+        LIST<Group__c> groups = [SELECT id, Name, OppTotal__c, OppTotalString__c, SubTotal__c, SubTotalString__c, showHasLost__c
+                                 FROM Group__c
+                                 ORDER BY SortOrder__c];
+        System.Debug(accountId); // accountId = '0010100000TK6zz'; 
+        LIST<WhiteSpace__c> wsAccount = [SELECT id, name, Account__c, Group__c, GroupName__c, 
+                                                OppTotal__c, OppQuantity__c, SubTotal__c, SubQuantity__c,
+                                                hasLost__c, showHasLost__c, Test__c
+                                         FROM WhiteSpace__c 
+                                         WHERE Account__c = :accountId
+                                         ORDER BY GroupSort__c];
+        LIST<Group__c> wsGroups  = new LIST<Group__c>();
+        for (Integer i = 0; i < groups.size(); i++) { // for (Group__c groups : group) {
+            Group__c newWS = new Group__c();
+            newWS.Name = groups[i].Name;
+            for ( WhiteSpace__c ws : wsAccount ){
+                if ( groups[i].Id == ws.Group__c ) { 
+                    if ( newWS.OppTotal__c == null ) newWS.OppTotal__c = 0; // set to 0 if null
+                    if ( newWS.SubTotal__c == null ) newWS.SubTotal__c = 0; // set to 0 if null
+                    if ( ws.OppTotal__c != null ) newWS.OppTotal__c += ws.OppTotal__c; // groups[i].OppTotal__c = 0;
+                    if ( ws.SubTotal__c != null ) newWS.SubTotal__c += ws.SubTotal__c; //groups[i].SubTotal__c = 0;
+                    newWS.showHasLost__c = ws.showHasLost__c;
+                }
+            }
+            wsGroups.add(newWS);
+        }
+        return wsGroups;
+    }
+
+
+    // GET LINKS
     @AuraEnabled(cacheable=true) 
     public static LIST<link__c> getLinks(string searchValue, boolean allCheck, string valueOfSelectedType) {
 
