@@ -12,7 +12,20 @@
             style="position:fixed; top:20px;">
          </lightning-button></div>
 
-        <!--<div class="ManagerList">►</div>-->
+        <div class="ManagerToggle" onclick={showManagers}>►</div>
+        <template if:true={seeManagers}>
+            <div class="ManagerList" > 
+                <template if:true={managers}> 
+                    <template for:each={managers} for:item="manager"> 
+                        <div key={manager.Manager__c} data-item={manager.Manager__c} 
+                             onclick={myManager} class="dataRow rowOver AEListItems " style="padding-right:4px">
+                            {manager.Manager__c}
+                        </div> 
+                    </template>
+                </template> 
+            </div>
+        </template> 
+
         <div class="AEList">
             <div class="AEListHeader ">AE</div>
             <div class="AEListNames ">
@@ -191,7 +204,10 @@
                                     <lightning-formatted-number value={wsGroup.OppTotal__c} format-style="currency" 
                                                                 minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
                                 </td>
-                                <td onclick={openModal} class="dataRow tdCenter wsTDPadding" style="font-size:115%">{wsGroup.showHasLost__c}</td>
+                                <td onclick={openModal} class="dataRow tdCenter wsTDPadding" 
+                                                        style="font-size:115%; font-family:Salesforce Sans,Arial,sans-serif;">
+                                    {wsGroup.showHasLost__c}
+                                </td>
                             </tr> 
                         </template>
                     </template>
@@ -201,7 +217,7 @@
        
     </div>      
 
-    <template if:true={isModalOpen}>
+    <template if:true={isModalOpen}> 
         <!-- Modal/Popup Box LWC starts here -->
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
@@ -237,4 +253,7 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
+
+
+
 </template>

@@ -101,8 +101,10 @@ public class toolsController {
         aes = [SELECT id, Name, Manager__c from AE__c];
     }
     public void LoadAccounts(){
-        accounts = [SELECT id, Name, AE__c, Type, APOAccountId__c, APOAccountOwner__c, CreateWSProcessed__c,
-                           Created_Source__c from Account];
+        accounts = [SELECT id, Name, AE__c, Type, APOAccountId__c, APOAccountOwner__c, CreateWSProcessed__c, 
+                           Created_Source__c, Contract_Expiration__c, Multiple_Contracts__c, APOContractId__c,
+                           Subscription_Total__c
+                    FROM Account];
     }
     public void LoadOpps(){
         opps = [SELECT id, Name,
@@ -425,6 +427,14 @@ public class toolsController {
             found = false;
             for (Integer i = 0; i < newAccounts.size(); i++) {
                 if ( subscriptions[j].APOAccountId__c.equals(newAccounts[i].APOAccountId__c )) { 
+                   if ( newAccounts[i].APOContractId__c != null && newAccounts[i].APOContractId__c != '' ){ // has a value
+                       if ( newAccounts[i].APOContractId__c != subscriptions[j].APOContractId__c ) { // has a different contract id
+                           newAccounts[i].Multiple_Contracts__c = true;
+                       }
+                   } else { // is blank so lets add
+                       newAccounts[i].APOContractId__c = subscriptions[j].APOContractId__c; // only capture the first contract id
+                       newAccounts[i].Contract_Expiration__c = subscriptions[j].Contract_End__c;
+                   }
                    found = true;
                    i = newAccounts.size() + 1; // stop the loop
                 }
@@ -432,6 +442,14 @@ public class toolsController {
             if ( found == false ) {
                 for (Integer k =0; k < accounts.size(); k++ ){
                     if ( subscriptions[j].APOAccountId__c.equals(accounts[k].APOAccountId__c) ) {
+                        if ( accounts[k].APOContractId__c != null && accounts[k].APOContractId__c != '' ){ // has a value
+                            if ( accounts[k].APOContractId__c != subscriptions[j].APOContractId__c ) { // has a different contract id
+                                accounts[k].Multiple_Contracts__c = true;
+                            }
+                        } else { // is blank so lets add
+                            accounts[k].APOContractId__c = subscriptions[j].APOContractId__c; // only capture the first contract id
+                            accounts[k].Contract_Expiration__c = subscriptions[j].Contract_End__c;
+                        }
                         found = true;
                         k = accounts.size() + 1; // stop the loop
                     }
@@ -444,6 +462,9 @@ public class toolsController {
                 acc.Created_Source__c = 'Subscription';
                 acc.Type = 'Customer';
                 acc.APOAccountOwner__c = subscriptions[j].APOAccountOwner__c;
+                acc.Contract_Expiration__c = subscriptions[j].Contract_End__c;
+                acc.APOContractId__c = subscriptions[j].APOContractId__c;
+                // acc.Multiple_Contracts__c = false;
                 newAccounts.add(acc);
                 countCreatedAccountsSub++;
             }
@@ -453,10 +474,11 @@ public class toolsController {
         }
         commentSubscriptionsProcessedForCreate = 'Processed: ' + countProcessed;
         insert newAccounts;
+        update accounts;
         update subscriptions;
     }
     
-    public void joinSubscriptionsToAccounts(){
+    public void joinSubscriptionsToAccountsAndTotalSubs(){
         LoadAccounts();
         LoadSubscriptions();
         integer countForLoop = 0;
@@ -466,6 +488,8 @@ public class toolsController {
                 for (Integer i = 0; i < accounts.size(); i++) {
                     if ( subscriptions[j].APOaccountId__c.equals(accounts[i].APOaccountId__c )){  // if ( subscriptions[j].APOaccountId__c == accounts[i].APOaccountId__c ){
                         subscriptions[j].Account__c = accounts[i].Id;
+                        if ( accounts[i].Subscription_Total__c == null ) accounts[i].Subscription_Total__c = 0;
+                        accounts[i].Subscription_Total__c += subscriptions[j].Total__c; 
                         i = accounts.size() + 1;  // stop the loop 
                         createdJoinSubscriptionsToAccounts++;
                     }
@@ -479,6 +503,7 @@ public class toolsController {
 
         commentSubscriptionsProcessed = 'Processed ' + countForLoop + ' of ' + countJoinSubscriptionsRunningTotalProcessed  + ' in ' + subscriptions.size();
         // commentOppsProcessed = 'Processed ' + countForLoop + ' of ' + countCreatedOppsRunningTotalOppRowsProcessed + ' in ' + subscriptions.size();
+        update accounts;
         update subscriptions;
     }
     
@@ -753,6 +778,242 @@ public class toolsController {
             wsGroups.add(newWS);
             tempWScount++;
         }
+    }
+    
+    public integer managersSize {get;set;}
+    public void getManagers(){
+        LoadAEs();
+        Set<String> managers = new Set<String>();
+        for (Integer i = 0; i< aes.size(); i++)
+        {
+            managers.add(aes[i].Manager__c); // contains distict managers
+        }
+        managersSize = managers.size();
+    }
+    
+    public void plus(){
+        integer i = 1;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        
     }
     
 }
