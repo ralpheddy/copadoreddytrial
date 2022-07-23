@@ -61,7 +61,7 @@
         <apex:commandButton action="{!joinOppRowsToAccounts}" value="Join OppRows To Accounts" styleClass="button" /><br/>
         {!commentJoinOppRowsToAccount}<br/>
          <br/>&nbsp;
-         <br/>
+         
         <br/>
     </div>
     
@@ -81,13 +81,15 @@
         <apex:commandButton action="{!createAccountsFromSubscriptions}" value="Create Accounts from Subscriptions" styleClass="button" />&nbsp;{!countCreatedAccountsSub}<br/>
         {!commentSubscriptionsProcessedForCreate}<br/>
         <br/>
-        <apex:commandButton action="{!joinSubscriptionsToAccounts}" value="Join Subscriptions To Accounts" styleClass="button" />&nbsp;{!createdJoinSubscriptionsToAccounts}<br/>
+        <apex:commandButton action="{!joinSubscriptionsToAccountsAndTotalSubs}" value="Join Subs To Acc & Total Subs" styleClass="button" />&nbsp;{!createdJoinSubscriptionsToAccounts}<br/>
         {!commentSubscriptionsProcessed}<br/>
         
         <br/>
         <apex:commandButton action="{!joinAccountsToAEs}" value="Join Accounts to AEs" styleClass="button" />&nbsp;{!countJoinAccountsToAEs}<br/>
         <br/>
-
+        <hr/>
+         <br/>
+         <apex:commandButton action="{!getManagers}" value="Managers List" styleClass="button" disabled="true" />&nbsp;{!managersSize}<br/>
         <br/>
     </div>
         

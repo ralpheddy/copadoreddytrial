@@ -32,7 +32,11 @@ table {cursor:default;}
 .wsTDCenter{text-align:center;}
 .wsTDPadding {padding:3px;}
 
-.ManagerList {top:30px;}
+.ManagerToggle  {position:absolute; left:20px; top:24px; cursor:pointer; }
+.ManagerList {position:absolute; left:40px; top:24px; cursor:pointer; 
+              background-color:lightyellow;  z-index: 99;
+              border: 1px solid #aaaaaa; border-radius:3px;}
+
 .AEList {cursor:default; 
     border: 0px solid #dddddd; 
     position:absolute; left:20px; top:40px; height:300px; }
