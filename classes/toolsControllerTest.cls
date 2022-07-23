@@ -13,8 +13,27 @@ private class toolsControllerTest {
         opprow.Account_Owner__c = 'Account_Owner';
         opprow.Account_Manager__c = 'Account_Manager';
         opprow.Owner_Name__c = 'Owner_Name';
+        opprow.ProcessedWhiteSpace__c = false;
+        opprow.ProcessedAccountJoin__c = false;
         insert opprow;
         
+        AE__c ae = new AE__c();
+        ae.Name = 'Account_Owner';
+        insert ae;
+
+        Group__c g = new Group__c();
+        g.Name = 'name';
+        insert g;
+        SKU__c sku = new SKU__c();
+        sku.Name = 'Sku';
+        sku.Group__c = g.id;
+        insert sku;
+
+        Account acc = new Account();
+        acc.Name = 'name';
+        insert acc;
+
+        /*
         Subscription__c sub = new Subscription__c();
         sub.Name = 'Name'; 
         sub.APOAccountId__c = '0015p00005YKzcl';
@@ -23,14 +42,17 @@ private class toolsControllerTest {
         sub.APOContractId__c = '8005p00000FOxAM';
         sub.APOAccountOwner__c = 'Account_Owner';
         sub.APOAccountOwnerManager__c = 'Account_Manager';
+        sub.ProcessedWhiteSpace__c = false;
         insert sub;
-
-        AE__c ae = new AE__c();
-        ae.Name = 'Account_Owner';
-        insert ae;
+        */
 
         toolsController TC = new toolsController();
         // TC.toolsController();
+
+        TC.countJoinSubscriptionsToGroups = 9;
+
+        TC.postOppRowNumbersToSKUs();
+
         TC.LoadOppRows();
         TC.LoadAEs();
         TC.LoadAccounts();
@@ -47,17 +69,29 @@ private class toolsControllerTest {
         TC.joinOppRowsToOpps();
         TC.clearOppRowProcessed();
 
+        TC.joinOppRowsToAccounts();
+
         TC.createAEsFromSubscriptions();
         TC.createAccountsFromSubscriptions();
-        TC.joinSubscriptionsToAccounts();
+        TC.joinSubscriptionsToAccountsAndTotalSubs();
+        TC.joinSubscriptionsToGroups();
         TC.deleteAllSubscriptions();
         TC.joinAccountsToAEs();
         TC.clearSubscriptionsProcessed();
 
+        
+        TC.postSubscriptionNumbersToSKUs();
+        TC.createWhiteSpaceFromRows();
+        TC.createWhiteSpaceFromSubscriptions();
+        TC.deleteAllWhiteSpace();
+        TC.getWhiteSpace();
+        TC.createWhiteSpaceRecords();
+
+
         TC.LoadSKUs();
         TC.LoadGroups();
         TC.LoadWhiteSpace();
-        
-
+        TC.getManagers();
+        TC.plus();
     }
 }
