@@ -1,18 +1,48 @@
 public with sharing class findLinks {
     
     @AuraEnabled(cacheable=true) 
-    public static LIST<AE__c> getAEs() {
-        LIST<AE__c> AEs = [SELECT id, Name, Region__c, Manager__c, APOid__c, Created_Source__c
+    public static LIST<AE__c> getAEs(){ // string managerName) {
+        /*LIST<AE__c> AEs = [SELECT id, Name, Region__c, Manager__c, APOid__c, Created_Source__c
                            FROM AE__c 
                            WHERE Active__c=true
                            ORDER BY Name];
-       return AEs;
+       return AEs;*/
+       // string managerName = 'Paul Fox';
+       string q = 'SELECT id, Name, Region__c, Manager__c, APOid__c, Created_Source__c ' +
+                   ' FROM AE__c ' +
+                   ' WHERE Active__c=true ';
+                   /*
+                   if ( managerName != '' ) {
+                      q += ' AND Manager__c =\'' + managerName + '\' ';
+                   }*/
+                   q += ' ORDER BY Name ';
+       return Database.query(q);
+    }
+
+    @AuraEnabled(cacheable=true) 
+    public static LIST<AE__c> getManagers() {
+        LIST<AE__c> AEs = [SELECT id, Manager__c FROM AE__c  WHERE Active__c=true ORDER BY Manager__c];
+        Set<String> managers = new Set<String>();
+        for (Integer i = 0; i< aes.size(); i++)
+        {
+            managers.add(aes[i].Manager__c); // contains distict managers
+        }
+        LIST<AE__c> managerAEs = new LIST<AE__c>();
+        For ( String s : managers ){
+            if ( s!=null && s!='') {
+                AE__c ae = new AE__c();
+                ae.Manager__c = s;
+                managerAEs.add(ae);
+            }
+        }
+        return managerAEs;
     }
 
     @AuraEnabled(cacheable=true) 
     public static LIST<Account> getAccounts(id aeId) {
-        LIST<Account> Accounts = [SELECT id, Name, Type, URL__c, APOAccountOwner__c,
-                                Created_Source__c // AE__c, AE__r.id, 
+        LIST<Account> Accounts = [SELECT id, Name, Type, URL__c, APOAccountOwner__c, 
+                                Created_Source__c, Contract_Expiration__c, Multiple_Contracts__c, APOContractId__c, // AE__c, AE__r.id, 
+                                Subscription_Total__c
                            FROM Account 
                            WHERE AE__r.id = :aeId
                            ORDER BY Name];
@@ -51,7 +81,7 @@ public with sharing class findLinks {
             Incremental__c, IncrementalString__c,
             Close_Date__c, CloseString__c,
             Forecast__c, Stage__c, Type__c,
-            Owner_Name__c
+            Owner_Name__c, 
         FROM Opp__c 
         WHERE Account__c = :accountId  // account id in this Salesforce, not APO's
         ORDER BY Name ]; 
@@ -157,6 +187,8 @@ public with sharing class findLinks {
         }
         return wsGroups;
     }
+
+
 
 
     // GET LINKS

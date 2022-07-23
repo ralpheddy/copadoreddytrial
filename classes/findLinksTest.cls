@@ -3,7 +3,12 @@
 private class findLinksTest {
 
     static testMethod void runLinks() {
-
+        
+        AE__c ae = new AE__c(); 
+        ae.name = 'name';
+        ae.Manager__c = 'm';
+        insert ae;
+        
         string searchValueTest = 'sm';
         findLinks.getLinks(searchValueTest,true,searchValueTest);
 
@@ -16,5 +21,7 @@ private class findLinksTest {
         findLinks.getOpps(fakeId, fakeId, true);
         findLinks.getOppRows(SearchUsingId);
         findLinks.getWSGroups(SearchUsingId);
+
+        findLinks.getManagers();
     }
 }

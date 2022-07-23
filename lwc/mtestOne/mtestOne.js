@@ -1,6 +1,7 @@
 import { LightningElement } from 'lwc';
 
 import findAEs from '@salesforce/apex/findLinks.getAEs';
+import findManagers from '@salesforce/apex/findLinks.getManagers';
 import findAccounts from '@salesforce/apex/findLinks.getAccounts';
 import findSubscriptions from '@salesforce/apex/findLinks.getSubscriptions';
 import findOpps from '@salesforce/apex/findLinks.getOpps';
@@ -15,6 +16,9 @@ export default class MtestOne extends LightningElement {
     aeSelectedName;
     aeSelectedlOriginalID;
     aeSelectedPreviousItem;
+    seeManagers;
+    managerSelected;
+    managers;
     manager;
     accounts;
     accountSelectedId;
@@ -43,6 +47,17 @@ export default class MtestOne extends LightningElement {
     closeModal() {
         this.isModalOpen = false;
     }
+    showManagers(){
+        if ( this.seeManagers == true ) this.seeManagers = false;
+        else this.seeManagers = true;
+    }
+    myManager(event){
+        this.showManagers();
+        this.managerSelected = event.target.dataset.item;
+        this.manager = this.managerSelected;
+        this.loadAEs();
+    }
+
 
     aeSelected(event){
         // alert(event.target.dataset.item);
@@ -149,13 +164,39 @@ export default class MtestOne extends LightningElement {
     }
 
     loadAEs(event) {
-        findAEs() 
+        // alert("1");
+        findAEs()  // findAEs({managerName: this.manager}) 
             .then((result) => {
                 this.aes = result;
                 this.error = undefined;
             })
             .catch((error) => {
                 this.aes = undefined;
+                this.error = error;
+                this.errorString = '';
+                if (Array.isArray(error.body)) {
+                    // error.body.map((e) => e.message);
+                    this.errorString += 'ARRAY';
+                }
+                if (error.body && typeof error.body.message === 'string') {
+                    this.errorString += error.body.message;
+                }
+                if (typeof error.message === 'string') {
+                    this.errorString += error.message;
+                }
+                this.errorString += ' : ' + error.statusText;
+                this.showError = 'Error: ' + this.errorString;
+            });
+    }
+
+    loadManagers(event) {
+        findManagers() 
+            .then((result) => {
+                this.managers = result;
+                this.error = undefined;
+            })
+            .catch((error) => {
+                this.managers = undefined;
                 this.error = error;
                 this.errorString = '';
                 if (Array.isArray(error.body)) {
@@ -336,6 +377,7 @@ export default class MtestOne extends LightningElement {
 
     connectedCallback() {
         this.loadAEs();
+        this.loadManagers();
         // this.searchAccounts();
         // this.accountSelectedId = "0010100000SoV7dAAF";
         // this.searchsSubscriptions();
@@ -349,6 +391,9 @@ export default class MtestOne extends LightningElement {
         this.firstAEclick = false;
         this.firstAccountClick = false;
         this.isModalOpen = false;
+        this.seeManagers = false;
+        this.managerSelected = "";
+        this.manager = "";
         this.longText = "Email from Thiago: Unfortunately I do not have good news. We are facing a delay in the implementation in Brazil and already had a budget cut in 2021 for the implementation of the project itself. Of course it is still the beginning of the year and it...";
     }
 }
