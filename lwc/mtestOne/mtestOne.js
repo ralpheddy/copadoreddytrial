@@ -8,6 +8,7 @@ import findOpps from '@salesforce/apex/findLinks.getOpps';
 import findOppRows from '@salesforce/apex/findLinks.getOppRows';
 // import findWhiteSpace from '@salesforce/apex/findLinks.getWhiteSpace';
 import getWSGroups from '@salesforce/apex/findLinks.getWSGroups';
+import getOneLostRow from '@salesforce/apex/findLinks.getLostRow';
 
 export default class MtestOne extends LightningElement {
     version = 0.1;
@@ -33,19 +34,42 @@ export default class MtestOne extends LightningElement {
     oppRows;
     whitespaces; // not using
     wsGroups; // the actual whitespace
+    lostRowIdFromWS;
+    lostRowRecord;
     showError;
     testing;
     firstAEclick;
     firstAccountClick;
     myObject;
     isModalOpen;
+    isLoadingShowing;
     longText;
 
-    openModal() {
-        this.isModalOpen = true;
+    async openModal2() {
+        
+        // alert("OK");
+        // setTimeout(this.openModal, 8000);
+        this.isLoadingShowing = this.aes;
+        try {
+            await this.getLostRowRecord();
+        } catch (error) {
+            this.error = error;
+        } finally {
+            this.isModalOpen = true;
+            this.isLoadingShowing = [];
+        }
+        
+    }
+
+    openModal() { 
+        // this.getLostRowRecord();
+        //if ( this.lostRowRecord != null ) {
+            this.isModalOpen = true;
+        //}
     }
     closeModal() {
         this.isModalOpen = false;
+        // this.lostRowRecord = null;
     }
     showManagers(){
         if ( this.seeManagers == true ) this.seeManagers = false;
@@ -56,6 +80,12 @@ export default class MtestOne extends LightningElement {
         this.managerSelected = event.target.dataset.item;
         this.manager = this.managerSelected;
         this.loadAEs();
+        this.clearAccounts();
+        this.accountSelectedId = ""; 
+        this.clearSubscriptions();
+        this.clearOpps();
+        this.clearOppRows(); 
+        this.clearWsGroups();
     }
 
 
@@ -102,21 +132,21 @@ export default class MtestOne extends LightningElement {
         // alert(event.target.dataset.type);
         if ( event.target.dataset.type == "Prospect" ) {
             this.clearSubscriptions();
-            // this.clearWsGroups();
+            this.clearWsGroups();
         } else {
             this.searchsSubscriptions();
+            this.getWhiteSpaceGroups(); 
         }
         this.oppsSearchAllForAE = false;
         this.searchOpps();
         this.clearOppRows();
-        this.getWhiteSpaceGroups();
+        
         
         // event.target.parentElement.style.backgroundColor = "green";
         // event.target.parentElement.style.color = "white";
         
         // alert(myObject);
         if ( this.firstAccountClick == true ) { 
-            
             //alert(myObject);
             //myObject.style.removeProperty('background-color');
             //alert("fail");
@@ -144,6 +174,14 @@ export default class MtestOne extends LightningElement {
         }
     }
 
+    clearAccounts(){
+        this.accounts = [];
+        this.accountSelectedId = "";
+        this.accountSelectedNameOpp = "";
+        this.accountSelectedNameSub = "";
+        this.accountSelectedPreviousItem = "";
+        this.aeSelectedName = "";
+    }
     clearSubscriptions(){
         this.accountSelectedNameSub = "";
         this.subscriptions = [];
@@ -165,7 +203,7 @@ export default class MtestOne extends LightningElement {
 
     loadAEs(event) {
         // alert("1");
-        findAEs()  // findAEs({managerName: this.manager}) 
+        findAEs({managerName: this.manager}) // findAEs()
             .then((result) => {
                 this.aes = result;
                 this.error = undefined;
@@ -375,6 +413,33 @@ export default class MtestOne extends LightningElement {
         });
     }
 
+    getLostRowRecord(event){ 
+        getOneLostRow({lostRowId: this.lostRowIdFromWS})
+        .then((result) => {
+            this.lostRowRecord = result;
+            // alert("hi");
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.lostRowRecord = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+
     connectedCallback() {
         this.loadAEs();
         this.loadManagers();
@@ -386,13 +451,16 @@ export default class MtestOne extends LightningElement {
         // this.accountSelectedId = "0010100000TJrvEAAT";
         // this.searchWhiteSpace();
 
-        this.accountSelectedId = "";
+        // this.lostRowIdFromWS = "a0901000003znBfAAI"
+        // this.accountSelectedId = "0010100000TLtO1AAL"; // ACN
+        // this.getWhiteSpaceGroups();
+        // this.getLostRowRecord();
+        // this.lostRowRecord.Opportunity_Name__c = "Opp Name";
         this.oppsSearchAllForAE = ""; // set to empty string
         this.firstAEclick = false;
         this.firstAccountClick = false;
         this.isModalOpen = false;
         this.seeManagers = false;
-        this.managerSelected = "";
         this.manager = "";
         this.longText = "Email from Thiago: Unfortunately I do not have good news. We are facing a delay in the implementation in Brazil and already had a budget cut in 2021 for the implementation of the project itself. Of course it is still the beginning of the year and it...";
     }
