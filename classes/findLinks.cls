@@ -1,20 +1,20 @@
 public with sharing class findLinks {
     
     @AuraEnabled(cacheable=true) 
-    public static LIST<AE__c> getAEs(){ // string managerName) {
+    public static LIST<AE__c> getAEs(string managerName){ // string managerName) {
         /*LIST<AE__c> AEs = [SELECT id, Name, Region__c, Manager__c, APOid__c, Created_Source__c
                            FROM AE__c 
                            WHERE Active__c=true
                            ORDER BY Name];
        return AEs;*/
-       // string managerName = 'Paul Fox';
+       // managerName = 'Paul Fox';
        string q = 'SELECT id, Name, Region__c, Manager__c, APOid__c, Created_Source__c ' +
                    ' FROM AE__c ' +
                    ' WHERE Active__c=true ';
-                   /*
-                   if ( managerName != '' ) {
+                   
+                   if ( managerName != null && managerName != '' && managerName != 'All' ) {
                       q += ' AND Manager__c =\'' + managerName + '\' ';
-                   }*/
+                   }
                    q += ' ORDER BY Name ';
        return Database.query(q);
     }
@@ -136,7 +136,7 @@ public with sharing class findLinks {
                                 Sales_Price__c, SalesPriceString__c,
                                 Total__c, TotalString__c,
                                 Incremental__c, IncrementalString__c,
-                                SKU__C, Group__c, GroupName__c
+                                SKU__c, Group__c, GroupId__c, GroupName__c
                                 // Product_Code__c, Owner_Role__c, Next_Step__c
                            FROM OppRow__c 
                            WHERE Opp__c = :oppSelectedId  // oppSelectedId id in this Salesforce, not APO's
@@ -157,13 +157,32 @@ public with sharing class findLinks {
        return ws;
     }*/
 
+    @AuraEnabled(cacheable=true) 
+    public static LostRow__c getLostRow(id lostRowId) {
+        LIST<LostRow__c> lrs = [SELECT id, Name, Close_Date__c, 
+                                    APOAccountName__c,
+                                    Lost__c, Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
+                                    Opportunity_Name__c, Total__c,
+                                    SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c
+                                 FROM LostRow__c 
+                                 WHERE id = 'a0901000003znBfAAI' ];
+        LostRow__c lr;
+        if ( lrs.size()>0 ) lr = lrs[0];
+        else {
+            lr = new LostRow__c();
+            lr.Lost_Reason__c = 'ERROR: not found';
+        }
+        return lr;
+    }
+
     
     @AuraEnabled(cacheable=true) 
     public static LIST<Group__c> getWSGroups(id accountId) {
         LIST<Group__c> groups = [SELECT id, Name, OppTotal__c, OppTotalString__c, SubTotal__c, SubTotalString__c, showHasLost__c
                                  FROM Group__c
                                  ORDER BY SortOrder__c];
-        System.Debug(accountId); // accountId = '0010100000TK6zz'; 
+        System.Debug(accountId); // 
+        // accountId = '0010100000TXOJy'; 
         LIST<WhiteSpace__c> wsAccount = [SELECT id, name, Account__c, Group__c, GroupName__c, 
                                                 OppTotal__c, OppQuantity__c, SubTotal__c, SubQuantity__c,
                                                 hasLost__c, showHasLost__c, Test__c

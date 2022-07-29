@@ -4,15 +4,42 @@
 <style>
     .button{ width:200px;}
     #wrapper { font-weight:bold; background-color:#dddddd; border:0px solid blue; color:#C80000;}
-    .toolsBox { display:block; float:left; width:250px; height:540px;  background-color:#dddddd; border-radius:10px; 
+    .toolsBox { display:block; float:left; width:244px; height:540px;  background-color:#dddddd; border-radius:10px; 
                 box-shadow:4px 4px 4px #888888; text-align:center; padding-top:10px; padding-bottom:10px; margin-right:16px; margin-bottom:10px;}
     #OppTools {  }
     #SFTools {  }
     #OppRowsTools { }
     .toolTitle { font-weight:normal; color:blue; font-size:16px; text-shadow:1px 1px #888888;}
     .importLabel { font-weight:bold; color:black; }
+    .spinnerBg{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-color: #000;
+        opacity: 0.2;
+        z-index: 999999;
+    }
+    .spinner{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-image: url("/img/loading32.gif");
+        background-size: 16px;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        z-index: 9999999;
+        opacity: 1;
+    }
 </style>
 
+<apex:actionStatus id="spinnerStatus">
+    <apex:facet name="start">
+        <div class="spinnerBg" />
+        <div class="spinner" />
+    </apex:facet>
+</apex:actionStatus>
+    
 <center>{!comment}</center><br/>
 
 <div id="wrapper">
@@ -48,7 +75,7 @@
         <br/>
         <apex:commandButton action="{!deleteAllOpps}" value="Delete All Opps" styleClass="button" />&nbsp;{!countDeletedOpps}<br/>
         <br/>
-        <apex:commandButton action="{!CreateOppsFromRows}" value="Create Opps" styleClass="button" />&nbsp;{!countCreatedOpps}<br/>
+        <apex:commandButton action="{!CreateOppsFromRows}" value="Create Opps" styleClass="button" status="spinnerStatus" />&nbsp;{!countCreatedOpps}<br/>
         {!commentOppsProcessed}<br/>
         <br/>
         <hr/>
@@ -56,7 +83,6 @@
         <apex:commandButton action="{!deleteAllOppRows}" value="Delete All OppRows" styleClass="button" />&nbsp;{!countDeletedOppRows}<br/>
         <br/>
         <apex:commandButton action="{!joinOppRowsToOpps}" value="Join OppRows To Opps" styleClass="button" />&nbsp;{!countJoinOppRowsToOpps}<br/>
-        <br/>
         <br/>
         <apex:commandButton action="{!joinOppRowsToAccounts}" value="Join OppRows To Accounts" styleClass="button" /><br/>
         {!commentJoinOppRowsToAccount}<br/>
@@ -96,6 +122,8 @@
     <div id="xOppTools" class="toolsBox">
         <div class="toolTitle">SKUs &amp; Groups</div>
         <br/>
+        <apex:commandButton action="{!clearSKUTotals}" value="Clear SKU Totals" styleClass="button" />&nbsp;{!countClearSKUTotals}<br/>
+        <br/>
         <apex:commandButton action="{!postOppRowNumbersToSKUs}" value="Post OppRow Numbers to SKUs" styleClass="button" /><br/>
         {!commentPostOppRowNumbersToSKUs}<br/>
         <br/>
@@ -106,11 +134,11 @@
         <br/>
         <hr/>
         <br/>
-        <!--<apex:commandButton action="{!createWhiteSpaceRecords}" value="Create Whitespaces Records" styleClass="button" disabled="true" /><br/>
-        {!commentCreateWhitespace}<br/>
+        <div class="toolTitle">Whitespace</div>
         <br/>
-        <br/>-->
-        <apex:commandButton action="{!createWhiteSpaceFromRows}" value="Create Whitespaces from OppRows" styleClass="button" /><br/>
+        <apex:commandButton action="{!deleteAllWhiteSpace}" value="Delete All Whitespaces" styleClass="button" disabled="false" />&nbsp;{!deleteWhiteSpace}<br/>
+        <br/>
+        <apex:commandButton action="{!createWhiteSpaceFromRows}" value="Create Whitespace from OppRows" styleClass="button" /><br/>
         {!commentOppRowsCreateWhitespace}<br/>
         <br/>
         <br/>
@@ -118,36 +146,52 @@
         {!commentSubscriptionsCreateWhitespace}<br/>
         {!mydebug}
         <br/>
-        <br/>
-        <apex:commandButton action="{!deleteAllWhiteSpace}" value="Delete All Whitespaces" styleClass="button" disabled="false" />&nbsp;{!deleteWhiteSpace}<br/>
+        
         <br/>
         
     </div>
     
     <div id="xOppTools" class="toolsBox">
-        <div class="toolTitle">Utilities</div>
-        <br/>
-        <apex:commandButton action="{!clearOppRowProcessed}" value="Clear OppRow Processed" styleClass="button" />&nbsp;{!countClearProcessed}<br/>
-        <br/>
-        <apex:commandButton action="{!clearSubscriptionsProcessed}" value="Clear Subscriptions Processed" styleClass="button" />&nbsp;{!countClearProcessedSubs}<br/>
-        <br/>
-        clear accounts processed
-        <br/>
-        delete all WS<br/>
+        <div class="toolTitle">Lost Opportunities</div>
         <br/>
         <input type="text" /><br/>
         <br/>
-        {!tempWScount}
-        <div style="color:black; font-weight:normal;">
-            <apex:repeat value="{!wsGroups}" var="ws">
-                {!ws.Name}{!ws.OppTotal__c}{!ws.SubTotal__c}<br/>
-            </apex:repeat>
-        </div>
-        <div style="color:red; font-weight:normal;">
-            <apex:repeat value="{!wsAccount}" var="wsa">
-                {!wsa.GroupName__c}{!wsa.OppTotal__c}{!wsa.SubTotal__c}<br/>
-            </apex:repeat>
-        </div>
+        <apex:commandButton action="{!joinLostRowsToAccountsSKUs}" value="Join LostRows to Accounts & SKUs" styleClass="button" /><br/>
+        {!commentJoinLostRowsToAccountsSKUs}<br/>
+        <br/>
+        <apex:commandButton action="{!updateLostRowsToWhitespaceHasLost}" value="Update LostRows to Whitespace Lost" styleClass="button" /><br/>
+        {!commentUpdateLostRowsToWhitespaceHasLost}<br/>
+        <br/>
+        
+        <!--
+        <apex:commandButton action="{!createAEsFromLostRows}" value="Create AEs From LostRows" styleClass="button" disabled="false" /><br/>
+        {!commentCreateAEsFromLostRows}<br/>
+        <br/>
+        <apex:commandButton action="{!createAccountsFromLostRows}" value="Create Accounts From LostRows" styleClass="button" disabled="false" /><br/>
+        {!commentCreateAccountsFromLostRows}<br/>
+        <br/>
+        <apex:commandButton action="{!joinLostRowsToSKUs}" value="Join LostRows to SKUs" styleClass="button" disabled="false" /><br/>
+        {!commentJoinLostRowsToSKUs}<br/>
+        <br/>
+        -->
+        <apex:commandButton action="{!deleteLostRows}" value="Delete LostRows" styleClass="button" disabled="false" />&nbsp;{!countDeletedLostRows}<br/>
+        <br/>
+        
+        
+
+        <hr/>
+        <br/>
+        <div class="toolTitle">Utilities</div>
+        <br/>
+        <apex:commandButton action="{!clearOppRowProcessed}" value="Clear OppRows Processed" styleClass="button" />&nbsp;{!countClearProcessed}<br/>
+        <br/>
+        <apex:commandButton action="{!clearSubscriptionsProcessed}" value="Clear Subscriptions Processed" styleClass="button" />&nbsp;{!countClearProcessedSubs}<br/>
+        <br/>
+        <apex:commandButton action="{!clearLostRowsProcessed}" value="Clear LostRows Processed" styleClass="button" />&nbsp;{!countLostRowPropcessedClear}<br/>
+        <br/>
+        
+        <br/>
+        
     </div>
     
     </div>
