@@ -9,6 +9,7 @@ public class toolsController {
     public transient LIST<Group__c> groups {get;set;}
     public transient LIST<Group__c> wsGroups {get;set;}
     public transient LIST<WhiteSpace__c> whitespaces {get;set;}
+    public transient LIST<LostRow__c> lostRows {get;set;}
 
     public string comment {get;set;}
     public boolean found;
@@ -36,6 +37,7 @@ public class toolsController {
     public integer createdJoinSubscriptionsToAccounts {get;set;}
     public string commentSubscriptionsProcessed {get;set;}
     public integer countJoinSubscriptionsToGroups {get;set;}
+    public integer countClearSKUTotals {get;set;}
     
     public integer countJoinOppRowsToAccountTotalProcessed {get;set;}
     public string commentJoinOppRowsToAccount {get;set;}
@@ -55,6 +57,18 @@ public class toolsController {
     public integer deleteWhiteSpace {get;set;}
     public integer managersSize {get;set;}
 
+    public integer countDeletedLostRows {get;set;}
+    public integer countJoinLostRowsToAccountsSKUs{get;set;}
+    public string commentJoinLostRowsToAccountsSKUs{get;set;}
+    public integer countLostRowPropcessedClear {get;set;}
+    public string commentCreateAEsFromLostRows {get;set;}
+    public string commentCreateAccountsFromLostRows {get;set;}
+    public string commentJoinLostRowsToSKUs {get;set;}
+    public string commentJoinLostRowsToAccounts {get;set;}
+    public integer countJoinLostRowsToAccounts {get;set;}
+    public integer countUpdateLostRowsToWhitespaceHasLost {get;set;}
+    public string commentUpdateLostRowsToWhitespaceHasLost {get;set;}
+    
     public integer tempWScount {get;set;}
     public string mydebug {get;set;}
     
@@ -67,6 +81,9 @@ public class toolsController {
         countOppRowsCreateWhitespace = 0;
         countSubscriptionsCreateWhitespace = 0;
         countJoinOppRowsToAccountTotalProcessed = 0;
+        countJoinLostRowsToAccountsSKUs = 0;
+        countJoinLostRowsToAccounts = 0;
+        countUpdateLostRowsToWhitespaceHasLost = 0;
         comment = '';
         
         whitespaces = new LIST<WhiteSpace__c>();
@@ -93,7 +110,7 @@ public class toolsController {
                     Total__c, TotalString__c,
                     Incremental__c, IncrementalString__c,
                     ProcessedOpp__c, ProcessedOppRow__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c,
-                    SKU__c, Group__c, GroupName__c
+                    SKU__c, GroupLink__c, GroupId__c, GroupName__c
                     // Product_Code__c, Owner_Role__c, Next_Step__c
                    FROM OppRow__c 
                    ];
@@ -157,7 +174,8 @@ public class toolsController {
         skus = [SELECT id, Name,
                        Code__c, CopadoFamily__c, CopadoGrouping__c, Group__c, New__c, 
                        Opportunity_ACV__c, Opportunity_Quantity__c, Opportunity_Rows__c,
-                       Subscription_ACV__c, Subscription_Quantity__c, Subscription_Rows__c
+                       Subscription_ACV__c, Subscription_Quantity__c, Subscription_Rows__c,
+                       Group__r.id
                 FROM SKU__c];
     }
     
@@ -174,9 +192,23 @@ public class toolsController {
                               Group__c, GroupName__c, GroupSort__c, Group__r.name,
                               OppTotal__c, OppQuantity__c,
                               SubTotal__c, SubQuantity__c,
-                              hasLost__c, showHasLost__c
+                              hasLost__c, showHasLost__c, LostRowId__c
                        FROM WhiteSpace__c];
                        // WHERE Account__r.Name = 'Abbvie'];
+    }
+    
+    public void LoadLostRows(){ // SEE updateLostRowsToWhitespaceHasLost
+        lostRows = [SELECT id, Name, Product__c,
+                           Account__c, Account_Type__c,
+                           APOAccountId__c, APOAccountName__c, APOOppId__c,
+                           Account_Owner__c, Account_Manager__c,
+                           Close_Date__c, 
+                           Lost__c, Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
+                           Opportunity_Name__c, Total__c,
+                           SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c,
+                           ProcessedJoin__c, ProcessedPostToWS__c
+                    FROM LostRow__c ];
+                    // WHERE  (product__c != null OR product__c != '') ]; // AND ( Account__c != null OR Account__c != '') ];
     }
     
     
@@ -225,10 +257,10 @@ public class toolsController {
         countCreatedAccounts = 0;        
         LIST<Account> newAccounts = new LIST<Account>();
         for (OppRow__c oppRow : oppRows ){
-            string accountAPOid = oppRow.APOAccountId__c;
+            // string accountAPOid = oppRow.APOAccountId__c;
             found = false;
             for (Integer i = 0; i < newAccounts.size(); i++) {
-               if ( accountAPOid.equals(newAccounts[i].APOAccountId__c )) { // already in the new list
+               if ( oppRow.APOAccountId__c.equals(newAccounts[i].APOAccountId__c )) { // already in the new list
                    found = true;
                    i = newAccounts.size() + 1;  // stop the loop
                }
@@ -261,19 +293,30 @@ public class toolsController {
         LoadOppRows();
         LoadAEs();
         LoadAccounts();
+        LoadOpps(); // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         integer countForLoop = 0;
         countCreatedOpps = 0;
         LIST<Opp__c> newOpps = new LIST<Opp__c>();
         for (Integer j = 0; j < oppRows.size(); j++) { // for (OppRow__c oppRow : oppRows ){
             if ( oppRows[j].ProcessedOpp__c == false ) {
-                string APOOppId = oppRows[j].APOOppId__c;
+                // string APOOppId = oppRows[j].APOOppId__c;
                 found = false;
                 for (Integer i = 0; i < newOpps.size(); i++) {
-                   if ( APOOppId.equals(newOpps[i].APOOppId__c )) { // match, already in the new list
+                   if ( oppRows[j].APOOppId__c.equals(newOpps[i].APOOppId__c )) { // match, already in the new list
                        found = true;
                        i = newOpps.size() + 1;  // stop the loop
                    }
                 }
+                
+                if ( found == false ){
+                    for ( Integer k =0; k < opps.size(); k++ ) {
+                        if ( oppRows[j].APOOppId__c.equals(opps[k].APOOppId__c) ) {
+                            found = true;
+                            k = opps.size() + 1; 
+                        }
+                    }
+                }
+                
                 if ( found == false ){ // not found, add it
                     Opp__c opp = new Opp__c();
                     string oppName = oppRows[j].Opportunity_Name__c;
@@ -303,7 +346,7 @@ public class toolsController {
                 }
                 oppRows[j].ProcessedOpp__c = true;
                 countForLoop++;
-                if (countForLoop>999) j = oppRows.size() + 1;  // stop the loop
+                if (countForLoop>899) j = oppRows.size() + 1;  // stop the loop
             }
         }
         countCreatedOppsRunningTotalOppRowsProcessed += countForLoop;
@@ -362,14 +405,15 @@ public class toolsController {
     
     
     public void clearOppRowProcessed(){
-        LIST<OppRow__c> ops = [select id, ProcessedOpp__c, ProcessedOppRow__c from OppRow__c];
-        for (OppRow__c op : ops ){
-            op.ProcessedOpp__c = false;
-            op.ProcessedOppRow__c = false;
-            op.ProcessedWhiteSpace__c = false;
+        LIST<OppRow__c> oprs = [select id, ProcessedOpp__c, ProcessedOppRow__c from OppRow__c];
+        for (OppRow__c opr : oprs ){
+            opr.ProcessedOpp__c = false;
+            opr.ProcessedOppRow__c = false;
+            opr.ProcessedWhiteSpace__c = false;
+            opr.ProcessedAccountJoin__c = false; 
         }
-        countClearProcessed = ops.size();
-        update ops;
+        countClearProcessed = oprs.size();
+        update oprs;
     }
 
     public void createAEsFromSubscriptions(){
@@ -498,7 +542,7 @@ public class toolsController {
                 }
                 countForLoop++;
             }
-            if (countForLoop>999) j = subscriptions.size() + 1;  // stop the loop
+            if (countForLoop>499) j = subscriptions.size() + 1;  // stop the loop
         }
         countJoinSubscriptionsRunningTotalProcessed+= countForLoop;
 
@@ -558,6 +602,19 @@ public class toolsController {
         update subs;
     }
     
+    public void clearSKUTotals(){
+        LoadSKUs();
+        for ( SKU__c sku : skus ) {
+            sku.Opportunity_ACV__c = 0;
+            sku.Opportunity_Quantity__c = 0;
+            sku.Opportunity_Rows__c = 0;
+            sku.Subscription_ACV__c = 0;
+            sku.Subscription_Quantity__c = 0;
+            sku.Subscription_Rows__c = 0;
+        }
+        countClearSKUTotals = skus.size();
+        update skus;
+    }
     
     public void postOppRowNumbersToSKUs(){
         LoadOppRows();
@@ -568,6 +625,7 @@ public class toolsController {
                 for (Integer i = 0; i < skus.size(); i++) {
                     if (oppRows[j].Product__c == skus[i].Name){
                         oppRows[j].SKU__c = skus[i].id;
+                        oppRows[j].GroupLink__c = skus[i].Group__r.id;
                         if ( skus[i].Opportunity_ACV__c == null ) skus[i].Opportunity_ACV__c = 0;
                         if ( skus[i].Opportunity_Quantity__c == null ) skus[i].Opportunity_Quantity__c = 0;
                         if ( skus[i].Opportunity_Rows__c == null ) skus[i].Opportunity_Rows__c = 0;
@@ -616,52 +674,37 @@ public class toolsController {
         update subscriptions;
     } 
     
-    // Account__c, Group__c, OppTotal__c, OppQuantity__c, SubTotal__c, SubQuantity__c
-    public void createWhiteSpaceRecords(){
-        commentCreateWhitespace = '';
-        // LoadWhiteSpace();
-        /*
-        LoadGroups();
-        LoadAccounts();
-        LIST<WhiteSpace__c> newWS = new LIST<WhiteSpace__c>();
-        for (Integer j = 0; j < accounts.size(); j++) {
-            if ( accounts[j].CreateWSProcessed__c == false ) {
-                for (Integer k = 0; k < groups.size(); k++) {
-                    // boolean found = false;
-                    // for (Integer i = 0; i < newWS.size(); i++) {
-                    //     if ( accounts[j].id == newWS[i].Account__c && groups[k].id == newWS[i].Group__c) found = true;
-                    // }
-                    // if ( found == false ) {
-                        WhiteSpace__c ws = new WhiteSpace__c();
-                        ws.Account__c = accounts[j].id;
-                        ws.Group__c = groups[k].id;
-                        newWS.add(ws);
-                        countCreateWhitespace++;
-                    // }
-                }
-                accounts[j].CreateWSProcessed__c = true;
-                countCreateWhitespaceAccountsProcessed++;
-            }
-            if ( countCreateWhitespace > 8000 ) j = accounts.size() + 1;
-        }
-        commentCreateWhitespace = 'Ws: ' + countCreateWhitespace + ' - Accounts: ' + countCreateWhitespaceAccountsProcessed + ' of ' + accounts.size(); //  + ' ' + groups.size();
-        update accounts;
-        insert newWS;
-        */
-    }
+
     
     
     
     
     public void createWhiteSpaceFromRows(){
-        LoadOppRows();
+        // LoadOppRows();
+        oppRows = [SELECT id, Name, 
+                    Account__c, APOAccountId__c, APOAccountName__c, Account_Type__c,
+                    ACV_APO__c, ACV_APOString__c, ACVcalculated__c, Amount__c,
+                    Opportunity_Name__c, Opp__c, APOOppId__c,
+                    Account_Owner__c, Account_Manager__c,
+                    Owner_Name__c, 
+                    Close_Date__c, CloseString__c,
+                    Forecast__c, Stage__c, Type__c,
+                    Product__c, Quantity__c, QuantityString__c, 
+                    Sales_Price__c, SalesPriceString__c,
+                    Total__c, TotalString__c,
+                    Incremental__c, IncrementalString__c,
+                    ProcessedOpp__c, ProcessedOppRow__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c,
+                    SKU__c, GroupLink__c, GroupId__c, GroupName__c
+                    // Product_Code__c, Owner_Role__c, Next_Step__c
+                   FROM OppRow__c 
+                   WHERE (GroupLink__c != null OR GroupLink__c != '') ];
         LIST<WhiteSpace__c> newWS = new LIST<WhiteSpace__c>();
         integer countWSUpdates = 0;
         for (Integer j = 0; j < oppRows.size(); j++) {
             if ( oppRows[j].ProcessedWhiteSpace__c == false ) {
                 boolean found = false;
                 for (Integer i = 0; i < newWS.size(); i++) {
-                    if ( oppRows[j].Account__c==newWS[i].Account__c && oppRows[j].Group__c==newWS[i].Group__c ){ // found
+                    if ( oppRows[j].Account__c.equals(newWS[i].Account__c) && oppRows[j].GroupLink__c==newWS[i].Group__c ){ // found
                         found = true;
                         if ( newWS[i].OppTotal__c == null ) newWS[i].OppTotal__c = 0;
                         if ( newWS[i].OppQuantity__c == null ) newWS[i].OppQuantity__c = 0;
@@ -674,14 +717,14 @@ public class toolsController {
                 if ( found == false ) {
                     WhiteSpace__c ws = new WhiteSpace__c();
                     ws.Account__c = oppRows[j].Account__c;
-                    ws.Group__c = oppRows[j].Group__c;
+                    ws.Group__c = oppRows[j].GroupLink__c;
                     ws.OppTotal__c = oppRows[j].Total__c;
                     ws.OppQuantity__c = oppRows[j].Quantity__c;
                     newWS.add(ws);
                     countWSUpdates++;
                 } 
                 oppRows[j].ProcessedWhiteSpace__c = true;
-                if (countWSUpdates > 999) j = oppRows.size() +1;
+                if (countWSUpdates > 899) j = oppRows.size() +1;
             }
         }
         countOppRowsCreateWhitespace += countWSUpdates;
@@ -703,7 +746,7 @@ public class toolsController {
                 boolean found = false;
                 
                 for (Integer i = 0; i < whitespaces.size(); i++) { // do we already have a workspace record?
-                     if ( subscriptions[j].Account__c==whitespaces[i].Account__c && subscriptions[j].Group__c==whitespaces[i].Group__c){
+                     if ( subscriptions[j].Account__c.equals(whitespaces[i].Account__c) && subscriptions[j].Group__c==whitespaces[i].Group__c){
                         if ( whitespaces[i].SubTotal__c == null ) whitespaces[i].SubTotal__c = 0;
                         if ( whitespaces[i].SubQuantity__c == null ) whitespaces[i].SubQuantity__c = 0;
                         whitespaces[i].SubTotal__c += subscriptions[j].Total__c;
@@ -717,7 +760,7 @@ public class toolsController {
                 
                 if ( found == false ) {
                     for (Integer k = 0; k < newWS.size(); k++) {
-                        if ( subscriptions[j].Account__c==newWS[k].Account__c && subscriptions[j].Group__c==newWS[k].Group__c ){ // found
+                        if ( subscriptions[j].Account__c.equals(newWS[k].Account__c) && subscriptions[j].Group__c==newWS[k].Group__c ){ // found
                             if ( newWS[k].SubTotal__c == null ) newWS[k].SubTotal__c = 0;
                             if ( newWS[k].SubQuantity__c == null ) newWS[k].SubQuantity__c = 0;
                             newWS[k].SubTotal__c += subscriptions[j].Total__c;
@@ -739,7 +782,7 @@ public class toolsController {
                 
                 subscriptions[j].ProcessedWhiteSpace__c = true;
                 countWSUpdates++;
-                if (countWSUpdates > 400) j = subscriptions.size() +1;
+                if (countWSUpdates > 399) j = subscriptions.size() +1;
             } // if false
         }
         countSubscriptionsCreateWhitespace += countWSUpdates;
@@ -792,6 +835,217 @@ public class toolsController {
             managers.add(aes[i].Manager__c); // contains distict managers
         }
         managersSize = managers.size();
+    }
+    
+    public void joinLostRowsToAccountsSKUs(){
+        LoadLostRows(); // Name, Product__c, 
+                        // Account__c, APOAccountId__c, APOAccountName__c, APOOppId__c,
+                        // Close_Date__c, 
+                        // Lost__c, Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
+                        // Opportunity_Name__c, Total__c,
+                        // SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c
+
+        LoadAccounts();
+        LoadSKUs();
+        integer countLostRowsProcessed = 0;
+        for (Integer j = 0; j < lostRows.size(); j++) {
+            if ( lostRows[j].ProcessedJoin__c == false ) {
+                for (Integer i = 0; i < accounts.size(); i++) {
+                    if ( lostRows[j].APOAccountId__c.equals(accounts[i].APOAccountId__c) ) {
+                        lostRows[j].Account__c = accounts[i].id;
+                        i = accounts.size() + 1;
+                    }
+                }
+                for (Integer k = 0; k < skus.size(); k++) {
+                    if ( lostRows[j].Product__c == skus[k].name ) {
+                        lostRows[j].SKU__c = skus[k].id;
+                        lostRows[j].Group__c = skus[k].Group__c;
+                        k = skus.size() + 1;
+                    }
+                }
+                lostRows[j].ProcessedJoin__c = true;
+                countLostRowsProcessed++;
+                if ( countLostRowsProcessed >499 ) j = lostRows.size() + 1;
+            }
+        }
+        countJoinLostRowsToAccountsSKUs += countLostRowsProcessed;
+        commentJoinLostRowsToAccountsSKUs = countLostRowsProcessed + ' of ' + countJoinLostRowsToAccountsSKUs + ' of ' + lostRows.size();
+        update lostRows;
+    }
+    
+    /*public void createAEsFromLostRows(){
+        LoadAEs();
+        LoadLostRows();
+        LIST<AE__c> newAEs = new LIST<AE__c>();
+        countCreatedAEs = 0;
+        for ( LostRow__c lostRow : lostRows ){
+            boolean found = false;
+            for (Integer i = 0; i < aes.size(); i++) {
+                if ( lostRow.Account_Owner__c == aes[i].Name ){
+                    found = true;
+                    i = aes.size() + 1;
+                }
+            }
+            if ( found == false ){
+                for ( Integer k = 0; k < newAEs.size(); k++ ) {
+                    if ( lostRow.Account_Owner__c == newAEs[k].Name ) {
+                        k = newAEs.size() + 1;
+                        found = true;
+                    }
+                }
+            }
+            if ( found == false ){
+                AE__c ae = new AE__c();
+                ae.Name = lostRow.Account_Owner__c;
+                ae.Manager__c = lostRow.Account_Manager__c;
+                ae.Created_Source__c = 'Lost';
+                newAEs.add(ae);
+            }
+        }
+        commentCreateAEsFromLostRows = 'Created ' + newAEs.size() + ' in ' + lostRows.size();
+        insert newAEs;
+    }*/
+              
+    /*public void createAccountsFromLostRows(){
+        LoadLostRows();
+        LoadAEs();
+        LoadAccounts();
+        LIST<Account> newAccounts = new LIST<Account>();
+        for ( LostRow__c lostRow : lostRows ){
+            boolean found = false;    
+            for (Integer i = 0; i < accounts.size(); i++) {
+                if ( lostRow.APOAccountId__c.equals(accounts[i].APOAccountId__c ) ){
+                    found = true;
+                    i = accounts.size() + 1;  
+                }
+                if ( found == false ){
+                    for ( Integer j = 0; j < newAccounts.size(); j++ ){
+                        if ( lostRow.APOAccountId__c.equals(newAccounts[j].APOAccountId__c) ){
+                            found = true;
+                            j = newAccounts.size() + 1;  
+                        }    
+                    }
+                }
+                if ( found == false ){
+                    Account a = new Account();
+                    a.Name = lostRow.APOAccountName__c;
+                    a.APOAccountId__c = lostRow.APOAccountId__c;
+                    a.Type = lostRow.Account_Type__c;
+                    a.Created_Source__c = 'Lost';
+                    for ( AE__c ae : aes ){
+                        if ( ae.Name == lostRow.Account_Owner__c ) a.AE__c = ae.id;
+                    }
+                    newAccounts.add(a);
+                }
+            }
+        }
+        insert newAccounts;
+        commentCreateAccountsFromLostRows = 'Created ' + newAccounts.size() + ' in ' + lostRows.size();
+    }*/
+    
+    
+    /*public void joinLostRowsToAccounts(){
+        LoadLostRows();
+        LoadAccounts();
+        integer countAccountsJoined = 0;
+        for ( LostRow__c lostRow : lostRows ){
+            for (Integer i = 0; i < accounts.size(); i++) {
+                if ( lostRow.APOAccountId__c.equals(accounts[i].APOAccountId__c ) ){
+                    lostRow.Account__c = accounts[i].id;
+                    i = accounts.size() + 1;  
+                    countAccountsJoined++;
+                }
+            }
+        }
+        commentJoinLostRowsToAccounts = 'Joined ' + countAccountsJoined + ' of ' + countJoinLostRowsToAccounts + ' in ' + lostRows.size();
+        update LostRows;
+    }*/
+    
+    /*public void joinLostRowsToSKUs(){
+        LoadLostRows();
+        LoadSKUs();
+        integer countSkusFound = 0;
+        for ( LostRow__c lostRow : lostRows ){
+            for (Integer i = 0; i < skus.size(); i++) {
+                if ( lostRow.Product__c == skus[i].Name ){
+                    lostRow.SKU__c = skus[i].id;
+                    lostRow.Group__c = skus[i].Group__r.id;
+                    i = skus.size() + 1;
+                    countSkusFound++;
+                }
+            }
+        }
+        commentJoinLostRowsToSKUs = 'Joined ' + countSkusFound + ' of ' + lostRows.size();
+        update LostRows;
+    }*/
+    
+
+    
+    /* whitespaces = [SELECT id, Name,
+                      Account__c, Account__r.name,
+                      Group__c, GroupName__c, GroupSort__c, Group__r.name,
+                      OppTotal__c, OppQuantity__c,
+                      SubTotal__c, SubQuantity__c,
+                      hasLost__c, showHasLost__c
+               FROM WhiteSpace__c];
+    */
+    
+    
+    public void updateLostRowsToWhitespaceHasLost(){
+        LoadWhiteSpace();
+        LIST<Whitespace__c> newWhitespace = new LIST<Whitespace__c>();
+        // LoadLostRows();
+        lostRows = [SELECT id, Name, Product__c,
+                           Account__c, Account_Type__c,
+                           APOAccountId__c, APOAccountName__c, APOOppId__c,
+                           Account_Owner__c, Account_Manager__c,
+                           Close_Date__c, 
+                           Lost__c, Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
+                           Opportunity_Name__c, Total__c,
+                           SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c,
+                           ProcessedJoin__c, ProcessedPostToWS__c
+                    FROM LostRow__c
+                    WHERE  ProcessedPostToWS__c = false AND (Group__c != null OR Group__c != '') AND ( Account__c != null OR Account__c != '') 
+                    ORDER BY Close_Date__c ];
+        integer countUpdated = 0;
+        for ( Integer i = 0; i < lostRows.size(); i++ ){
+            for ( Integer j = 0; j < whitespaces.size(); j++ ){
+                if ( lostRows[i].Account__c.equals(whitespaces[j].Account__c) && lostRows[i].Group__c == whitespaces[j].Group__c ){
+                    whitespaces[j].hasLost__c = true;
+                    whitespaces[j].LostRowId__c = lostRows[i].id;
+                    j = whitespaces.size() + 1;
+                }
+            }
+            // newWhitespace - see if in
+            // create Whitespace
+            lostRows[i].ProcessedPostToWS__c = true;
+            countUpdated++;
+            if ( i > 98 ) i = lostRows.size() + 1;
+        }
+        update whitespaces;
+        insert newWhitespace;
+        update lostRows;
+        countUpdateLostRowsToWhitespaceHasLost += countUpdated;
+        commentUpdateLostRowsToWhitespaceHasLost = 'Added ' + newWhitespace.size() + ' Updated ' + countUpdated +
+                                                   ' of ' + countUpdateLostRowsToWhitespaceHasLost + ' in ' + lostRows.size();
+    }
+    
+       
+    public void clearLostRowsProcessed(){
+        LIST<LostRow__c> lrs = [select id, ProcessedJoin__c, ProcessedPostToWS__c from LostRow__c];
+        countLostRowPropcessedClear = 0;
+        for ( LostRow__c lr : lrs ){
+            lr.ProcessedJoin__c = false;
+            lr.ProcessedPostToWS__c = false;
+            countLostRowPropcessedClear++;
+        }
+        update lrs;
+    }
+    
+    public void deleteLostRows(){
+        lostRows = [select id from LostRow__c];
+        countDeletedLostRows = lostRows.size();
+        delete lostRows;
     }
     
     public void plus(){
@@ -1015,7 +1269,6 @@ public class toolsController {
         i++;
         i++;
         i++;
-        i++;i++;
         i++;
         i++;
         i++;
@@ -1675,8 +1928,8 @@ public class toolsController {
         i++;
         i++;
         i++;
-        
+        i++;
+        i++;
     }
-    
     
 }

@@ -10,9 +10,9 @@ private class findLinksTest {
         insert ae;
         
         string searchValueTest = 'sm';
-        findLinks.getLinks(searchValueTest,true,searchValueTest);
-
-        findLinks.getAEs();
+        
+        findLinks.getAEs(searchValueTest);
+        findLinks.getManagers();
 
         id SearchUsingId = 'a0201000002AjoPAAS';
         string fakeId = 'a0201000002AjoPAAS';
@@ -21,7 +21,8 @@ private class findLinksTest {
         findLinks.getOpps(fakeId, fakeId, true);
         findLinks.getOppRows(SearchUsingId);
         findLinks.getWSGroups(SearchUsingId);
+        findLinks.getLostRow(SearchUsingId);
 
-        findLinks.getManagers();
+        findLinks.getLinks(searchValueTest,true,searchValueTest);
     }
 }
