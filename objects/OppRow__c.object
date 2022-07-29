@@ -300,6 +300,17 @@ IF(ACV_APO__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>GroupId__c</fullName>
+        <externalId>false</externalId>
+        <formula>SKU__r.Group__r.Id</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>GroupId</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>GroupName__c</fullName>
         <externalId>false</externalId>
         <formula>SKU__r.Group__r.Name</formula>
@@ -312,14 +323,15 @@ IF(ACV_APO__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
     </fields>
     <fields>
         <fullName>Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <formula>SKU__r.Group__r.Id</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Group</label>
+        <referenceTo>Group__c</referenceTo>
+        <relationshipLabel>OppRows</relationshipLabel>
+        <relationshipName>OppRows</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>IncrementalString__c</fullName>
