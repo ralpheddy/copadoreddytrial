@@ -439,6 +439,7 @@
         <columns>URL__c</columns>
         <columns>APOAccountId__c</columns>
         <columns>APOAccountOwner__c</columns>
+        <columns>Multiple_Contracts__c</columns>
         <filterScope>Everything</filterScope>
         <label>All Accounts</label>
     </listViews>
