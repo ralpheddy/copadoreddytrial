@@ -2,15 +2,15 @@
     <div class="bodyDiv">
 
         <!--<lightning-card title="Manage" icon-name="custom:custom63">-->
-        <div class="version">{version}&nbsp;&nbsp;{showError}-{accountSelectedId}-{aeSelectedId}-{oppsSearchAllForAE}</div>
-        <div class="version2">{aeSelectedlOriginalID}</div>
-        <div><lightning-button variant="brand"
+        <div class="version">{version}<font style="display:none">&nbsp;&nbsp;{showError}-{accountSelectedId}-{aeSelectedId}-{oppsSearchAllForAE}</font></div>
+        <div class="version2" style="display:none">{aeSelectedlOriginalID}</div>
+        <div style="position:absolute; top:2px; left:300px; display:none;"><lightning-button variant="brand"
             label="Modal"
             title="Modal"
-            onclick={openModal}
+            onclick={openModal2}
             class="slds-m-left_x-small"
-            style="position:fixed; top:20px;">
-         </lightning-button></div>
+            >
+         </lightning-button></div> 
 
         <div class="ManagerToggle" onclick={showManagers}>►</div>
         <template if:true={seeManagers}>
@@ -23,6 +23,9 @@
                         </div> 
                     </template>
                 </template> 
+                <div data-item="all" onclick={myManager} class="dataRow rowOver AEListItems " style="padding-right:4px">
+                    All
+                </div> 
             </div>
         </template> 
 
@@ -89,7 +92,10 @@
                                 <td width="27px" class="dataRow tdRight shrinkNumbers" >{subscription.QuantityString__c}</td>
                                 <td width="50px" class="dataRow tdRight shrinkNumbers" >{subscription.PurchaseString__c}</td>
                                 <td width="55px" class="dataRow tdRight shrinkNumbers" >{subscription.TotalString__c}</td>
-                                <td width="58px" class="dataRow tdCenter shrinkNumbers" >{subscription.StartString__c}</td>
+                                <td width="58px" class="dataRow tdCenter shrinkNumbers" >
+                                    <lightning-formatted-date-time value={subscription.Start__c} year="2-digit" month="numeric" day="numeric">
+                                    </lightning-formatted-date-time> 
+                                </td>
                                 <td width="55px" class="dataRow tdCenter shrinkNumbers" >{subscription.EndString__c}</td>
                                 <td width="8px" class="dataRow tdCenter miniNumbers" >{subscription.Contract_Term__c}</td>
                                 <td width="45px" class="dataRow tdCenter miniNumbers" >{subscription.ContractStartString__c}</td>
@@ -194,7 +200,7 @@
                     </tr>
                     <template if:true={wsGroups}>
                         <template for:each={wsGroups} for:item="wsGroup">
-                            <tr key={wsGroup.id}>
+                            <tr key={wsGroup.id} data-item={wsGroup.Name} data-item2={wsGroup.Name} data-product={wsGroup.Name}>
                                 <td class="dataRow wsTDPadding">{wsGroup.Name}</td>
                                 <td class="dataRow tdRight wsTDPadding">
                                     <lightning-formatted-number value={wsGroup.SubTotal__c} format-style="currency" 
@@ -205,7 +211,7 @@
                                                                 minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
                                 </td>
                                 <td onclick={openModal} class="dataRow tdCenter wsTDPadding" 
-                                                        style="font-size:115%; font-family:Salesforce Sans,Arial,sans-serif;">
+                                                        style="font-size:115%; font-family:Salesforce Sans,Arial,sans-serif; cursor:pointer;">
                                     {wsGroup.showHasLost__c}
                                 </td>
                             </tr> 
@@ -230,21 +236,30 @@
                             size="small" ></lightning-icon>
                         <span class="slds-assistive-text">Close</span>
                     </button>
-                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Lost Opportunities</h2>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Lost Opportunity</h2>
                 </header>
                 <!-- Modal/Popup Box LWC body starts here -->
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <p><b>Account: </b>ACN</p>
-                    <p><b>Close Date: </b>12/31/2021</p>
-                    <p><b>Amount: </b><lightning-formatted-number value="80000" format-style="currency" 
-                          minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number></p>
-                    <p><b>Product: </b>CRT, Data Deploy</p>
-                          <br/>
-                    <p><b>Lost Reason: </b>Economical</p>
-                    <p><b>Detail: </b>Gearset</p>
-                    <p><b>Notes:</b><br/>{longText}</p>
-                  </p>
-                </div>
+                    <!--<template if:true={aes}>LOADING...</template>-->
+                    <div style="position: relative; display: none; width: 80px; height: 80px;">
+                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    </div>
+                    <!--<template if:true={lostRowRecord}>-->
+                        <p><b>Opportunity: </b>United Wholesale Mortgage - #CRT</p>
+                        <p><b>Account: </b>United Wholesale Mortgage LLC</p>
+                        <p><b>Close Date: </b>4/4/2022</p>
+                        <p><b>Amount: </b>$84,000
+                            <!--<lightning-formatted-number value={lostRowRecord.Total__c} format-style="currency" 
+                            minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>-->
+                        </p>
+                        <p><b>Product: </b>Copado Robotic Testing Professional Package</p>
+                            <br/>
+                        <p><b>Lost Reason: </b>Priority</p>
+                        <p><b>Detail: </b>Timing</p>
+                        <p><b>Notes:</b><br/>Awaiting Implementation on Platform, will re-open opp once deal timeline is closer.</p>
+                    <!--</template>-->
+                  <!--</p>-->
+                </div> 
                 <!-- Modal/Popup Box LWC footer starts here -->
                 <footer class="slds-modal__footer">
                     <button class="slds-button slds-button_neutral" onclick={closeModal} title="Close">Close</button>
