@@ -311,6 +311,18 @@ IF(ACV_APO__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>GroupLink__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Group</label>
+        <referenceTo>Group__c</referenceTo>
+        <relationshipLabel>OppRows</relationshipLabel>
+        <relationshipName>OppRows</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>GroupName__c</fullName>
         <externalId>false</externalId>
         <formula>SKU__r.Group__r.Name</formula>
