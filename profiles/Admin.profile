@@ -14038,6 +14038,9 @@
         <layout>Global-Global Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Group__c-Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Idea-Idea Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -14204,6 +14207,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visitor-Visitor Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>WhiteSpace__c-WhiteSpace Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>WorkAccess-Access Layout</layout>

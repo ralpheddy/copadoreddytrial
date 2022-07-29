@@ -152,7 +152,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Group__c</field>
+                <field>GroupId__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -169,6 +169,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ProcessedWhiteSpace__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>GroupLink__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
