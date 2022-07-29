@@ -85,7 +85,13 @@ private class toolsControllerTest {
         TC.createWhiteSpaceFromSubscriptions();
         TC.deleteAllWhiteSpace();
         TC.getWhiteSpace();
-        TC.createWhiteSpaceRecords();
+
+
+        
+        TC.joinLostRowsToAccountsSKUs();
+        TC.updateLostRowsToWhitespaceHasLost();
+        TC.clearLostRowsProcessed();
+        TC.deleteLostRows();
 
 
         TC.LoadSKUs();
