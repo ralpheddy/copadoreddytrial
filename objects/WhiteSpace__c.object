@@ -224,6 +224,16 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>LostRowId__c</fullName>
+        <externalId>false</externalId>
+        <label>LostRowId</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>OppQuantity__c</fullName>
         <externalId>false</externalId>
         <label>OppQuantity</label>
