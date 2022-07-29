@@ -136,7 +136,8 @@ public with sharing class findLinks {
                                 Sales_Price__c, SalesPriceString__c,
                                 Total__c, TotalString__c,
                                 Incremental__c, IncrementalString__c,
-                                SKU__c, Group__c, GroupId__c, GroupName__c
+                                SKU__c, GroupLink__c, GroupId__c, GroupName__c
+                                // , 
                                 // Product_Code__c, Owner_Role__c, Next_Step__c
                            FROM OppRow__c 
                            WHERE Opp__c = :oppSelectedId  // oppSelectedId id in this Salesforce, not APO's
