@@ -110,7 +110,7 @@ public class toolsController {
                     Total__c, TotalString__c,
                     Incremental__c, IncrementalString__c,
                     ProcessedOpp__c, ProcessedOppRow__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c,
-                    SKU__c, Group__c, GroupId__c, GroupName__c
+                    SKU__c, GroupLink__c, GroupId__c, GroupName__c
                     // Product_Code__c, Owner_Role__c, Next_Step__c
                    FROM OppRow__c 
                    ];
@@ -625,7 +625,7 @@ public class toolsController {
                 for (Integer i = 0; i < skus.size(); i++) {
                     if (oppRows[j].Product__c == skus[i].Name){
                         oppRows[j].SKU__c = skus[i].id;
-                        oppRows[j].Group__c = skus[i].Group__r.id;
+                        oppRows[j].GroupLink__c = skus[i].Group__r.id;
                         if ( skus[i].Opportunity_ACV__c == null ) skus[i].Opportunity_ACV__c = 0;
                         if ( skus[i].Opportunity_Quantity__c == null ) skus[i].Opportunity_Quantity__c = 0;
                         if ( skus[i].Opportunity_Rows__c == null ) skus[i].Opportunity_Rows__c = 0;
@@ -694,17 +694,17 @@ public class toolsController {
                     Total__c, TotalString__c,
                     Incremental__c, IncrementalString__c,
                     ProcessedOpp__c, ProcessedOppRow__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c,
-                    SKU__c, Group__c, GroupId__c, GroupName__c
+                    SKU__c, GroupLink__c, GroupId__c, GroupName__c
                     // Product_Code__c, Owner_Role__c, Next_Step__c
                    FROM OppRow__c 
-                   WHERE (Group__c != null OR Group__c != '') ];
+                   WHERE (GroupLink__c != null OR GroupLink__c != '') ];
         LIST<WhiteSpace__c> newWS = new LIST<WhiteSpace__c>();
         integer countWSUpdates = 0;
         for (Integer j = 0; j < oppRows.size(); j++) {
             if ( oppRows[j].ProcessedWhiteSpace__c == false ) {
                 boolean found = false;
                 for (Integer i = 0; i < newWS.size(); i++) {
-                    if ( oppRows[j].Account__c.equals(newWS[i].Account__c) && oppRows[j].Group__c==newWS[i].Group__c ){ // found
+                    if ( oppRows[j].Account__c.equals(newWS[i].Account__c) && oppRows[j].GroupLink__c==newWS[i].Group__c ){ // found
                         found = true;
                         if ( newWS[i].OppTotal__c == null ) newWS[i].OppTotal__c = 0;
                         if ( newWS[i].OppQuantity__c == null ) newWS[i].OppQuantity__c = 0;
@@ -717,7 +717,7 @@ public class toolsController {
                 if ( found == false ) {
                     WhiteSpace__c ws = new WhiteSpace__c();
                     ws.Account__c = oppRows[j].Account__c;
-                    ws.Group__c = oppRows[j].Group__c;
+                    ws.Group__c = oppRows[j].GroupLink__c;
                     ws.OppTotal__c = oppRows[j].Total__c;
                     ws.OppQuantity__c = oppRows[j].Quantity__c;
                     newWS.add(ws);
