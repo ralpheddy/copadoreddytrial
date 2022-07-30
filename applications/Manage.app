@@ -6,6 +6,7 @@
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
+    <description>Identify whitespace</description>
     <formFactors>Small</formFactors>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
@@ -21,6 +22,8 @@
     <tabs>Subscription__c</tabs>
     <tabs>OppRow__c</tabs>
     <tabs>Opp__c</tabs>
+    <tabs>Lost__c</tabs>
+    <tabs>LostRow__c</tabs>
     <tabs>Tool</tabs>
     <tabs>Link__c</tabs>
     <tabs>Links</tabs>
@@ -28,8 +31,6 @@
     <tabs>Group__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
-    <tabs>Lost__c</tabs>
-    <tabs>LostRow__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Manage_UtilityBar</utilityBar>
 </CustomApplication>
