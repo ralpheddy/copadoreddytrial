@@ -287,6 +287,14 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Next_Step__c</fullName>
+        <externalId>false</externalId>
+        <label>Next Step</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
         <fullName>Opportunity_Name__c</fullName>
         <externalId>false</externalId>
         <label>Opportunity Name</label>
@@ -354,6 +362,17 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>URL__c</fullName>
+        <externalId>false</externalId>
+        <formula>$Label.CopadoDomain &amp; &quot;/lightning/r/Opportunity/&quot; &amp;  APOOppId__c  &amp; &quot;/view&quot;</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <label>LostRow</label>
     <listViews>
