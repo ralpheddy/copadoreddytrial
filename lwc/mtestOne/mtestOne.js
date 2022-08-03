@@ -11,7 +11,7 @@ import getWSGroups from '@salesforce/apex/findLinks.getWSGroups';
 import getOneLostRow from '@salesforce/apex/findLinks.getLostRow';
 
 export default class MtestOne extends LightningElement {
-    version = 0.1;
+    version = 1.0;
     aes;
     aeSelectedId;
     aeSelectedName;
@@ -44,6 +44,17 @@ export default class MtestOne extends LightningElement {
     isModalOpen;
     isLoadingShowing;
     longText;
+    fakeKey;
+    
+    lostReason;
+    lostAdditionalNotes;
+    lostDetail;
+    lostOppName;
+    lostAccountName;
+    lostCloseDate;
+    lostTotal;
+    lostProduct;
+    lostOppURL;
 
     async openModal2() {
         
@@ -56,16 +67,24 @@ export default class MtestOne extends LightningElement {
             this.error = error;
         } finally {
             this.isModalOpen = true;
-            this.isLoadingShowing = [];
+            // this.isLoadingShowing = [];
         }
         
     }
 
-    openModal() { 
+    openModal(event) { 
         // this.getLostRowRecord();
-        //if ( this.lostRowRecord != null ) {
-            this.isModalOpen = true;
-        //}
+        // alert(event.target.dataset.item2);
+        this.lostReason = event.target.dataset.item2;
+        this.lostAdditionalNotes = event.target.dataset.item3;
+        this.lostDetail = event.target.dataset.item4;
+        this.lostOppName = event.target.dataset.item5;
+        this.lostAccountName = event.target.dataset.item6;
+        this.lostCloseDate = event.target.dataset.item7;
+        this.lostTotal = event.target.dataset.item8;
+        this.lostProduct = event.target.dataset.item9;
+        this.lostOppURL = event.target.dataset.item1;
+        this.isModalOpen = true;
     }
     closeModal() {
         this.isModalOpen = false;
@@ -130,7 +149,7 @@ export default class MtestOne extends LightningElement {
         this.accountSelectedNameSub = event.target.dataset.name;
         // this.testing = event.target.attributes[7].value;
         // alert(event.target.dataset.type);
-        if ( event.target.dataset.type == "Prospect" ) {
+        if ( event.target.dataset.type == "XProspect" ) {
             this.clearSubscriptions();
             this.clearWsGroups();
         } else {
@@ -200,6 +219,7 @@ export default class MtestOne extends LightningElement {
     clearWsGroups(){
         this.wsGroups = [];
     }
+    doNothing(){}
 
     loadAEs(event) {
         // alert("1");
@@ -463,5 +483,6 @@ export default class MtestOne extends LightningElement {
         this.seeManagers = false;
         this.manager = "";
         this.longText = "Email from Thiago: Unfortunately I do not have good news. We are facing a delay in the implementation in Brazil and already had a budget cut in 2021 for the implementation of the project itself. Of course it is still the beginning of the year and it...";
+        this.fakeKey = 'fake';
     }
 }
