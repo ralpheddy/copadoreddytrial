@@ -189,7 +189,11 @@
         <br/>
         <apex:commandButton action="{!clearLostRowsProcessed}" value="Clear LostRows Processed" styleClass="button" />&nbsp;{!countLostRowPropcessedClear}<br/>
         <br/>
-        
+        <apex:commandButton action="{!clearWhitespaceLostFields}" value="Clear Whitespace Lost Fields" styleClass="button" />&nbsp;{!countClearWhitespaceLostFields}<br/>
+        <br/>
+        <br/>
+        <apex:commandButton action="{!TempDeleteSKUsWithoutGroup}" value="Delete SKUs Without Group" styleClass="button" />&nbsp;{!skuWithNoGroup}<br/>
+        <br/>
         <br/>
         
     </div>

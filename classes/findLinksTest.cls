@@ -9,6 +9,14 @@ private class findLinksTest {
         ae.Manager__c = 'm';
         insert ae;
         
+        Group__c g = new Group__c();
+        g.name = 'test';
+        insert g;
+
+        Whitespace__c w = new Whitespace__c();
+        w.Group__c = g.id;
+        insert w;
+
         string searchValueTest = 'sm';
         
         findLinks.getAEs(searchValueTest);
