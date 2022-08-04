@@ -51,7 +51,7 @@
                     <template if:true={accounts}> 
                         <template for:each={accounts} for:item="account"> 
                             
-                                <tr class="rowOver" id={account.Id} key={account.Id} data-item={account.Id}> 
+                            <tr class="rowOver" id={account.Id} key={account.Id} data-item={account.Id}> 
                                 <td width="220px" class="dataRow select" id={account.Id}  data-id={account.Id} 
                                                 data-name={account.Name}  data-type={account.Type} 
                                                 onclick={accountSelected}> 
@@ -116,7 +116,7 @@
         <div class="OppsList">
             <div class="OppListHeader" style="width:1040px;">
                 <table>
-                    <tr>
+                    <tr key={fakeKey}>
                         <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}>All</td>
                         <td width="80%" class="tdCenter">Open Opportunities</td>
                         <td width="10%" class="tdCenter selectAll">&nbsp;</td>
@@ -194,7 +194,7 @@
                 <table border="0" style="width:340px; border-color:#aaaaaa; " cellpadding="3" cellspacing="3">
                     <tr>
                         <td class="WhitespaceTableHeader" style="width:140px; padding-left:4px;">Product Group</td>
-                        <td class="WhitespaceTableHeader" style="width:80px; text-align:right">Own</td>
+                        <td class="WhitespaceTableHeader" style="width:80px; text-align:right">Contract</td>
                         <td class="WhitespaceTableHeader" style="width:80px; text-align:right; padding-right:4px;">Open</td>
                         <td class="WhitespaceTableHeader" style="width:40px; text-align:right; padding-right:4px;">Lost</td>
                     </tr>
@@ -210,7 +210,16 @@
                                     <lightning-formatted-number value={wsGroup.OppTotal__c} format-style="currency" 
                                                                 minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
                                 </td>
-                                <td onclick={openModal} class="dataRow tdCenter wsTDPadding" 
+                                <td onclick={openModal} data-item2={wsGroup.Lost_Reason__c} 
+                                                        data-item3={wsGroup.Lost_Reason_Additional_Notes__c} 
+                                                        data-item4={wsGroup.Lost_Reason_Detail__c} 
+                                                        data-item5={wsGroup.Opportunity_Name__c}
+                                                        data-item6={wsGroup.AccountName__c}
+                                                        data-item7={wsGroup.Close_Date__c}
+                                                        data-item8={wsGroup.LostTotal__c}
+                                                        data-item9={wsGroup.Product__c}
+                                                        data-item1={wsGroup.LostOppURL__c}
+                                                        class="dataRow tdCenter wsTDPadding" 
                                                         style="font-size:115%; font-family:Salesforce Sans,Arial,sans-serif; cursor:pointer;">
                                     {wsGroup.showHasLost__c}
                                 </td>
@@ -245,18 +254,21 @@
                         <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
                     </div>
                     <!--<template if:true={lostRowRecord}>-->
-                        <p><b>Opportunity: </b>United Wholesale Mortgage - #CRT</p>
-                        <p><b>Account: </b>United Wholesale Mortgage LLC</p>
-                        <p><b>Close Date: </b>4/4/2022</p>
-                        <p><b>Amount: </b>$84,000
-                            <!--<lightning-formatted-number value={lostRowRecord.Total__c} format-style="currency" 
-                            minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>-->
+                        <p><b>Opportunity: </b>{lostOppName}</p>
+                        <p><b>Account: </b>{lostAccountName}</p>
+                        <p><b>Close Date: </b>{lostCloseDate}</p>
+                        <p><b>Amount: </b>
+                            <lightning-formatted-number value={lostTotal} format-style="currency" 
+                            minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
                         </p>
-                        <p><b>Product: </b>Copado Robotic Testing Professional Package</p>
+                        <p><b>Product: </b>{lostProduct}</p>
                             <br/>
-                        <p><b>Lost Reason: </b>Priority</p>
-                        <p><b>Detail: </b>Timing</p>
-                        <p><b>Notes:</b><br/>Awaiting Implementation on Platform, will re-open opp once deal timeline is closer.</p>
+                        <p><b>Lost Reason: </b>{lostReason}</p>
+                        <p><b>Detail: </b>{lostDetail}</p>
+                        <p><b>Notes:</b><br/>{lostAdditionalNotes}</p>
+                        <p><br/><a href={lostOppURL} target="_blank" class="linkOver" style="color:blue; font-size:100%" onclick={doNothing}>
+                            View in APO</a>
+                        </p>
                     <!--</template>-->
                   <!--</p>-->
                 </div> 

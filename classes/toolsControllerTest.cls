@@ -87,11 +87,13 @@ private class toolsControllerTest {
         TC.getWhiteSpace();
 
 
-        
+
         TC.joinLostRowsToAccountsSKUs();
         TC.updateLostRowsToWhitespaceHasLost();
+        TC.clearWhitespaceLostFields();
         TC.clearLostRowsProcessed();
         TC.deleteLostRows();
+        
 
 
         TC.LoadSKUs();
