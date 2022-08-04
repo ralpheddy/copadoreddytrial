@@ -68,6 +68,7 @@ public class toolsController {
     public integer countJoinLostRowsToAccounts {get;set;}
     public integer countUpdateLostRowsToWhitespaceHasLost {get;set;}
     public string commentUpdateLostRowsToWhitespaceHasLost {get;set;}
+    public integer countClearWhitespaceLostFields {get;set;}
     
     public integer tempWScount {get;set;}
     public string mydebug {get;set;}
@@ -181,32 +182,37 @@ public class toolsController {
     
     public void LoadGroups(){
         groups = [SELECT id, Name,
-                         OppTotal__c, OppTotalString__c, SubTotal__c, SubTotalString__c, showHasLost__c
+                         OppTotal__c, OppTotalString__c, SubTotal__c, SubTotalString__c, showHasLost__c,
+                         LostOppURL__c
                   FROM Group__c
                   ORDER BY SortOrder__c];
     }
     
     public void LoadWhiteSpace(){
         whitespaces = [SELECT id, Name,
-                              Account__c, Account__r.name,
+                              Account__c, Account__r.name, AccountName__c,
                               Group__c, GroupName__c, GroupSort__c, Group__r.name,
                               OppTotal__c, OppQuantity__c,
                               SubTotal__c, SubQuantity__c,
-                              hasLost__c, showHasLost__c, LostRowId__c
+                              hasLost__c, showHasLost__c, LostRowId__c,
+                              Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
+                              Opportunity_Name__c, Close_Date__c, LostTotal__c, Product__c,
+                              LostOppURL__c
                        FROM WhiteSpace__c];
                        // WHERE Account__r.Name = 'Abbvie'];
     }
     
     public void LoadLostRows(){ // SEE updateLostRowsToWhitespaceHasLost
         lostRows = [SELECT id, Name, Product__c,
-                           Account__c, Account_Type__c,
+                           Account__c, Account_Type__c, Account__r.Name,
                            APOAccountId__c, APOAccountName__c, APOOppId__c,
                            Account_Owner__c, Account_Manager__c,
                            Close_Date__c, 
                            Lost__c, Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
+                           Next_Step__c,
                            Opportunity_Name__c, Total__c,
                            SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c,
-                           ProcessedJoin__c, ProcessedPostToWS__c
+                           ProcessedJoin__c, ProcessedPostToWS__c, URL__c
                     FROM LostRow__c ];
                     // WHERE  (product__c != null OR product__c != '') ]; // AND ( Account__c != null OR Account__c != '') ];
     }
@@ -996,31 +1002,69 @@ public class toolsController {
         LIST<Whitespace__c> newWhitespace = new LIST<Whitespace__c>();
         // LoadLostRows();
         lostRows = [SELECT id, Name, Product__c,
-                           Account__c, Account_Type__c,
+                           Account__c, Account_Type__c, Account__r.Name,
                            APOAccountId__c, APOAccountName__c, APOOppId__c,
                            Account_Owner__c, Account_Manager__c,
                            Close_Date__c, 
                            Lost__c, Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
                            Opportunity_Name__c, Total__c,
                            SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c,
-                           ProcessedJoin__c, ProcessedPostToWS__c
+                           ProcessedJoin__c, ProcessedPostToWS__c, URL__c
                     FROM LostRow__c
                     WHERE  ProcessedPostToWS__c = false AND (Group__c != null OR Group__c != '') AND ( Account__c != null OR Account__c != '') 
-                    ORDER BY Close_Date__c ];
+                    ORDER BY Close_Date__c DESC ];
         integer countUpdated = 0;
         for ( Integer i = 0; i < lostRows.size(); i++ ){
+            boolean found = false;
             for ( Integer j = 0; j < whitespaces.size(); j++ ){
-                if ( lostRows[i].Account__c.equals(whitespaces[j].Account__c) && lostRows[i].Group__c == whitespaces[j].Group__c ){
+                if ( lostRows[i].Account__c.equals(whitespaces[j].Account__c) && lostRows[i].Group__c.equals(whitespaces[j].Group__c) ){
+                    whitespaces[j].Account__c = lostRows[i].Account__c;
+                    whitespaces[j].AccountName__c = lostRows[i].Account__r.Name;
+                    whitespaces[j].Group__c = lostRows[i].Group__c;
+                    whitespaces[j].Opportunity_Name__c = lostRows[i].Opportunity_Name__c;
+                    whitespaces[j].Close_Date__c = lostRows[i].Close_Date__c;
+                    whitespaces[j].LostTotal__c = lostRows[i].Total__c;
+                    whitespaces[j].Product__c = lostRows[i].Product__c;
+                    whitespaces[j].LostOppURL__c = lostRows[i].URL__c;
                     whitespaces[j].hasLost__c = true;
-                    whitespaces[j].LostRowId__c = lostRows[i].id;
+                    whitespaces[j].LostRowId__c = lostRows[i].id; 
+                    whitespaces[j].Lost_Reason__c = lostRows[i].Lost_Reason__c;
+                    whitespaces[j].Lost_Reason_Additional_Notes__c = lostRows[i].Lost_Reason_Additional_Notes__c;
+                    whitespaces[j].Lost_Reason_Detail__c = lostRows[i].Lost_Reason_Detail__c;
                     j = whitespaces.size() + 1;
+                    found = true;
                 }
+            }
+            if ( found == false ){
+                for ( Integer k = 0; k < newWhitespace.size(); k++ ){
+                    if ( lostRows[i].Account__c.equals(newWhitespace[k].Account__c) && lostRows[i].Group__c.equals(newWhitespace[k].Group__c) ){
+                        found = true;
+                        // do nothing, we will only use the first one found which is the most recent
+                    }
+                }
+            }
+            if ( found == false ){
+                Whitespace__c w = new Whitespace__c();
+                w.Account__c = lostRows[i].Account__c;
+                w.AccountName__c = lostRows[i].Account__r.Name;
+                w.Group__c = lostRows[i].Group__c;
+                w.Opportunity_Name__c = lostRows[i].Opportunity_Name__c;
+                w.Close_Date__c = lostRows[i].Close_Date__c;
+                w.LostTotal__c = lostRows[i].Total__c;
+                w.Product__c = lostRows[i].Product__c;
+                w.LostOppURL__c = lostRows[i].URL__c;
+                w.hasLost__c = true;
+                w.LostRowId__c = lostRows[i].id;
+                w.Lost_Reason__c = lostRows[i].Lost_Reason__c;
+                w.Lost_Reason_Additional_Notes__c = lostRows[i].Lost_Reason_Additional_Notes__c;
+                w.Lost_Reason_Detail__c = lostRows[i].Lost_Reason_Detail__c;
+                newWhitespace.add(w);
             }
             // newWhitespace - see if in
             // create Whitespace
             lostRows[i].ProcessedPostToWS__c = true;
             countUpdated++;
-            if ( i > 98 ) i = lostRows.size() + 1;
+            if ( i > 198 ) i = lostRows.size() + 1;
         }
         update whitespaces;
         insert newWhitespace;
@@ -1030,7 +1074,28 @@ public class toolsController {
                                                    ' of ' + countUpdateLostRowsToWhitespaceHasLost + ' in ' + lostRows.size();
     }
     
-       
+    
+    public void clearWhitespaceLostFields(){
+        LoadWhiteSpace();
+        for ( Integer j = 0; j < whitespaces.size(); j++ ){
+            // whitespaces[j].Account__c = '';
+            whitespaces[j].AccountName__c = '';
+            // whitespaces[j].Group__c = '';
+            whitespaces[j].Opportunity_Name__c = '';
+            whitespaces[j].Close_Date__c = null;
+            whitespaces[j].LostTotal__c = null;
+            whitespaces[j].Product__c = '';
+            whitespaces[j].hasLost__c = false;
+            whitespaces[j].LostRowId__c = ''; 
+            whitespaces[j].Lost_Reason__c = '';
+            whitespaces[j].Lost_Reason_Additional_Notes__c = '';
+            whitespaces[j].Lost_Reason_Detail__c = '';
+            whitespaces[j].LostOppURL__c = '';
+        }
+        countClearWhitespaceLostFields = whitespaces.size();
+        update whitespaces;
+    }
+    
     public void clearLostRowsProcessed(){
         LIST<LostRow__c> lrs = [select id, ProcessedJoin__c, ProcessedPostToWS__c from LostRow__c];
         countLostRowPropcessedClear = 0;
@@ -1048,8 +1113,16 @@ public class toolsController {
         delete lostRows;
     }
     
+    public integer skuWithNoGroup {get;set;}
+    public void TempDeleteSKUsWithoutGroup(){
+        skus = [select id from SKU__c where Group__c = null];
+        skuWithNoGroup = skus.size();
+        delete skus;
+    }
+    
     public void plus(){
         integer i = 1;
+        i++;
         i++;
         i++;
         i++;

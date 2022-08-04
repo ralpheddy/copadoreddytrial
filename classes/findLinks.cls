@@ -164,7 +164,7 @@ public with sharing class findLinks {
                                     APOAccountName__c,
                                     Lost__c, Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
                                     Opportunity_Name__c, Total__c,
-                                    SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c
+                                    SKU__c, SKU__r.Name, SKU__r.Group__r.id, Group__c, URL__c
                                  FROM LostRow__c 
                                  WHERE id = 'a0901000003znBfAAI' ];
         LostRow__c lr;
@@ -186,7 +186,10 @@ public with sharing class findLinks {
         // accountId = '0010100000TXOJy'; 
         LIST<WhiteSpace__c> wsAccount = [SELECT id, name, Account__c, Group__c, GroupName__c, 
                                                 OppTotal__c, OppQuantity__c, SubTotal__c, SubQuantity__c,
-                                                hasLost__c, showHasLost__c, Test__c
+                                                hasLost__c, showHasLost__c, Test__c,
+                                                Lost_Reason__c, Lost_Reason_Additional_Notes__c, Lost_Reason_Detail__c,
+                                                Opportunity_Name__c, Close_Date__c, LostTotal__c, Product__c,
+                                                AccountName__c, LostOppURL__c
                                          FROM WhiteSpace__c 
                                          WHERE Account__c = :accountId
                                          ORDER BY GroupSort__c];
@@ -200,7 +203,17 @@ public with sharing class findLinks {
                     if ( newWS.SubTotal__c == null ) newWS.SubTotal__c = 0; // set to 0 if null
                     if ( ws.OppTotal__c != null ) newWS.OppTotal__c += ws.OppTotal__c; // groups[i].OppTotal__c = 0;
                     if ( ws.SubTotal__c != null ) newWS.SubTotal__c += ws.SubTotal__c; //groups[i].SubTotal__c = 0;
+                    newWS.Opportunity_Name__c = ws.Opportunity_Name__c;
+                    newWS.AccountName__c = ws.AccountName__c;
+                    newWS.Close_Date__c = ws.Close_Date__c;
+                    newWS.LostTotal__c = ws.LostTotal__c;
+                    newWS.Product__c = ws.Product__c;
+                    newWS.LostOppURL__c = ws.LostOppURL__c;
+                    newWS.Lost_Reason__c = ws.Lost_Reason__c;
+                    newWs.Lost_Reason_Additional_Notes__c = ws.Lost_Reason_Additional_Notes__c;
+                    newWs.Lost_Reason_Detail__c = ws.Lost_Reason_Detail__c;
                     newWS.showHasLost__c = ws.showHasLost__c;
+                    // newWS.Name = 'success';
                 }
             }
             wsGroups.add(newWS);

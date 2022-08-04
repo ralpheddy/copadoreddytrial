@@ -27,8 +27,8 @@
     <tabs>Tool</tabs>
     <tabs>Link__c</tabs>
     <tabs>Links</tabs>
-    <tabs>SKU__c</tabs>
     <tabs>Group__c</tabs>
+    <tabs>SKU__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
