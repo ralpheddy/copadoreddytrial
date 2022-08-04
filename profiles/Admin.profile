@@ -6641,6 +6641,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Group__c.External_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Group__c.LostOppURL__c</field>
         <readable>true</readable>
     </fieldPermissions>
