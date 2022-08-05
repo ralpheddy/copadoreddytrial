@@ -381,9 +381,8 @@
         <label>All</label>
     </listViews>
     <nameField>
-        <displayFormat>LP-{0000}</displayFormat>
         <label>Name</label>
-        <type>AutoNumber</type>
+        <type>Text</type>
     </nameField>
     <pluralLabel>LostRows</pluralLabel>
     <searchLayouts />
