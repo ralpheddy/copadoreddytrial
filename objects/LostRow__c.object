@@ -381,7 +381,7 @@
         <label>All</label>
     </listViews>
     <nameField>
-        <label>LostRow Product</label>
+        <label>Name</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>LostRows</pluralLabel>
