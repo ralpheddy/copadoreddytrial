@@ -154,31 +154,175 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
-        <fullName>mapRVP__c</fullName>
+        <fullName>AE__c</fullName>
+        <externalId>false</externalId>
+        <label>AE</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>APOAccountId__c</fullName>
+        <externalId>false</externalId>
+        <label>APOAccountId</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Licenses__c</fullName>
+        <externalId>false</externalId>
+        <label>Licenses</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Open_Opps__c</fullName>
+        <externalId>false</externalId>
+        <label>Open Opps</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>RVP__c</fullName>
+        <externalId>false</externalId>
+        <label>RVP</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SFAE__c</fullName>
+        <externalId>false</externalId>
+        <label>SFAE</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SFRVP__c</fullName>
+        <externalId>false</externalId>
+        <label>SFRVP</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SF_CSM__c</fullName>
+        <externalId>false</externalId>
+        <label>SF CSM</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Type</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>formulaRVP__c</fullName>
+        <description>Use in Javascript</description>
+        <externalId>false</externalId>
+        <formula>CASESAFEID(mapAE__r.mapRVP__r.Id)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>formulaRVP</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>formulaSFRVP__c</fullName>
+        <externalId>false</externalId>
+        <formula>mapSFAE__r.mapSFRVP__r.Id</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>formulaSFRVP</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>mapAE__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>mapRVP</label>
-        <referenceTo>mapRVP__c</referenceTo>
-        <relationshipLabel>mapAEs</relationshipLabel>
-        <relationshipName>mapAEs</relationshipName>
+        <label>mapAE</label>
+        <referenceTo>mapAE__c</referenceTo>
+        <relationshipLabel>AE SFAE Accounts</relationshipLabel>
+        <relationshipName>AE_SFAE_Accounts</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
-    <label>mapAE</label>
+    <fields>
+        <fullName>mapSFAE__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>mapSFAE</label>
+        <referenceTo>mapSFAE__c</referenceTo>
+        <relationshipLabel>AE SFAE Accounts</relationshipLabel>
+        <relationshipName>AE_SFAE_Accounts</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>processJoinToMapSF__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>processJoinToMapSF</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>AE SFAE Account</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>mapRVP__c</columns>
+        <columns>mapAE__c</columns>
+        <columns>mapSFAE__c</columns>
+        <columns>RVP__c</columns>
+        <columns>AE__c</columns>
+        <columns>APOAccountId__c</columns>
+        <columns>SFAE__c</columns>
+        <columns>SFRVP__c</columns>
+        <columns>SF_CSM__c</columns>
+        <columns>Type__c</columns>
+        <columns>Licenses__c</columns>
+        <columns>Open_Opps__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
     <nameField>
-        <label>mapAE Name</label>
+        <label>Account Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>mapAEs</pluralLabel>
+    <pluralLabel>AE SFAE Accounts</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
     <visibility>Public</visibility>
 </CustomObject>

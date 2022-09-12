@@ -148,36 +148,36 @@
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
-    <enableReports>true</enableReports>
+    <enableReports>false</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
-        <fullName>mapRVP__c</fullName>
+        <fullName>mapSFRVP__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>mapRVP</label>
-        <referenceTo>mapRVP__c</referenceTo>
-        <relationshipLabel>mapAEs</relationshipLabel>
-        <relationshipName>mapAEs</relationshipName>
+        <label>mapSFRVP</label>
+        <referenceTo>mapSFRVP__c</referenceTo>
+        <relationshipLabel>mapSFAEs</relationshipLabel>
+        <relationshipName>mapSFAEs</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
-    <label>mapAE</label>
+    <label>mapSFAE</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>mapRVP__c</columns>
+        <columns>mapSFRVP__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
     <nameField>
-        <label>mapAE Name</label>
+        <label>Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>mapAEs</pluralLabel>
+    <pluralLabel>mapSFAEs</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
