@@ -1,0 +1,422 @@
+<apex:page controller="mapController" sidebar="false" showHeader="true" readOnly="true" >
+<apex:form >
+    <style>
+        body{margin:0px; padding:0px; background-color: #e6ffff !important;}
+        .linkOver{text-decoration:none; color:black; }
+        .linkOver:hover{color:red; text-decoration:none;}
+        .select:hover{text-decoration:underline; color:blue; cursor:pointer;}
+        .showError{color:red; position:absolute; top:1px; left:5px;}
+        .warning{position:absolute; top:3px; left:5px;}
+        
+        .dataRow{padding-bottom:2px; padding-top:2px; padding-left:4px; border-bottom: 1px #dddddd solid;}
+        .rowOver:hover{background-color: rgb(196, 245, 216);}
+        
+        .nothing {outline:none;border-color:white;}
+        .nothing:focus {outline:none;}
+        
+        .headerCommon{border-bottom: #888888 1px solid; color:white; font-weight:normal;
+                      border-top-left-radius:5px; border-top-right-radius:5px;
+                      text-align:center; padding-bottom:5px; padding-top:5px; }
+        
+        .RVPwrapper{position:absolute; left:30px; top:30px;}
+        .RVPheader{width:140px; background-color:rgb(22, 22, 152); }
+        .RVPlist{ border-left: #dddddd 1px solid;border-right: #dddddd 1px solid; cursor:default; background-color:white;}
+        
+        .AEwrapper{position:absolute; left:200px; top:30px;}
+        .AEheader{width:170px; background-color:rgb(22, 22, 152); }
+        .AElist{ height:380px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
+        
+        .AccountFilter{position:absolute; left:400px; top:30px;}
+        
+        .AccountWrapper{position:absolute; left:400px; top:52px;}
+        .AccountHeader{width:391px; background-color:rgb(137, 22, 152); }
+        .AccountList{ height:380px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
+        .AccountRow {width:370px;}
+        
+        .SFAEwrapper{position:absolute; left:820px; top:30px;}
+        .SFAEheader{width:172px; background-color:rgb(159, 22, 22); }
+        .SFAElist{ height:380px; width:170px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
+        
+        .sfRVPaction{position:absolute; left:1020px; top:30px;}
+        .SFRVPwrapper{position:absolute; left:1020px; top:52px;}
+        .SFRVPheader{width:172px; background-color:rgb(159, 22, 22); }
+        .SFRVPlist{ height:380px; width:170px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
+    </style>  
+    
+    <!--<apex:include pageName="Styles"/>-->
+    
+    <script>
+    var CurrentRVP = '';
+    var CurrentAE = '';
+    var CurrentAccount = '';
+    // var HoverColor =  "green";
+    var HoverColor =  "lightblue"; // "#00cc99";
+    var SelectColor = "#00cc99"; // "lightblue";
+    var SelectColor2 = "#00BFFF"; // "blue";
+    var HighlightColor = "lightgreen";
+    var CurrentSFAE = '';
+    var CurrentSFRVP = '';
+    
+    function resetVars(){
+        CurrentRVP = '';
+        CurrentAE = '';
+        CurrentAccount = '';
+        CurrentSFAE = '';
+        CurrentSFRVP = '';
+    }
+    
+    <!-- RVP -->
+    function setBackgroundRVP(rvpId){
+        rvpDiv = "RVP" + rvpId;
+        if ( CurrentRVP != rvpDiv ) {
+            document.getElementById(rvpDiv).style.backgroundColor = HoverColor;
+            document.getElementById(rvpDiv).style.color = 'white';
+        }
+    }
+    function clearBackgroundRVP(rvpId){
+        rvpDiv = "RVP" + rvpId; 
+        // try { document.getElementById(rvpDiv) }
+        // catch(error) { alert(error) }
+        // alert(CurrentRVP+"-"+rvpDiv);
+        if ( CurrentRVP != rvpDiv ) {
+            document.getElementById(rvpDiv).style.backgroundColor = 'white';
+            document.getElementById(rvpDiv).style.color = 'black';
+        }
+    }
+    function rvpSelected(rvpId){
+        rvpDiv = "RVP" + rvpId;
+        if ( CurrentRVP != '' ) {
+            document.getElementById(CurrentRVP).style.backgroundColor = 'white';
+            document.getElementById(CurrentRVP).style.color = 'black';
+        }
+        document.getElementById(rvpDiv).style.backgroundColor = SelectColor; 
+        document.getElementById(rvpDiv).style.color = SelectColor2;
+        CurrentRVP = rvpDiv;
+        CurrentAE = '';
+        CurrentAccount = '';
+        FindAEsScript(rvpId);
+    }
+    function rvpHighlightFromAE(rvpId){
+        rvpDiv = "RVP" + rvpId;
+        if ( CurrentRVP != '' ) {
+            document.getElementById(CurrentRVP).style.backgroundColor = 'white';
+            document.getElementById(CurrentRVP).style.color = 'black';
+        }
+        document.getElementById(rvpDiv).style.backgroundColor = HighlightColor; 
+        document.getElementById(rvpDiv).style.color = SelectColor2;
+        CurrentRVP = rvpDiv;
+    }
+    
+    
+    <!-- AE -->
+    function setBackgroundAE(aeId){
+        aeDiv = "AE" + aeId;
+        if ( CurrentAE != aeDiv ) {
+            document.getElementById(aeDiv).style.backgroundColor = HoverColor;
+            document.getElementById(aeDiv).style.color = 'white';
+        }
+    }
+    function clearBackgroundAE(aeId){
+        aeDiv = "AE" + aeId;
+        if ( CurrentAE != aeDiv ) {
+            document.getElementById(aeDiv).style.backgroundColor = 'white';
+            document.getElementById(aeDiv).style.color = 'black';
+        }
+    }
+    function aeSelected(aeId, rvpId){
+        aeDiv = "AE" + aeId;
+        if ( CurrentAE != '' ) {
+            document.getElementById(CurrentAE).style.backgroundColor = 'white';
+            document.getElementById(CurrentAE).style.color = 'black';
+        }
+        document.getElementById(aeDiv).style.backgroundColor = SelectColor; 
+        document.getElementById(aeDiv).style.color = SelectColor2;
+        CurrentAE = aeDiv;
+        CurrentAccount = '';
+        clearBackgroundRVP(rvpId);
+        rvpHighlightFromAE(rvpId);
+        FindAccountsScript(aeId);
+    }
+    
+    
+    <!-- Account -->
+    function setBackgroundAccount(accId){
+        accDiv = "Acc" + accId;
+        if ( CurrentAccount != accDiv ) {
+            document.getElementById(accDiv).style.backgroundColor = HoverColor;
+            document.getElementById(accDiv).style.color = 'white';
+        }
+    }
+    function clearBackgroundAccount(accId){
+        accDiv = "Acc" + accId;
+        if ( CurrentAccount != accDiv ) {
+            document.getElementById(accDiv).style.backgroundColor = 'white';
+            document.getElementById(accDiv).style.color = 'black';
+        }
+    }
+    function accountSelected(accId, aeId, sfaeId, rvpId, sfrvpId){
+        accDiv = "Acc" + accId; // alert(accId +'-' + aeId + '-' +sfaeId);
+        if ( CurrentAccount != '' ) {
+            document.getElementById(CurrentAccount).style.backgroundColor = 'white';
+            document.getElementById(CurrentAccount).style.color = 'black';
+        }
+        document.getElementById(accDiv).style.backgroundColor = SelectColor; 
+        document.getElementById(accDiv).style.color = SelectColor2;
+        CurrentAccount = accDiv;
+        CurrentAE = '';
+        // CurrentRVP = '';
+        rvpHighlightFromAE(rvpId);
+        FindAEsScript('', aeId);
+        FindSFAEsScript('', sfaeId);
+        // alert(sfrvpId);
+        FindSFRVPsScript(sfrvpId);      
+    }
+    
+    
+    <!-- SF AE -->
+    function setBackgroundSFAE(sfaeId){
+        sfaeDiv = "SFAE" + sfaeId;
+        if ( CurrentSFAE != sfaeDiv ) {
+            document.getElementById(sfaeDiv).style.backgroundColor = HoverColor;
+            document.getElementById(sfaeDiv).style.color = 'white';
+        }
+    }
+    function clearBackgroundSFAE(sfaeId){
+        sfaeDiv = "SFAE" + sfaeId;
+        if ( CurrentSFAE != sfaeDiv ) {
+            document.getElementById(sfaeDiv).style.backgroundColor = 'white';
+            document.getElementById(sfaeDiv).style.color = 'black';
+        }
+    }
+    function sfaeSelected(sfaeId){ 
+        sfaeDiv = "SFAE" + sfaeId;
+        if ( CurrentSFAE != '' ) {
+            document.getElementById(CurrentSFAE).style.backgroundColor = 'white';
+            document.getElementById(CurrentSFAE).style.color = 'black';
+        }
+        document.getElementById(sfaeDiv).style.backgroundColor = SelectColor; 
+        document.getElementById(sfaeDiv).style.color = SelectColor2;
+        CurrentSFAE = sfaeDiv;
+        CurrentAccount = '';
+        FindAccountsScript('','','',sfaeId);
+    }
+    
+    
+    <!-- SF RVP -->
+    function setBackgroundSFRVP(sfrvpId){ 
+        sfrvpDiv = "SFRVP" + sfrvpId;
+        if ( CurrentSFRVP != sfrvpDiv ) {
+            document.getElementById(sfrvpDiv).style.backgroundColor = HoverColor;
+            document.getElementById(sfrvpDiv).style.color = 'white';
+        }
+    }
+    function clearBackgroundSFRVP(sfrvpId){
+        sfrvpDiv = "SFRVP" + sfrvpId;
+        if ( CurrentSFRVP != sfrvpDiv ) {
+            document.getElementById(sfrvpDiv).style.backgroundColor = 'white';
+            document.getElementById(sfrvpDiv).style.color = 'black';
+        }
+    }
+    function sfrvpSelected(sfrvpId){
+        sfrvpDiv = "SFRVP" + sfrvpId;
+        if ( CurrentSFRVP != '' ) {
+            document.getElementById(CurrentSFRVP).style.backgroundColor = 'white';
+            document.getElementById(CurrentSFRVP).style.color = 'black';
+        }
+        document.getElementById(sfrvpDiv).style.backgroundColor = SelectColor; 
+        document.getElementById(sfrvpDiv).style.color = SelectColor2;
+        CurrentSFRVP = sfrvpDiv;
+        CurrentSFAE = '';
+        CurrentAccount = '';
+        FindSFAEsScript(sfrvpId);
+    }
+    function AllAccountsForSFRVP(){
+        alert("1");
+        if ( CurrentSFRVP != '' ) AllAccountsForSFRVPScript();
+        else Alert("Select a SF RVP.);
+    }
+    
+    function filterSelected(filterValue, isChecked){
+        if ( filterValue == 'Customer' ) { 
+            document.getElementById('filterProspects').checked = false;
+            document.getElementById('filterOther').checked = false;
+        }
+        if ( filterValue == 'Prospect' ) { 
+            document.getElementById('filterCustomers').checked = false;
+            document.getElementById('filterOther').checked = false;
+        }
+        if ( filterValue == 'Other' ) { 
+            document.getElementById('filterCustomers').checked = false;
+            document.getElementById('filterProspects').checked = false;
+        }
+        if ( isChecked == false ) filterValue = '';
+        FindAccountsScript('', filterValue); // SetAccountFiltersScript();
+    }
+    
+    
+    function searchAccounts(searchValue){
+        if ( searchValue.length>1 ) { // alert(searchValue);
+            FindAccountsScript('','','','',searchValue);    
+        }
+    }
+        
+        
+    </script>
+  
+  
+    <apex:actionFunction action="{!LoadAEs}" name="FindAEsScript" reRender="AEList,Warning">
+        <apex:param id="rvpId" name="rvpId" value="" /> 
+        <apex:param id="ae2Id" name="ae2Id" value="" />
+    </apex:actionFunction>
+    
+    <apex:actionFunction action="{!LoadAccounts}" name="FindAccountsScript" reRender="AccountList,Warning">
+        <apex:param id="aeId" name="aeId" value="" /> 
+        <apex:param id="filterValue" name="filterValue" value="" /> 
+        <apex:param id="rvp" name="rvp" value="" /> 
+        <apex:param id="sfaeId" name="sfaeId" value="" /> 
+        <apex:param id="searchString" name="searchString" value="" /> 
+    </apex:actionFunction>
+    
+    <apex:actionFunction action="{!SetAccountFilters}" name="SetAccountFiltersScript" reRender="AccountList,Warning">
+        <!--<apex:param id="filterCustomers" name="filterCustomers" value="" /> -->
+        <apex:param id="prospectCheckboxValue" name="prospectCheckboxValue" value="" />
+        <apex:param id="otherCheckboxValue" name="otherCheckboxValue" value="" />
+    </apex:actionFunction>
+    
+    <apex:actionFunction action="{!LoadSFAEs}" name="FindSFAEsScript" reRender="SFAElist,Warning">
+        <apex:param id="sfrvpId" name="sfrvpId" value="" /> 
+        <apex:param id="sfae2Id" name="sfae2Id" value="" /> 
+    </apex:actionFunction>
+    
+    <apex:actionFunction action="{!LoadSFRVPs}" name="FindSFRVPsScript" reRender="SFRVPlist,Warning,Message">
+        <apex:param id="sfrvp2Id" name="sfrvp2Id" value="" />  
+    </apex:actionFunction>
+    
+    
+    <div style="height:1000px;"></div>
+    <div style="position:absolute; left:30px; top:24px;"><input class="nothing" type="text" style="height:0px; width:0px;" /></div>
+    <div class="warning"><apex:outputPanel id="Warning" style="color:#aaa; font-weight: normal; font-size:10px;"><!--{!Warning}-->{!Debug}</apex:outputPanel></div>
+    <div style="position:absolute; left:400px; top:1px;"><apex:outputPanel id="Message" style="color:red; font-weight: bold; font-size:10px;">{!Message}</apex:outputPanel></div>
+    
+    <!-- RVPs -->
+    <div id="rvpRoot" class="RVPwrapper">
+        <div id="rvpHandle" class="RVPheader headerCommon">RVPs</div>
+        <div class="RVPlist ">
+            <apex:repeat value="{!rvps}" var="rvp">
+                <div id="RVP{!rvp.id}" 
+                    onMouseOver="setBackgroundRVP('{!rvp.id}')"
+                    onMouseOut="clearBackgroundRVP('{!rvp.id}')"
+                    class="dataRow listCommon">
+                    <apex:outputPanel onclick="rvpSelected('{!rvp.id}')" >
+                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!rvp.name}</td></tr></table>
+                    </apex:outputPanel>    
+                </div>
+            </apex:repeat>
+        </div>
+    </div>
+    
+    
+    <!-- AEs -->
+    <div id="aeRoot" class="AEwrapper">
+        <div id="aeHandle" class="AEheader headerCommon">AEs</div>
+        <div class="AElist ">
+        <apex:outputPanel id="AEList">
+            <apex:repeat value="{!AEs}" var="AE">
+                <div id="AE{!AE.id}" 
+                    onMouseOver="setBackgroundAE('{!AE.id}')"
+                    onMouseOut="clearBackgroundAE('{!AE.id}')"
+                    class="dataRow listCommon">
+                    <apex:outputPanel onclick="aeSelected('{!AE.id}', '{!AE.mapRVP__c}')" >
+                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!AE.name}</td></tr></table>
+                    </apex:outputPanel>    
+                </div>
+            </apex:repeat>
+        </apex:outputPanel>
+        </div>
+    </div>
+    
+    
+    
+    <div class="AccountFilter" >
+        <div style="float:left;vertical-align: text-top;"><input type="checkbox" id="filterCustomers" onchange="filterSelected('Customer', this.checked)" /></div>
+        <div style="float:left;vertical-align: baseline;padding-top:3px;">Customers</div>
+        <div style="float:left;">&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;vertical-align: text-top;"><input type="checkbox" id="filterProspects" onclick="filterSelected('Prospect', this.checked)" /></div>
+        <div style="float:left;vertical-align: baseline;padding-top:3px;">Prospects</div>
+        <div style="float:left;">&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;vertical-align: text-top;"><input type="checkbox" id="filterOther" onclick="filterSelected('Other', this.checked)" /></div>
+        <div style="float:left;vertical-align: baseline;padding-top:3px;">Other</div>
+        <div style="float:left;">&nbsp;&nbsp;&nbsp;</div>
+        <div style="float:left;vertical-align: baseline;padding-top:3px;">Search</div>
+        <div style="float:left;vertical-align: text-top;">&nbsp;
+            <input onchange="searchAccounts(this.value)" type="text" style="width:50px;" id="filterSearch" />
+            <!--<input type="button" onclick="searchAccounts()" />-->
+        </div>
+    </div>
+    <!-- Accounts -->
+    <div id="accRoot" class="AccountWrapper">
+        <div id="accHandle" class="AccountHeader headerCommon">Accounts</div>
+        <div class="AccountList">
+        <apex:outputPanel id="AccountList">
+            <apex:repeat value="{!Accounts}" var="acc">
+                <div id="Acc{!acc.id}" 
+                    onMouseOver="setBackgroundAccount('{!acc.id}')"
+                    onMouseOut="clearBackgroundAccount('{!acc.id}')"
+                    class="dataRow listCommon AccountRow">
+                    <apex:outputPanel onclick="accountSelected('{!acc.id}', '{!acc.mapAE__c}', '{!acc.mapSFAE__c}', '{!acc.formulaRVP__c}', '{!acc.formulaSFRVP__c}')" >  
+                        <table cellpadding="0" cellspacing="0"><tr><td width="300px">&nbsp;{!acc.name}</td><td>{!acc.Type__c}</td></tr></table>
+                    </apex:outputPanel>    
+                </div>
+            </apex:repeat>
+        </apex:outputPanel>
+        </div>
+    </div>
+
+    
+    <!-- SF AEs -->
+    <div id="sfaeRoot" class="SFAEwrapper">
+        <div id="sfaeHandle" class="SFAEheader headerCommon">SF AEs</div>
+        <div class="SFAElist ">
+        <apex:outputPanel id="SFAElist">
+            <apex:repeat value="{!SFAEs}" var="SFAE">
+                <div id="SFAE{!SFAE.id}" 
+                    onMouseOver="setBackgroundSFAE('{!SFAE.id}')"
+                    onMouseOut="clearBackgroundSFAE('{!SFAE.id}')"
+                    class="dataRow listCommon">
+                    <apex:outputPanel onclick="sfaeSelected('{!SFAE.id}')" >
+                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!SFAE.name}</td></tr></table>
+                    </apex:outputPanel>
+                </div>
+            </apex:repeat>
+        </apex:outputPanel>
+        </div>
+    </div>
+    
+    <!--  SF RVP Action -->
+    <div class="sfRVPaction" >
+        <div style="float:left;vertical-align: text-top;"><input type="button" onclick="AllAccountsForSFRVP()" value="All Accounts for RVP" /></div>
+    </div>
+    <!-- SF RVPs -->
+    <div id="sfrvpRoot" class="SFRVPwrapper">
+        <div id="sfrvpHandle" class="SFRVPheader headerCommon">SF RVPs</div>
+        <div class="SFRVPlist ">
+        <apex:outputPanel id="SFRVPlist">
+            <apex:repeat value="{!sfrvps}" var="sfrvp">
+                <div id="SFRVP{!sfrvp.id}" 
+                    onMouseOver="setBackgroundSFRVP('{!sfrvp.id}')"
+                    onMouseOut="clearBackgroundSFRVP('{!sfrvp.id}')"
+                    class="dataRow listCommon">
+                    <apex:outputPanel onclick="sfrvpSelected('{!sfrvp.id}')" >
+                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!sfrvp.name}</td></tr></table>
+                    </apex:outputPanel>    
+                </div>
+            </apex:repeat>
+        </apex:outputPanel>
+        </div>
+    </div>
+    
+    
+    
+    
+</apex:form>
+</apex:page>
