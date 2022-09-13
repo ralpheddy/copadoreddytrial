@@ -18,26 +18,27 @@
                       border-top-left-radius:5px; border-top-right-radius:5px;
                       text-align:center; padding-bottom:5px; padding-top:5px; }
         
-        .RVPwrapper{position:absolute; left:30px; top:20px;}
+        .RVPwrapper{position:absolute; left:30px; top:30px;}
         .RVPheader{width:140px; background-color:rgb(22, 22, 152); }
         .RVPlist{ border-left: #dddddd 1px solid;border-right: #dddddd 1px solid; cursor:default; background-color:white;}
         
-        .AEwrapper{position:absolute; left:200px; top:20px;}
+        .AEwrapper{position:absolute; left:200px; top:30px;}
         .AEheader{width:170px; background-color:rgb(22, 22, 152); }
         .AElist{ height:380px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
         
-        .AccountFilter{position:absolute; left:400px; top:20px;}
+        .AccountFilter{position:absolute; left:400px; top:30px;}
         
-        .AccountWrapper{position:absolute; left:400px; top:42px;}
+        .AccountWrapper{position:absolute; left:400px; top:52px;}
         .AccountHeader{width:391px; background-color:rgb(137, 22, 152); }
         .AccountList{ height:380px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
         .AccountRow {width:370px;}
         
-        .SFAEwrapper{position:absolute; left:820px; top:20px;}
+        .SFAEwrapper{position:absolute; left:820px; top:30px;}
         .SFAEheader{width:172px; background-color:rgb(159, 22, 22); }
         .SFAElist{ height:380px; width:170px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
         
-        .SFRVPwrapper{position:absolute; left:1020px; top:20px;}
+        .sfRVPaction{position:absolute; left:1020px; top:30px;}
+        .SFRVPwrapper{position:absolute; left:1020px; top:52px;}
         .SFRVPheader{width:172px; background-color:rgb(159, 22, 22); }
         .SFRVPlist{ height:380px; width:170px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
     </style>  
@@ -229,6 +230,11 @@
         CurrentAccount = '';
         FindSFAEsScript(sfrvpId);
     }
+    function AllAccountsForSFRVP(){
+        alert("1");
+        if ( CurrentSFRVP != '' ) AllAccountsForSFRVPScript();
+        else Alert("Select a SF RVP.);
+    }
     
     function filterSelected(filterValue, isChecked){
         if ( filterValue == 'Customer' ) { 
@@ -386,7 +392,10 @@
         </div>
     </div>
     
-    
+    <!--  SF RVP Action -->
+    <div class="sfRVPaction" >
+        <div style="float:left;vertical-align: text-top;"><input type="button" onclick="AllAccountsForSFRVP()" value="All Accounts for RVP" /></div>
+    </div>
     <!-- SF RVPs -->
     <div id="sfrvpRoot" class="SFRVPwrapper">
         <div id="sfrvpHandle" class="SFRVPheader headerCommon">SF RVPs</div>
