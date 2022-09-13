@@ -101,5 +101,17 @@ private class toolsControllerTest {
         TC.LoadWhiteSpace();
         TC.getManagers();
         TC.plus();
+
+        TC.createMapRVPs();
+        TC.createMapAEs();
+        TC.createMapSFRVPs();
+        TC.createMapSFAEs();
+        TC.Load_AE_SFAE_Account();
+        TC.joinAESFAEaccountToAE();
+        TC.joinAESFAEaccountToSFAE();
+        TC.postOppRowsToAESFAEAccounts();
+        TC.postSubscriptionsToAESFAEAccounts();
+        TC.deleteAll_AESFAEAccounts();
+        TC.deleteAll_AE_RVP_SFAE_SFRVPs();
     }
 }
