@@ -10,6 +10,11 @@ public class toolsController {
     public transient LIST<Group__c> wsGroups {get;set;}
     public transient LIST<WhiteSpace__c> whitespaces {get;set;}
     public transient LIST<LostRow__c> lostRows {get;set;}
+    public transient LIST<AE_SFAE_Account__c> aESFAEAccounts {get;set;}
+    public transient LIST<mapAE__c> mapAEs {get;set;}
+    public transient LIST<mapRVP__c> mapRVPs {get;set;}
+    public transient LIST<mapSFAE__c> mapSFAEs {get;set;}
+    public transient LIST<mapSFRVP__c> mapSFRVPs {get;set;}
 
     public string comment {get;set;}
     public boolean found;
@@ -69,6 +74,11 @@ public class toolsController {
     public integer countUpdateLostRowsToWhitespaceHasLost {get;set;}
     public string commentUpdateLostRowsToWhitespaceHasLost {get;set;}
     public integer countClearWhitespaceLostFields {get;set;}
+    
+    public integer countCreateMapRVPs {get;set;}
+    public integer countCreateMapAEs {get;set;}
+    public integer countAESFAEAccounts {get;set;} // AE_SFAE_Account__c
+    public string commentDeleteAll_AE_RVP_SFAE_SFRVPs {get;set;} 
     
     public integer tempWScount {get;set;}
     public string mydebug {get;set;}
@@ -217,7 +227,7 @@ public class toolsController {
                     // WHERE  (product__c != null OR product__c != '') ]; // AND ( Account__c != null OR Account__c != '') ];
     }
     
-    
+     
     // AEs
     public void deleteAllAEs(){
         aes = [SELECT id from AE__c];
@@ -1120,6 +1130,149 @@ public class toolsController {
         delete skus;
     }
     
+    
+    //////// MAP AE SFAE Accounts ////////
+    // AE
+    public void createMapRVPs(){
+        AggregateResult[] uniqueRVPs = [SELECT RVP__c FROM AE_SFAE_Account__c GROUP BY RVP__c];
+        LIST<mapRVP__c> newRVPs = new LIST<mapRVP__c>();
+        for ( AggregateResult rvp : uniqueRVPs ){
+            mapRVP__c mrvp = new mapRVP__c();
+            mrvp.Name = (string)rvp.get('RVP__c');
+            newRVPs.add(mrvp);
+        }
+        insert newRVPs;
+        countCreateMapRVPs = newRVPs.size();
+    }
+    public void createMapAEs(){
+        mapRVPs = [select id, name from mapRVP__c];
+        AggregateResult[] uniqueAEs = [SELECT AE__c, RVP__c FROM AE_SFAE_Account__c GROUP BY AE__c, RVP__c];
+        LIST<mapAE__c> newAEs = new LIST<mapAE__c>();
+        for ( AggregateResult ae : uniqueAEs ){
+            mapAE__c mae = new mapAE__c();
+            mae.Name = (string)ae.get('AE__c');
+            string rvp = (string)ae.get('RVP__c');
+            for ( mapRVP__c r : mapRVPs ){
+                if ( r.name == rvp ) mae.mapRVP__c = r.id;
+            }
+            newAEs.add(mae);
+        }
+        insert newAEs;
+        countCreateMapAEs = newAEs.size();
+    }
+    public integer countCreateMapSFRVPs {get;set;}
+    // SFAE
+    public void createMapSFRVPs(){
+        AggregateResult[] uniqueSFRVPs = [SELECT SFRVP__c FROM AE_SFAE_Account__c GROUP BY SFRVP__c];
+        LIST<mapSFRVP__c> newSFRVPs = new LIST<mapSFRVP__c>();
+        for ( AggregateResult sfrvp : uniqueSFRVPs ){
+            mapSFRVP__c msfrvp = new mapSFRVP__c();
+            msfrvp.Name = (string)sfrvp.get('SFRVP__c');
+            if ( msfrvp.Name == '' ) msfrvp.Name = ' No RVP';
+            newSFRVPs.add(msfrvp);
+        }
+        insert newSFRVPs;
+        countCreateMapSFRVPs = newSFRVPs.size();
+    }
+    public integer countCreateMapSFAEs {get;set;} 
+    public void createMapSFAEs(){
+        mapSFRVPs = [select id, name from mapSFRVP__c];
+        AggregateResult[] uniqueSFAEs = [SELECT SFAE__c, SFRVP__c FROM AE_SFAE_Account__c GROUP BY SFAE__c, SFRVP__c];
+        LIST<mapSFAE__c> newSFAEs = new LIST<mapSFAE__c>();
+        for ( AggregateResult sfae : uniqueSFAEs ){
+            boolean found = false;
+            string sfaeName = (string)sfae.get('SFAE__c');
+            if ( sfaeName == '' ) sfaeName = (string)sfae.get('SFRVP__c'); // default the SF AE name to the SF RVP
+            for ( Integer i = 0; i < newSFAEs.size(); i++ ){
+                if ( newSFAEs[i].Name == sfaeName ){ // see if already added to the new list of SF AEs
+                    i = newSFAEs.size()+1;
+                    found = true;
+                }
+            }
+            if ( found == false ){
+                mapSFAE__c msfae = new mapSFAE__c();
+                msfae.Name = sfaeName; // (string)sfae.get('SFAE__c');
+                string sfrvp = (string)sfae.get('SFRVP__c');
+                for ( mapSFRVP__c r : mapSFRVPs ){
+                    if ( r.name == sfrvp ) msfae.mapSFRVP__c = r.id;
+                }
+                newSFAEs.add(msfae);
+            }
+        }
+        insert newSFAEs;
+        countCreateMapSFAEs = newSFAEs.size();
+    } 
+    
+    public void Load_AE_SFAE_Account(){
+        aESFAEAccounts = [select id, name, AE__c, RVP__c, SFAE__c, SFRVP__c, Type__c, Licenses__c, Open_Opps__c, processJoinToMapSF__c 
+                          from AE_SFAE_Account__c];
+    }
+    
+    public integer countJoinAESFAEaccountToAE {get;set;}
+    public void joinAESFAEaccountToAE(){
+        Load_AE_SFAE_Account();
+        mapAEs = [select id, name from mapAE__c];
+        countJoinAESFAEaccountToAE = 0;
+        for ( AE_SFAE_Account__c aesfaeacc : aESFAEAccounts ){
+            boolean found = false;
+            for ( Integer i = 0; i < mapAEs.size(); i++ ){
+                if ( aesfaeacc.AE__c == mapAEs[i].name ) {
+                    aesfaeacc.mapAE__c = mapAEs[i].id;
+                    i = mapAEs.size() + 1;
+                    countJoinAESFAEaccountToAE++;
+                }
+            }
+        }
+        update aESFAEAccounts;
+    }
+    
+    public integer countJoinAESFAEaccountToSFAE {get;set;}
+    public void joinAESFAEaccountToSFAE(){
+        aESFAEAccounts = [select id, SFAE__c 
+                          from AE_SFAE_Account__c 
+                          where SFAE__c<>'' and processJoinToMapSF__c=false 
+                          limit 1000]; // Load_AE_SFAE_Account();
+        mapSFAEs = [select id, name from mapSFAE__c];
+        countJoinAESFAEaccountToSFAE = 0;
+        for ( AE_SFAE_Account__c aesfaeacc : aESFAEAccounts ){
+            boolean found = false;
+            for ( Integer i = 0; i < mapSFAEs.size(); i++ ){
+                if ( aesfaeacc.SFAE__c == mapSFAEs[i].name ) {
+                    aesfaeacc.mapSFAE__c = mapSFAEs[i].id;
+                    i = mapSFAEs.size() + 1;
+                    aesfaeacc.processJoinToMapSF__c = true;
+                    countJoinAESFAEaccountToSFAE++;
+                }
+            }
+        }
+        update aESFAEAccounts;
+    }
+    
+    public void postOppRowsToAESFAEAccounts(){
+        LoadOppRows();
+    }
+    
+    public void postSubscriptionsToAESFAEAccounts(){
+        Loadsubscriptions();
+    }
+    
+    public void deleteAll_AESFAEAccounts() { //
+        aESFAEAccounts = [select id from AE_SFAE_Account__c];
+        countAESFAEAccounts = aESFAEAccounts.size();
+        // delete AESFAEAccounts;
+    }
+    public void deleteAll_AE_RVP_SFAE_SFRVPs() { //
+        mapAEs = [select id from mapAE__c];
+        mapRVPs = [select id from mapRVP__c];
+        mapSFAEs = [select id from mapSFAE__c];
+        mapSFRVPs = [select id from mapSFRVP__c];
+        commentDeleteAll_AE_RVP_SFAE_SFRVPs = 'AE:'+ mapAEs.size() + ' RVP:' + mapRVPs.size() + ' SFAE:'+ mapSFAEs.size() + ' SFRVP:' + mapSFRVPs.size();
+        delete mapAEs;
+        delete mapRVPs;
+        delete mapSFAEs;
+        delete mapSFRVPs;
+    }
+    
     public void plus(){
         integer i = 1;
         i++;
@@ -2003,6 +2156,7 @@ public class toolsController {
         i++;
         i++;
         i++;
+        
     }
     
 }
