@@ -79,6 +79,7 @@ public class toolsController {
     public integer countCreateMapAEs {get;set;}
     public integer countAESFAEAccounts {get;set;} // AE_SFAE_Account__c
     public string commentDeleteAll_AE_RVP_SFAE_SFRVPs {get;set;} 
+    public string commentBlankSFAEsSFRVPs {get;set;}
     
     public integer tempWScount {get;set;}
     public string mydebug {get;set;}
@@ -95,7 +96,10 @@ public class toolsController {
         countJoinLostRowsToAccountsSKUs = 0;
         countJoinLostRowsToAccounts = 0;
         countUpdateLostRowsToWhitespaceHasLost = 0;
+        countPostSubscriptionNumbersToAESFaccounts = 0;
         comment = '';
+        numberOfOpps = 0;
+        countProcessedPostToAERVPaccount = 0;
         
         whitespaces = new LIST<WhiteSpace__c>();
         WhiteSpace__c newWS = new WhiteSpace__c();
@@ -104,6 +108,7 @@ public class toolsController {
         tempWScount = 0;
         mydebug = '';
         // getWhiteSpace(); // LoadWhiteSpace();
+        // SubscriptionTotalByAccount();
     }
     
     // LOAD
@@ -157,7 +162,7 @@ public class toolsController {
                                 End__c, EndString__c, Start__c, StartString__c,
                                 Contract_End__c, Contract_Start__c, ContractEndString__c, ContractStartString__c,
                                 Contract_Term__c, Contract_Number__c,
-                                Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c,
+                                Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c, processAESFmap__c,
                                 SKU__r.Group__r.id,
                                 SKU__c, Group__c, GroupName__c, Group__r.name
                          FROM Subscription__c];
@@ -173,13 +178,14 @@ public class toolsController {
                                 End__c, EndString__c, Start__c, StartString__c,
                                 Contract_End__c, Contract_Start__c, ContractEndString__c, ContractStartString__c,
                                 Contract_Term__c, Contract_Number__c,
-                                Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c,
+                                Processed__c, ProcessedCreate__c, ProcessedAccountJoin__c, ProcessedWhiteSpace__c, processAESFmap__c,
                                 SKU__r.Group__r.id,
                                 SKU__c, Group__c, GroupName__c, Group__r.name
                          FROM Subscription__c
                          WHERE ProcessedWhiteSpace__c = false];
                          // WHERE Account__r.Name = 'Abbvie'];
     }
+    
 
     public void LoadSKUs(){
         skus = [SELECT id, Name,
@@ -427,6 +433,7 @@ public class toolsController {
             opr.ProcessedOppRow__c = false;
             opr.ProcessedWhiteSpace__c = false;
             opr.ProcessedAccountJoin__c = false; 
+           
         }
         countClearProcessed = oprs.size();
         update oprs;
@@ -613,6 +620,7 @@ public class toolsController {
             sub.ProcessedCreate__c = false;
             sub.ProcessedAccountJoin__c = false;
             sub.ProcessedWhiteSpace__c = false;
+            sub.processAESFmap__c = false;
         }
         countClearProcessedSubs = subs.size();
         update subs;
@@ -1132,6 +1140,12 @@ public class toolsController {
     
     
     //////// MAP AE SFAE Accounts ////////
+    //////// MAP AE SFAE Accounts ////////
+    //////// MAP AE SFAE Accounts ////////
+    //////// MAP AE SFAE Accounts ////////
+    //////// MAP AE SFAE Accounts ////////
+    //////// MAP AE SFAE Accounts ////////
+    
     // AE
     public void createMapRVPs(){
         AggregateResult[] uniqueRVPs = [SELECT RVP__c FROM AE_SFAE_Account__c GROUP BY RVP__c];
@@ -1168,7 +1182,7 @@ public class toolsController {
         for ( AggregateResult sfrvp : uniqueSFRVPs ){
             mapSFRVP__c msfrvp = new mapSFRVP__c();
             msfrvp.Name = (string)sfrvp.get('SFRVP__c');
-            if ( msfrvp.Name == '' ) msfrvp.Name = ' No RVP';
+            if ( msfrvp.Name == '' ) msfrvp.Name = 'No RVP Name';
             newSFRVPs.add(msfrvp);
         }
         insert newSFRVPs;
@@ -1176,13 +1190,52 @@ public class toolsController {
     }
     public integer countCreateMapSFAEs {get;set;} 
     public void createMapSFAEs(){
+        mapSFAEs = [select id, name from mapSFAE__c];
+        mapSFRVPs = [select id, name from mapSFRVP__c];
+        LIST<mapSFAE__c> newSFAEs = new LIST<mapSFAE__c>();
+        // Load_AE_SFAE_Account();
+        aESFAEAccounts = [select id, SFAE__c, SFRVP__c from AE_SFAE_Account__c where processCreateMapSFAEs__c=false limit 1300];
+        for ( AE_SFAE_Account__c aesfaeacc : aESFAEAccounts ){
+            boolean found = false;
+            string sfaeName = aesfaeacc.SFAE__c;
+            for ( Integer j = 0; j < mapSFAEs.size(); j++ ){
+                if ( mapSFAEs[j].Name == sfaeName ){ // see if already added to the existing list of SF AEs
+                    j = mapSFAEs.size()+1;
+                    found = true;
+                }
+            } 
+            if ( found == false ){
+                for ( Integer i = 0; i < newSFAEs.size(); i++ ){
+                    if ( newSFAEs[i].Name == sfaeName ){ // see if already added to the new list of SF AEs
+                        i = newSFAEs.size()+1;
+                        found = true;
+                    }
+                }
+            }
+            if ( found == false ){
+                mapSFAE__c msfae = new mapSFAE__c();
+                msfae.Name = sfaeName;
+                string sfrvp = aesfaeacc.SFRVP__c;
+                for ( mapSFRVP__c r : mapSFRVPs ){
+                    if ( r.name == sfrvp ) msfae.mapSFRVP__c = r.id;
+                }
+                newSFAEs.add(msfae);
+            }
+            aesfaeacc.processCreateMapSFAEs__c = true;
+        }
+        insert newSFAEs;
+        update aESFAEAccounts;
+        countCreateMapSFAEs = newSFAEs.size();
+    }
+    /**
+    public void createMapSFAEs_OLD(){
         mapSFRVPs = [select id, name from mapSFRVP__c];
         AggregateResult[] uniqueSFAEs = [SELECT SFAE__c, SFRVP__c FROM AE_SFAE_Account__c GROUP BY SFAE__c, SFRVP__c];
         LIST<mapSFAE__c> newSFAEs = new LIST<mapSFAE__c>();
         for ( AggregateResult sfae : uniqueSFAEs ){
             boolean found = false;
             string sfaeName = (string)sfae.get('SFAE__c');
-            if ( sfaeName == '' ) sfaeName = (string)sfae.get('SFRVP__c'); // default the SF AE name to the SF RVP
+            // if ( sfaeName == '' ) sfaeName = (string)sfae.get('SFRVP__c'); // default the SF AE name to the SF RVP
             for ( Integer i = 0; i < newSFAEs.size(); i++ ){
                 if ( newSFAEs[i].Name == sfaeName ){ // see if already added to the new list of SF AEs
                     i = newSFAEs.size()+1;
@@ -1201,10 +1254,14 @@ public class toolsController {
         }
         insert newSFAEs;
         countCreateMapSFAEs = newSFAEs.size();
-    } 
+    } **/ 
+    
     
     public void Load_AE_SFAE_Account(){
-        aESFAEAccounts = [select id, name, AE__c, RVP__c, SFAE__c, SFRVP__c, Type__c, Licenses__c, Open_Opps__c, processJoinToMapSF__c 
+        aESFAEAccounts = [select id, name, AE__c, RVP__c, SFAE__c, SFRVP__c, Type__c, APOAccountId__c,
+                          Licenses__c, Open_Opps__c, TotalOpps__c, TotalSubscriptions__c, Subscription_ACV__c,
+                          formulaSFRVP__c , formulaRVP__c , 
+                          processJoinToMapSF__c, processCreateMapSFAEs__c
                           from AE_SFAE_Account__c];
     }
     
@@ -1248,18 +1305,81 @@ public class toolsController {
         update aESFAEAccounts;
     }
     
-    public void postOppRowsToAESFAEAccounts(){
-        LoadOppRows();
+    
+    public void LoadOppsWithProcessed(){
+        opps = [SELECT id, Account__c, ACV_APO__c, ACVcalculated__c, Amount__c, APOAccountId__c, processPostToAERVPaccount__c
+                FROM Opp__c 
+                WHERE processPostToAERVPaccount__c = false 
+                LIMIT 100];
     }
     
-    public void postSubscriptionsToAESFAEAccounts(){
-        Loadsubscriptions();
+    public string commentPostOppsToAESFaccounts {get;set;}
+    public integer numberOfOpps {get;set;}
+    public integer countProcessedPostToAERVPaccount {get;set;}
+    public void postOppsToAESFAEAccounts(){
+        if ( numberOfOpps == 0) { // one time
+            opps = [SELECT id FROM Opp__c];
+            numberOfOpps = opps.size();
+        }
+        LoadOppsWithProcessed();
+        Load_AE_SFAE_Account();
+        
+        integer countPostOppNumbersToAESFaccounts = 0;
+        for (Integer j = 0; j < opps.size(); j++) {
+            for (Integer i = 0; i < aESFAEAccounts.size(); i++) {
+                if (opps[j].APOAccountId__c == aESFAEAccounts[i].APOAccountId__c){
+                    opps[j].AE_SFAE_Account__c = aESFAEAccounts[i].id;
+                    if ( aESFAEAccounts[i]. TotalOpps__c == null ) aESFAEAccounts[i]. TotalOpps__c = 0;
+                    if ( opps[j].Amount__c != null ) aESFAEAccounts[i].TotalOpps__c += opps[j].Amount__c; 
+                    countPostOppNumbersToAESFaccounts++;
+                    i = aESFAEAccounts.size() + 1;
+                }
+            }
+            opps[j].processPostToAERVPaccount__c = true;
+            countProcessedPostToAERVPaccount++;
+        }
+        commentPostOppsToAESFaccounts = 'Matched ' + countPostOppNumbersToAESFaccounts + '/' + countProcessedPostToAERVPaccount + ' in ' + numberOfOpps;
+        update aESFAEAccounts;
+        update opps;
     }
+
+    
+    public void LoadSubscriptionsWithProcessedAESFmap(){
+        subscriptions = [SELECT id, Name, Account__c, APOAccountId__c, APOSubscriptionId__c, Total__c, processAESFmap__c   
+                         FROM Subscription__c
+                         WHERE processAESFmap__c = false
+                         LIMIT 450];
+    }
+    
+    public integer countPostSubscriptionNumbersToAESFaccounts {get;set;}
+    public string commentPostSubscriptionNumbersToAESFaccounts {get;set;}
+    public void postSubscriptionsToAESFAEAccounts(){
+        LoadSubscriptionsWithProcessedAESFmap(); // Loadsubscriptions();
+        Load_AE_SFAE_Account();
+        integer countProcessed = 0;
+        for (Integer j = 0; j < subscriptions.size(); j++) {
+            for (Integer i = 0; i < aESFAEAccounts.size(); i++) {
+                if (subscriptions[j].APOAccountId__c == aESFAEAccounts[i].APOAccountId__c){
+                    subscriptions[j].AE_SFAE_Account__c = aESFAEAccounts[i].id;
+                    if ( aESFAEAccounts[i].Subscription_ACV__c == null ) aESFAEAccounts[i].Subscription_ACV__c = 0;
+                    if ( subscriptions[j].Total__c != null ) aESFAEAccounts[i].Subscription_ACV__c += subscriptions[j].Total__c;
+                    countPostSubscriptionNumbersToAESFaccounts++;
+                    i = aESFAEAccounts.size() + 1;
+                }
+            }
+            subscriptions[j].processAESFmap__c = true;
+            countProcessed++;
+        }
+        commentPostSubscriptionNumbersToAESFaccounts = 'Matched ' + countProcessed + '/' + countPostSubscriptionNumbersToAESFaccounts + ' of ' + subscriptions.size();
+        update aESFAEAccounts;
+        update subscriptions;
+    }
+    
     
     public void deleteAll_AESFAEAccounts() { //
         aESFAEAccounts = [select id from AE_SFAE_Account__c];
         countAESFAEAccounts = aESFAEAccounts.size();
-        // delete AESFAEAccounts;
+        delete AESFAEAccounts;
     }
     public void deleteAll_AE_RVP_SFAE_SFRVPs() { //
         mapAEs = [select id from mapAE__c];
@@ -1271,6 +1391,47 @@ public class toolsController {
         delete mapRVPs;
         delete mapSFAEs;
         delete mapSFRVPs;
+    }
+    
+    public LIST<AggregateResult> totalAccounts {get;set;}
+    // public AggregateResult[] subTotalsAccounts {get;set;}
+    public void SubscriptionTotalByAccount(){ 
+        totalAccounts = [SELECT APOAccountId__c apoid, sum(Purchase_Price__c) tot FROM Subscription__c GROUP BY APOAccountId__c]; //
+    }
+    
+   
+    public void popultatetBlankSFAEsSFRVPs(){
+        aESFAEAccounts = [select id, SFAE__c, SFRVP__c 
+                          from AE_SFAE_Account__c
+                          where SFAE__c ='' OR SFRVP__c='' ];
+        integer i = 0;
+        for (  AE_SFAE_Account__c a : aESFAEAccounts ) {
+            if ( a.SFAE__c==null && a.SFRVP__c==null ) { 
+                a.SFAE__c = 'missing AE';
+                a.SFRVP__c = 'missing RVP';
+            }
+            if ( a.SFAE__c==null ) { 
+                a.SFAE__c = 'missing AE '+ i; 
+                i++; 
+            }
+            if ( a.SFRVP__c==null ) { 
+                a.SFRVP__c = 'missing RVP '+ i; 
+                i++; 
+            }
+        }                
+        commentBlankSFAEsSFRVPs = '' + aESFAEAccounts.size() + ' - ' + i;
+        update aESFAEAccounts;
+    }
+    
+    public integer countClearAESFAEAccountProcessed {get;set;}
+    public void clearAESFAEAccountProcessed(){
+        aESFAEAccounts = [select id, processCreateMapSFAEs__c, processJoinToMapSF__c from AE_SFAE_Account__c];
+        for ( AE_SFAE_Account__c a : aESFAEAccounts ){
+            a.processCreateMapSFAEs__c = false;
+            a.processJoinToMapSF__c = false;
+        }
+        update aESFAEAccounts;
+        countClearAESFAEAccountProcessed = aESFAEAccounts.size();
     }
     
     public void plus(){

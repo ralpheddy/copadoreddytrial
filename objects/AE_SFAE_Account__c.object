@@ -164,9 +164,70 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>AOV__c</fullName>
+        <externalId>false</externalId>
+        <label>AOV</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AOVshort__c</fullName>
+        <externalId>false</externalId>
+        <formula>SUBSTITUTE( AOV__c , &quot;$&quot;, &quot;&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>AOVshort</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>APOAccountId__c</fullName>
         <externalId>false</externalId>
         <label>APOAccountId</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IndustryShort__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Industry__c , 
+
+&quot;Aerospace and Defense&quot;,&quot;Aerospace Defn&quot;,
+&quot;Agriculture, Forestry and Fishing&quot;,&quot;Agriculture F&quot;,
+&quot;Agriculture &amp; Mining&quot;,&quot;Agriculture M&quot;,
+&quot;Automotive and Transportation&quot;,&quot;Auto Transport&quot;,
+&quot;Banking and Finance&quot;,&quot;Bank, Finance&quot;,
+&quot;Biotechnology, Pharmaceuticals and Medicine&quot;,&quot;Bio Pharma Med&quot;,
+&quot;Communications &amp; Media&quot;,&quot;Comms Media&quot;,
+&quot;Computer Software&quot;,&quot;Computer Soft&quot;,
+&quot;Construction and Building Materials&quot;,&quot;Construction&quot;,
+&quot;Entertainment, Travel and Leisure&quot;,&quot;Ent Travel Lei&quot;,
+&quot;Financial Services&quot;,&quot;Financial Srv&quot;,
+&quot;Healthcare &amp; Life Sciences&quot;,&quot;Health Life Sc&quot;,
+&quot;Information Technology &amp; Services&quot;,&quot;IT Services&quot;,
+&quot;Information Technology and Services&quot;,&quot;IT Services&quot;,
+&quot;Manufacturing, Automotive &amp; Energy&quot;,&quot;Mfg Auto Energ&quot;,
+
+
+LEFT( Industry__c,14))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>IndustryShort</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Industry__c</fullName>
+        <externalId>false</externalId>
+        <label>Industry</label>
         <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -192,6 +253,17 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>PCO__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Type__c , &quot;Prospect&quot;, &quot;P&quot;, &quot;Customer&quot;, &quot;C&quot;,&quot;O&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>PCO</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>RVP__c</fullName>
@@ -234,10 +306,61 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Subscription_ACV__c</fullName>
+        <externalId>false</externalId>
+        <label>Subscription ACV</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Territory__c</fullName>
+        <externalId>false</externalId>
+        <label>Territory</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TotalOpps__c</fullName>
+        <externalId>false</externalId>
+        <label>TotalOpps</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>TotalSubscriptions__c</fullName>
+        <externalId>false</externalId>
+        <label>TotalSubscriptions</label>
+        <precision>16</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Type__c</fullName>
         <externalId>false</externalId>
         <label>Type</label>
         <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>URL__c</fullName>
+        <externalId>false</externalId>
+        <formula>$Label.CopadoDomain &amp; &quot;/lightning/r/Account/&quot; &amp; APOAccountId__c &amp; &quot;/view&quot;</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>URL</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -291,6 +414,14 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>processCreateMapSFAEs__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>processCreateMapSFAEs</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>processJoinToMapSF__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
@@ -309,10 +440,11 @@
         <columns>APOAccountId__c</columns>
         <columns>SFAE__c</columns>
         <columns>SFRVP__c</columns>
+        <columns>Industry__c</columns>
         <columns>SF_CSM__c</columns>
         <columns>Type__c</columns>
-        <columns>Licenses__c</columns>
-        <columns>Open_Opps__c</columns>
+        <columns>Subscription_ACV__c</columns>
+        <columns>TotalOpps__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
