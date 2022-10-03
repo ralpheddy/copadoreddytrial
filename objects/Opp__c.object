@@ -190,6 +190,18 @@ IF(ACV_APO__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>AE_SFAE_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>AE SFAE Account</label>
+        <referenceTo>AE_SFAE_Account__c</referenceTo>
+        <relationshipLabel>Opps</relationshipLabel>
+        <relationshipName>Opps</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>AE__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -349,6 +361,14 @@ IF(Incremental__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <type>Text</type>
         <unique>false</unique>
     </fields>
+    <fields>
+        <fullName>processPostToAERVPaccount__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>processPostToAERVPaccount</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
     <label>Opp</label>
     <listViews>
         <fullName>All</fullName>
@@ -363,6 +383,7 @@ IF(Incremental__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <columns>Stage__c</columns>
         <columns>Type__c</columns>
         <columns>APOOppId__c</columns>
+        <columns>processPostToAERVPaccount__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
