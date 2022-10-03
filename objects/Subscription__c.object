@@ -154,6 +154,18 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
+        <fullName>AE_SFAE_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>AE SFAE Account</label>
+        <referenceTo>AE_SFAE_Account__c</referenceTo>
+        <relationshipLabel>Subscriptions</relationshipLabel>
+        <relationshipName>Subscriptions</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>APOAccountId__c</fullName>
         <externalId>false</externalId>
         <label>APOAccountId</label>
@@ -526,6 +538,14 @@ IF(Total__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>processAESFmap__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>processAESFmap</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <label>Subscription</label>
     <listViews>
