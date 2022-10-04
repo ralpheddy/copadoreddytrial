@@ -391,7 +391,7 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
-    <label>WhiteSpace</label>
+    <label>WS</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
@@ -411,10 +411,10 @@
     </listViews>
     <nameField>
         <displayFormat>WS-{0000}</displayFormat>
-        <label>WhiteSpace Name</label>
+        <label>WS Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>WhiteSpace</pluralLabel>
+    <pluralLabel>WS</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
