@@ -10,5 +10,11 @@ public class mapControllerTest {
         m.LoadSFAEs();
         m.LoadSFRVPs();
         m.confirmQuerySyntax();
+
+        m.SetAccountFilters();
+        m.getAEsFromAccounts();
+        m.getSFAEsFromAccounts();
+        m.getSFRVPsFromSFAEs();
+        
     }
 }

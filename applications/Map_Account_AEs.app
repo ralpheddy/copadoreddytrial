@@ -14,6 +14,7 @@
     <label>Map Copado to SF</label>
     <navType>Standard</navType>
     <tabs>Map</tabs>
+    <tabs>M1</tabs>
     <tabs>AE_SFAE_Account__c</tabs>
     <tabs>mapAE__c</tabs>
     <tabs>mapRVP__c</tabs>

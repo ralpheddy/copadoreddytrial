@@ -16,6 +16,7 @@
     <navType>Standard</navType>
     <tabs>M1</tabs>
     <tabs>Manage</tabs>
+    <tabs>Map</tabs>
     <tabs>WhiteSpace__c</tabs>
     <tabs>AE__c</tabs>
     <tabs>standard-Account</tabs>
@@ -31,6 +32,7 @@
     <tabs>SKU__c</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>AE_SFAE_Account__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Manage_UtilityBar</utilityBar>
 </CustomApplication>
