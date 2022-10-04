@@ -152,7 +152,7 @@
     </applicationVisibilities>
     <applicationVisibilities>
         <application>standard__Sales</application>
-        <default>true</default>
+        <default>false</default>
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
@@ -5074,6 +5074,61 @@
     </customSettingAccesses>
     <fieldPermissions>
         <editable>true</editable>
+        <field>AE_SFAE_Account__c.AOV__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AE_SFAE_Account__c.AOVshort__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AE_SFAE_Account__c.IndustryShort__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AE_SFAE_Account__c.Industry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AE_SFAE_Account__c.PCO__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AE_SFAE_Account__c.Subscription_ACV__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AE_SFAE_Account__c.Territory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AE_SFAE_Account__c.TotalOpps__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AE_SFAE_Account__c.TotalSubscriptions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>AE_SFAE_Account__c.URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AE_SFAE_Account__c.processCreateMapSFAEs__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>AE__c.Created_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7304,6 +7359,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Opp__c.AE_SFAE_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Opp__c.AE__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7375,6 +7435,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opp__c.URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opp__c.processPostToAERVPaccount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8344,6 +8409,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Subscription__c.AE_SFAE_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Subscription__c.APOAccountId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8445,6 +8515,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Subscription__c.TotalString__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Subscription__c.processAESFmap__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -13983,6 +14058,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
+        <layout>AE_SFAE_Account__c-AE SFAE Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AE__c-AE Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -14360,6 +14438,15 @@
     <layoutAssignments>
         <layout>WorkThanks-Thanks Layout</layout>
     </layoutAssignments>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>AE_SFAE_Account__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

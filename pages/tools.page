@@ -4,7 +4,7 @@
 <style>
     .button{ width:200px; }
     #wrapper { font-weight:bold; background-color:#dddddd; border:0px solid blue; color:#C80000;}
-    .toolsBox { display:block; float:left; width:244px; height:540px;  background-color:#dddddd; border-radius:10px; 
+    .toolsBox { display:block; float:left; width:244px; height:600px;  background-color:#dddddd; border-radius:10px; 
                 box-shadow:4px 4px 4px #888888; text-align:center; padding-top:10px; padding-bottom:10px; margin-right:16px; margin-bottom:10px;}
     #OppTools {  }
     #SFTools {  }
@@ -32,7 +32,7 @@
             <div class="PopupPanel">
                 <table border="0" width="100%">
                     <tr>
-                        <td align="center"><b>Loading...</b></td>
+                        <td align="center"><b>Processing...</b></td>
                     </tr>
                     <tr>
                         <td align="center">
@@ -71,20 +71,22 @@
         <br/>
         <apex:commandButton action="{!createMapAEs}" value="Create MapAEs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapAEs}<br/>
         <br/>
+        <apex:commandButton action="{!popultatetBlankSFAEsSFRVPs}" value="Populate Blank SFAEs and SFRVPs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!commentBlankSFAEsSFRVPs}<br/>
+        <br/>
         <apex:commandButton action="{!createMapSFRVPs}" value="Create MapSFRVPs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapSFRVPs}<br/>
         <br/>
-        <apex:commandButton action="{!createMapSFAEs}" value="Create MapSFAEs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapSFAEs}<br/>
+        <apex:commandButton action="{!createMapSFAEs}" value="Create MapSFAEs (5 times)" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapSFAEs}<br/>
         <br/>
         <apex:commandButton action="{!joinAESFAEaccountToAE}" value="joinAESFAEaccountTo AE" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinAESFAEaccountToAE}<br/>
         <br/>
         <apex:commandButton action="{!joinAESFAEaccountToSFAE}" value="joinAESFAEaccountTo SFAE" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinAESFAEaccountToSFAE}<br/>
         <br/>
         
-        <apex:commandButton action="{!postOppRowsToAESFAEAccounts}" value="Post OppRows AE SFAE Accounts" styleClass="button" rerender="myForm" status="showLoading" /><br/>
-        {!commentJoinLostRowsToAccountsSKUs}<br/>
+        <apex:commandButton action="{!postOppsToAESFAEAccounts}" value="Post Opps to AE SFAE Account" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentPostOppsToAESFaccounts}<br/>
         <br/>
-        <apex:commandButton action="{!postSubscriptionsToAESFAEAccounts}" value="Post Subscriptions AE SFAE Account" styleClass="button" rerender="myForm" status="showLoading" /><br/>
-        {!commentUpdateLostRowsToWhitespaceHasLost}<br/>
+        <apex:commandButton action="{!postSubscriptionsToAESFAEAccounts}" value="Post Subscriptions AE SFAE (5)" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentPostSubscriptionNumbersToAESFaccounts}<br/>
         <br/>
  
         ‣<apex:commandButton action="{!deleteAll_AESFAEAccounts}" value="Clear AEs SFAEs Totals" styleClass="button" disabled="true" rerender="myForm" status="showLoading" />&nbsp;{!countAESFAEAccounts}<br/>
@@ -94,7 +96,8 @@
         ‣<apex:commandButton action="{!deleteAll_AE_RVP_SFAE_SFRVPs}" value="Delete all AEs RVPs SFAEs SFRVPs" styleClass="button" disabled="false" rerender="myForm" status="showLoading" /><br/>
         {!commentDeleteAll_AE_RVP_SFAE_SFRVPs}<br/>
         <br/>
-        
+        <apex:commandButton action="{!clearAESFAEAccountProcessed}" value="Clear AESFAEaccount Processed" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countClearAESFAEAccountProcessed}<br/>
+        <br/>
  
         
     </div>
@@ -240,6 +243,16 @@
         <br/>
         <br/>
         
+    </div>
+    
+    <!-- this is populated by SubscriptionTotalByAccount() in toolsController() -->
+    <div id="xOppTools" class="toolsBox">
+        <apex:outputPanel id="test">
+            <apex:repeat value="{!totalAccounts}" var="sta">
+                <div>{!sta['apoid']}</div>
+                <div>{!sta['tot']}</div>
+            </apex:repeat>
+        </apex:outputPanel>
     </div>
     
     
