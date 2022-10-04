@@ -6,7 +6,11 @@
         .linkOver:hover{color:red; text-decoration:none;}
         .select:hover{text-decoration:underline; color:blue; cursor:pointer;}
         .showError{color:red; position:absolute; top:1px; left:5px;}
-        .warning{position:absolute; top:3px; left:5px;}
+        .xwarning{position:absolute; top:3px; left:5px; background-color: red;}
+        .buttonStyle { font-size:11px; font-weight: plain; background-color: #eee; border: 1px solid #aaaaaa;  height: 18px; border-radius:3px;}
+        .buttonStyle:hover { background-color: yellow; color: black; } <!-- #C2FFCC green -->
+        .smaller {font-size:10px;}
+        .tableHeader{font-weight:bold; }
         
         .dataRow{padding-bottom:2px; padding-top:2px; padding-left:4px; border-bottom: 1px #dddddd solid;}
         .rowOver:hover{background-color: rgb(196, 245, 216);}
@@ -18,29 +22,41 @@
                       border-top-left-radius:5px; border-top-right-radius:5px;
                       text-align:center; padding-bottom:5px; padding-top:5px; }
         
-        .RVPwrapper{position:absolute; left:30px; top:30px;}
-        .RVPheader{width:140px; background-color:rgb(22, 22, 152); }
+        .RVPwrapper{position:absolute; left:20px; top:50px;}
+        .RVPheader{width:120px; background-color:rgb(22, 22, 152); }
         .RVPlist{ border-left: #dddddd 1px solid;border-right: #dddddd 1px solid; cursor:default; background-color:white;}
         
-        .AEwrapper{position:absolute; left:200px; top:30px;}
-        .AEheader{width:170px; background-color:rgb(22, 22, 152); }
-        .AElist{ height:380px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
+        .AEwrapper{position:absolute; left:160px; top:50px;}
+        .AEheader{width:142px; background-color:rgb(22, 22, 152); }
+        .AElist{ height:380px; width:140px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
         
-        .AccountFilter{position:absolute; left:400px; top:30px;}
+        .AccountFilter{position:absolute; left:322px; top:8px;}
+        .AccountButtons{position:absolute; left:322px; top:29px; width:528px; }
         
-        .AccountWrapper{position:absolute; left:400px; top:52px;}
-        .AccountHeader{width:391px; background-color:rgb(137, 22, 152); }
-        .AccountList{ height:380px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
-        .AccountRow {width:370px;}
+        .AccountWrapper{position:absolute; left:322px; top:50px;}
+        .AccountHeader{width:528px; background-color:rgb(137, 22, 152); }
+        .AccountList{ height:380px; width:526px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
+        .AccountRow { }
+        .AccountRowData {border-bottom: 1px solid #eee;padding-top:2px; padding-bottom:2px;}
+        .AccountLink { text-decoration:none;}
+        .AccountLink:hover {color:red;text-decoration:none;}
+        .Xtruncate {
+          width: 250px;
+          white-space: nowrap;
+          overflow: hidden;
+          Xtext-overflow: ellipsis;
+        }
         
-        .SFAEwrapper{position:absolute; left:820px; top:30px;}
-        .SFAEheader{width:172px; background-color:rgb(159, 22, 22); }
-        .SFAElist{ height:380px; width:170px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
+        .SFAEButtons{position:absolute; left:870px; top:29px; width:172; }
+        .SFAEwrapper{position:absolute; left:870px; top:50px;}
+        .SFAEheader{width:142px; background-color:rgb(159, 22, 22); }
+        .SFAElist{ height:380px; width:140px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
         
-        .sfRVPaction{position:absolute; left:1020px; top:30px;}
-        .SFRVPwrapper{position:absolute; left:1020px; top:52px;}
-        .SFRVPheader{width:172px; background-color:rgb(159, 22, 22); }
-        .SFRVPlist{ height:380px; width:170px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
+        
+        .SFRVPButtons{position:absolute; left:1032px; top:29px;}
+        .SFRVPwrapper{position:absolute; left:1032px; top:50px;}
+        .SFRVPheader{width:142px; background-color:rgb(159, 22, 22); }
+        .SFRVPlist{ height:380px; width:140px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
     </style>  
     
     <!--<apex:include pageName="Styles"/>-->
@@ -56,6 +72,7 @@
     var HighlightColor = "lightgreen";
     var CurrentSFAE = '';
     var CurrentSFRVP = '';
+    var CurrentSFRVPid = '';
     
     function resetVars(){
         CurrentRVP = '';
@@ -136,6 +153,7 @@
         clearBackgroundRVP(rvpId);
         rvpHighlightFromAE(rvpId);
         FindAccountsScript(aeId);
+        setJSMessage(aeDiv);
     }
     
     
@@ -164,6 +182,8 @@
         document.getElementById(accDiv).style.color = SelectColor2;
         CurrentAccount = accDiv;
         CurrentAE = '';
+        CurrentSFAE = '';
+        CurrentSFRVP = '';
         // CurrentRVP = '';
         rvpHighlightFromAE(rvpId);
         FindAEsScript('', aeId);
@@ -188,7 +208,7 @@
             document.getElementById(sfaeDiv).style.color = 'black';
         }
     }
-    function sfaeSelected(sfaeId){ 
+    function sfaeSelected(sfaeId, sfrvpId){ 
         sfaeDiv = "SFAE" + sfaeId;
         if ( CurrentSFAE != '' ) {
             document.getElementById(CurrentSFAE).style.backgroundColor = 'white';
@@ -199,6 +219,7 @@
         CurrentSFAE = sfaeDiv;
         CurrentAccount = '';
         FindAccountsScript('','','',sfaeId);
+        FindSFRVPsScript(sfrvpId);  
     }
     
     
@@ -226,14 +247,35 @@
         document.getElementById(sfrvpDiv).style.backgroundColor = SelectColor; 
         document.getElementById(sfrvpDiv).style.color = SelectColor2;
         CurrentSFRVP = sfrvpDiv;
+        CurrentSFRVPid = sfrvpId;
         CurrentSFAE = '';
         CurrentAccount = '';
         FindSFAEsScript(sfrvpId);
     }
+    
     function AllAccountsForSFRVP(){
-        alert("1");
-        if ( CurrentSFRVP != '' ) AllAccountsForSFRVPScript();
-        else Alert("Select a SF RVP.);
+        
+        if ( CurrentSFRVPid =='' ) { alert("Select one of the SF RVPs.") }
+        else { 
+            FindAccountsScript('','','','','',CurrentSFRVPid); 
+            setJSMessage("All Accounts for RVP: " + CurrentSFRVP);
+        } // 
+        // alert(CurrentSFRVPid); 
+    }
+    
+    function aesForTheseAccounts(){
+        setJSMessage("AEs for the Account Listed");
+        getAEsFromAccountsScript();
+    }
+    
+    function sfaesForTheseAccounts(){
+        setJSMessage("SF AEs for the Account Listed");
+        getSFAEsFromAccountsScript();
+    }
+    
+    function sfrvpsForTheseSFAEs(){
+        setJSMessage("SF RVPs for the SF AEs Listed");       
+        getSFPVPsFromSFAEsScript();
     }
     
     function filterSelected(filterValue, isChecked){
@@ -260,30 +302,43 @@
         }
     }
         
-        
+    function setJSMessage(s){
+        document.getElementById("JSMessage").innerText = s;
+    }
+      
     </script>
   
   
-    <apex:actionFunction action="{!LoadAEs}" name="FindAEsScript" reRender="AEList,Warning">
+    <apex:actionFunction action="{!LoadAEs}" name="FindAEsScript" reRender="AEList,Warning,Message">
         <apex:param id="rvpId" name="rvpId" value="" /> 
         <apex:param id="ae2Id" name="ae2Id" value="" />
     </apex:actionFunction>
     
-    <apex:actionFunction action="{!LoadAccounts}" name="FindAccountsScript" reRender="AccountList,Warning">
-        <apex:param id="aeId" name="aeId" value="" /> 
-        <apex:param id="filterValue" name="filterValue" value="" /> 
-        <apex:param id="rvp" name="rvp" value="" /> 
-        <apex:param id="sfaeId" name="sfaeId" value="" /> 
-        <apex:param id="searchString" name="searchString" value="" /> 
+    <apex:actionFunction action="{!getAEsFromAccounts}" name="getAEsFromAccountsScript" reRender="AEList,Warning,Message">
     </apex:actionFunction>
     
-    <apex:actionFunction action="{!SetAccountFilters}" name="SetAccountFiltersScript" reRender="AccountList,Warning">
+    <apex:actionFunction action="{!getSFAEsFromAccounts}" name="getSFAEsFromAccountsScript" reRender="SFAElist,Warning,Message">
+    </apex:actionFunction>
+    
+    <apex:actionFunction action="{!getSFRVPsFromSFAEs}" name="getSFPVPsFromSFAEsScript" reRender="SFRVPlist,Warning,Message">
+    </apex:actionFunction>
+    
+    <apex:actionFunction action="{!LoadAccounts}" name="FindAccountsScript" reRender="AccountList,Message,Warning,">
+        <apex:param id="aeId" name="aeId" value="" /> 
+        <apex:param id="filterValue" name="filterValue" value="" /> 
+        <apex:param id="rvpId2" name="rvpId2" value="" /> 
+        <apex:param id="sfaeId" name="sfaeId" value="" /> 
+        <apex:param id="searchString" name="searchString" value="" /> 
+        <apex:param id="sfrvpId2" name="sfrvpId2" value="" /> 
+    </apex:actionFunction>
+       
+    <apex:actionFunction action="{!SetAccountFilters}" name="SetAccountFiltersScript" reRender="AccountList,Warning,Message">
         <!--<apex:param id="filterCustomers" name="filterCustomers" value="" /> -->
         <apex:param id="prospectCheckboxValue" name="prospectCheckboxValue" value="" />
         <apex:param id="otherCheckboxValue" name="otherCheckboxValue" value="" />
     </apex:actionFunction>
     
-    <apex:actionFunction action="{!LoadSFAEs}" name="FindSFAEsScript" reRender="SFAElist,Warning">
+    <apex:actionFunction action="{!LoadSFAEs}" name="FindSFAEsScript" reRender="SFAElist,Warning,Message">
         <apex:param id="sfrvpId" name="sfrvpId" value="" /> 
         <apex:param id="sfae2Id" name="sfae2Id" value="" /> 
     </apex:actionFunction>
@@ -294,9 +349,10 @@
     
     
     <div style="height:1000px;"></div>
-    <div style="position:absolute; left:30px; top:24px;"><input class="nothing" type="text" style="height:0px; width:0px;" /></div>
-    <div class="warning"><apex:outputPanel id="Warning" style="color:#aaa; font-weight: normal; font-size:10px;"><!--{!Warning}-->{!Debug}</apex:outputPanel></div>
-    <div style="position:absolute; left:400px; top:1px;"><apex:outputPanel id="Message" style="color:red; font-weight: bold; font-size:10px;">{!Message}</apex:outputPanel></div>
+    <div style="position:absolute; left:20px; top:54px;"><input class="nothing" type="text" style="height:0px; width:0px;" /></div><!-- this is a dot size input field where the cursor defaults to -->
+    <div class="warning"><apex:outputPanel id="Warning" style="color: #aaa; font-weight: normal; font-size:10px;">{!Warning} {!Debug}</apex:outputPanel></div>
+    <div style="position:absolute; left:20px; top:1px;"><apex:outputPanel id="Message" style="color:red; font-weight: bold; font-size:10px;">{!Message}</apex:outputPanel></div>
+    <div id="JSMessage" style="position:absolute; left:20px; top:13px; color:#777; font-weight: bold; font-size:10px;">There</div>
     
     <!-- RVPs -->
     <div id="rvpRoot" class="RVPwrapper">
@@ -308,7 +364,7 @@
                     onMouseOut="clearBackgroundRVP('{!rvp.id}')"
                     class="dataRow listCommon">
                     <apex:outputPanel onclick="rvpSelected('{!rvp.id}')" >
-                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!rvp.name}</td></tr></table>
+                        <table cellpadding="0" cellspacing="0"><tr><td>{!rvp.name}</td></tr></table>
                     </apex:outputPanel>    
                 </div>
             </apex:repeat>
@@ -327,7 +383,7 @@
                     onMouseOut="clearBackgroundAE('{!AE.id}')"
                     class="dataRow listCommon">
                     <apex:outputPanel onclick="aeSelected('{!AE.id}', '{!AE.mapRVP__c}')" >
-                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!AE.name}</td></tr></table>
+                        <table cellpadding="0" cellspacing="0"><tr><td>{!AE.name}</td></tr></table>
                     </apex:outputPanel>    
                 </div>
             </apex:repeat>
@@ -336,8 +392,16 @@
     </div>
     
     
-    
-    <div class="AccountFilter" >
+    <div class="AccountButtons" >
+        <div style="float:left;vertical-align: text-top;"><input class="buttonStyle" type="button" onclick="aesForTheseAccounts()" value="< AEs for these Accounts" /></div>
+        <div style="float:left;padding-left:65px;">&nbsp;</div>
+        <div style="float:left;vertical-align: baseline;padding-top:3px;">Search</div>
+        <div style="float:left;vertical-align: text-top;">&nbsp;
+            <input onchange="searchAccounts(this.value)" type="text" style="width:50px;height:13px;" id="filterSearch" />
+        </div>
+        <div style="float:right;vertical-align: text-top;"><input class="buttonStyle" type="button" onclick="sfaesForTheseAccounts()" value="SF AEs for these Accounts >" /></div>
+    </div>
+    <div class="AccountFilter" style="display:none;" >
         <div style="float:left;vertical-align: text-top;"><input type="checkbox" id="filterCustomers" onchange="filterSelected('Customer', this.checked)" /></div>
         <div style="float:left;vertical-align: baseline;padding-top:3px;">Customers</div>
         <div style="float:left;">&nbsp;&nbsp;&nbsp;</div>
@@ -354,47 +418,122 @@
         </div>
     </div>
     <!-- Accounts -->
+    <style>
+    .truncate {
+          width: 260px;
+          white-space: nowrap;
+          overflow: hidden;
+          Xtext-overflow: ellipsis;
+        }
+        
+       </style>
     <div id="accRoot" class="AccountWrapper">
         <div id="accHandle" class="AccountHeader headerCommon">Accounts</div>
         <div class="AccountList">
         <apex:outputPanel id="AccountList">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr style="background-color: #F4D5F8;">
+                    <td class="tableHeader AccountRowData"></td>
+                    <td class="tableHeader AccountRowData">Account</td>
+                    <td class="tableHeader AccountRowData"></td>
+                    <td class="tableHeader AccountRowData">AOV</td>
+                    <td class="tableHeader AccountRowData">Industry</td>
+                    <td class="tableHeader AccountRowData" style="text-align:right;">License</td>
+                    <td class="tableHeader AccountRowData" style="text-align:right;">Open</td>
+                    <td class="tableHeader AccountRowData"></td>
+                </tr>
+                <apex:repeat value="{!Accounts}" var="acc">
+                    <tr id="Acc{!acc.id}" 
+                        onMouseOver="setBackgroundAccount('{!acc.id}')"
+                        onMouseOut="clearBackgroundAccount('{!acc.id}')"
+                        class="dataRow listCommon AccountRow" 
+                        onclick="accountSelected('{!acc.id}', '{!acc.mapAE__c}', '{!acc.mapSFAE__c}', '{!acc.formulaRVP__c}', '{!acc.formulaSFRVP__c}')" >  
+                        <td>&nbsp;</td>
+                        <td width="" class="AccountRowData"><div class="truncate">{!acc.name}</div></td>
+                        <td width="10px" class="smaller AccountRowData">{!acc.PCO__c}</td>
+                        <td width="50px" class="smaller AccountRowData">{!acc.AOVshort__c}</td>
+                        <td width="78px" class="smaller AccountRowData">{!acc.IndustryShort__c}</td>
+                        <td width="48px" class="smaller AccountRowData" style="text-align:right;">
+                            <apex:outputText value="{0, number, $###,###,##0}">
+                                <apex:param value="{!acc.Subscription_ACV__c}" />
+                            </apex:outputText>
+                        </td> 
+                        <td width="48px" class="smaller AccountRowData" style="text-align:right;">
+                            <apex:outputText value="{0, number, $###,###,##0}">
+                                <apex:param value="{!acc.TotalOpps__c}" />
+                            </apex:outputText>
+                        </td>
+                        <td width="" style="align:center" class="AccountRowData" >
+                            <a href="{!acc.URL__c}" target="_blank" class="AccountLink" style="font-size:120%">&nbsp;•&nbsp;</a>
+                        </td>
+                    </tr>
+                </apex:repeat>
+            </table> 
+        </apex:outputPanel>
+        
+        <!-- <apex:outputPanel id="AccountList">
             <apex:repeat value="{!Accounts}" var="acc">
                 <div id="Acc{!acc.id}" 
                     onMouseOver="setBackgroundAccount('{!acc.id}')"
                     onMouseOut="clearBackgroundAccount('{!acc.id}')"
-                    class="dataRow listCommon AccountRow">
-                    <apex:outputPanel onclick="accountSelected('{!acc.id}', '{!acc.mapAE__c}', '{!acc.mapSFAE__c}', '{!acc.formulaRVP__c}', '{!acc.formulaSFRVP__c}')" >  
-                        <table cellpadding="0" cellspacing="0"><tr><td width="300px">&nbsp;{!acc.name}</td><td>{!acc.Type__c}</td></tr></table>
-                    </apex:outputPanel>    
+                    class="dataRow listCommon AccountRow" 
+                    onclick="accountSelected('{!acc.id}', '{!acc.mapAE__c}', '{!acc.mapSFAE__c}', '{!acc.formulaRVP__c}', '{!acc.formulaSFRVP__c}')" >  
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td width="250px">{!acc.name}</td>
+                            <td width="10px" class="smaller">{!acc.PCO__c}</td>
+                            <td width="80px" class="smaller">&nbsp;{!acc.AOV__c}</td>
+                            <td width="120px" class="smaller">&nbsp;{!acc.Industry__c}</td>
+                        </tr>
+                    </table>  
                 </div>
             </apex:repeat>
-        </apex:outputPanel>
+        </apex:outputPanel> -->
         </div>
     </div>
 
     
     <!-- SF AEs -->
+    <div class="SFAEButtons" >
+        <div style="float:left;vertical-align: text-top;"><input class="buttonStyle" type="button" onclick="sfrvpsForTheseSFAEs()" value="SF RVPs for SF AEs >" /></div>
+    </div>
     <div id="sfaeRoot" class="SFAEwrapper">
         <div id="sfaeHandle" class="SFAEheader headerCommon">SF AEs</div>
         <div class="SFAElist ">
         <apex:outputPanel id="SFAElist">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <apex:repeat value="{!SFAEs}" var="SFAE">
+                    <tr    id="SFAE{!SFAE.id}" 
+                           onMouseOver="setBackgroundSFAE('{!SFAE.id}')"
+                           onMouseOut="clearBackgroundSFAE('{!SFAE.id}')"
+                           class="dataRow listCommon"
+                           onclick="sfaeSelected('{!SFAE.id}','{!SFAE.mapSFRVP__c}')" >
+                        <td class="AccountRowData" style="padding-left:3px;">{!SFAE.name}</td>
+                        <!-- <td style="align:right;">2</td> -->
+                    </tr>
+                </apex:repeat>
+            </table>
+        </apex:outputPanel>
+        </div>
+    </div>
+    <!-- <apex:outputPanel id="SFAElist">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
             <apex:repeat value="{!SFAEs}" var="SFAE">
                 <div id="SFAE{!SFAE.id}" 
                     onMouseOver="setBackgroundSFAE('{!SFAE.id}')"
                     onMouseOut="clearBackgroundSFAE('{!SFAE.id}')"
                     class="dataRow listCommon">
-                    <apex:outputPanel onclick="sfaeSelected('{!SFAE.id}')" >
-                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!SFAE.name}</td></tr></table>
+                    <apex:outputPanel onclick="sfaeSelected('{!SFAE.id}','{!SFAE.mapSFRVP__c}')" >
+                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!SFAE.name}</td><td>2</td></tr></table>
                     </apex:outputPanel>
                 </div>
             </apex:repeat>
-        </apex:outputPanel>
-        </div>
-    </div>
+        </apex:outputPanel> -->
     
     <!--  SF RVP Action -->
-    <div class="sfRVPaction" >
-        <div style="float:left;vertical-align: text-top;"><input type="button" onclick="AllAccountsForSFRVP()" value="All Accounts for RVP" /></div>
+    <div class="SFRVPButtons" >
+        <div style="float:left;vertical-align: text-top;"><input class="buttonStyle" type="button" onclick="AllAccountsForSFRVP()" value="< Accounts for this RVP" /></div>
     </div>
     <!-- SF RVPs -->
     <div id="sfrvpRoot" class="SFRVPwrapper">
@@ -407,7 +546,7 @@
                     onMouseOut="clearBackgroundSFRVP('{!sfrvp.id}')"
                     class="dataRow listCommon">
                     <apex:outputPanel onclick="sfrvpSelected('{!sfrvp.id}')" >
-                        <table cellpadding="0" cellspacing="0"><tr><td>&nbsp;{!sfrvp.name}</td></tr></table>
+                        <table cellpadding="0" cellspacing="0"><tr><td>{!sfrvp.name}</td></tr></table>
                     </apex:outputPanel>    
                 </div>
             </apex:repeat>

@@ -93,7 +93,7 @@ private class toolsControllerTest {
         TC.clearWhitespaceLostFields();
         TC.clearLostRowsProcessed();
         TC.deleteLostRows();
-        
+        TC.TempDeleteSKUsWithoutGroup();
 
 
         TC.LoadSKUs();
@@ -109,9 +109,17 @@ private class toolsControllerTest {
         TC.Load_AE_SFAE_Account();
         TC.joinAESFAEaccountToAE();
         TC.joinAESFAEaccountToSFAE();
-        TC.postOppRowsToAESFAEAccounts();
+        TC.postOppsToAESFAEAccounts();
         TC.postSubscriptionsToAESFAEAccounts();
         TC.deleteAll_AESFAEAccounts();
         TC.deleteAll_AE_RVP_SFAE_SFRVPs();
+
+        TC.LoadOppsWithProcessed();
+        TC.LoadSubscriptionsWithProcessedAESFmap();
+        TC.SubscriptionTotalByAccount();
+        TC.popultatetBlankSFAEsSFRVPs();
+        TC.clearAESFAEAccountProcessed();
+
+
     }
 }
