@@ -6,7 +6,7 @@
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
-    <description>Identify whitespace</description>
+    <description>Whitespace and AE/RVP relationship with Salesforce.</description>
     <formFactors>Small</formFactors>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
@@ -14,25 +14,26 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Manage</label>
     <navType>Standard</navType>
-    <tabs>M1</tabs>
-    <tabs>Manage</tabs>
     <tabs>Map</tabs>
-    <tabs>WhiteSpace__c</tabs>
-    <tabs>AE__c</tabs>
+    <tabs>Whitespace</tabs>
     <tabs>standard-Account</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
+    <tabs>AE_SFAE_Account__c</tabs>
+    <tabs>AE__c</tabs>
     <tabs>Subscription__c</tabs>
     <tabs>OppRow__c</tabs>
     <tabs>Opp__c</tabs>
     <tabs>Lost__c</tabs>
     <tabs>LostRow__c</tabs>
-    <tabs>Tool</tabs>
-    <tabs>Link__c</tabs>
-    <tabs>Links</tabs>
     <tabs>Group__c</tabs>
+    <tabs>Tool</tabs>
     <tabs>SKU__c</tabs>
-    <tabs>standard-report</tabs>
-    <tabs>standard-Dashboard</tabs>
-    <tabs>AE_SFAE_Account__c</tabs>
+    <tabs>WhiteSpace__c</tabs>
+    <tabs>mapAE__c</tabs>
+    <tabs>mapRVP__c</tabs>
+    <tabs>mapSFAE__c</tabs>
+    <tabs>mapSFRVP__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Manage_UtilityBar</utilityBar>
 </CustomApplication>
