@@ -111,18 +111,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>AccountAutomations</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>AccountAutomationsTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>aeSFAE</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>findLinks</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -139,31 +127,11 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>newContacts</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>newContactsTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>testController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>toolsController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>toolsControllerTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>twoContacts</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>twoContactsTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <custom>false</custom>
@@ -395,11 +363,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Jigsaw</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Manager__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -913,11 +876,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.ClosedOnCreate</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.ContactId</field>
         <readable>true</readable>
@@ -1080,16 +1038,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ChangeRequest.FinalReviewNotes</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ChangeRequest.RelatedIssueAutonumberMaster</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ChangeRequest.RelatedItemAutonumberMaster</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1345,11 +1293,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ContactPointAddress.UsageType</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ContactPointConsent.ContactPointTypeConsentId</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1729,21 +1672,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>DataUsePurpose.IsMaintainablePerContactPoint</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DataUsePurpose.IsMaintainablePerParty</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DataUsePurpose.IsMaintainablePerType</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>DataUsePurpose.LegalBasisId</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1974,11 +1902,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Idea.Attachment</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Idea.Status</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2040,11 +1963,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Incident.PriorityOverrideReason</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Incident.RelatedItemAutonumberMaster</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3279,11 +3197,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Problem.RelatedItemAutonumberMaster</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Problem.ResolutionDateTime</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3354,11 +3267,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ProductTransfer.CanUpdateIsReceived</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ProductTransfer.ExpectedPickupDate</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3415,11 +3323,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>SKU__c.Opportunity_Rows__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>SKU__c.SortOrder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4797,30 +4700,6 @@
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>ActionPlan-Action Plan Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ActionPlanItemDependency-Action Plan Item Dependency Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ActionPlanTemplate-Action Plan Template Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ActionPlanTemplateItem-Action Plan Template Item Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ActionPlanTemplateItemValue-Action Plan Template Item Value Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ActionPlanTemplateVersion-Action Plan Template Version Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ActionPlanTmplItmAssessmentInd-Action Plan Template Item Assessment Indicator Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ActionPlnTmplItmDependency-Action Plan Template Item Dependency Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Address-Address Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4917,9 +4796,6 @@
         <layout>ContractLineItem-Contract Line Item Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Crisis-Crisis Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Customer-Customer Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4927,9 +4803,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>DataUsePurpose-Data Use Purpose Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>DeliveryTask-Delivery Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>DigitalWallet-Digital Wallet Layout</layout>
@@ -4945,18 +4818,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>EmailMessage-Email Message Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>EmpUserProvisionProcessErr-Employee User Provisioning Process Error Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>EmpUserProvisioningProcess-Employee User Provisioning Process Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Employee-Employee Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>EmployeeCrisisAssessment-Employee Crisis Assessment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Entitlement-Entitlement Layout</layout>
@@ -4981,9 +4842,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Individual-Individual Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>InternalOrganizationUnit-Internal Organization Unit Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Lead-Lead Layout</layout>
@@ -5100,13 +4958,7 @@
         <layout>Seller-Seller Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>ServiceAppointmentGroup-Service Appointment Group Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>ServiceContract-Service Contract Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>SetupAssttRuntimeSt-%5F%5FMISSING LABEL%5F%5F PropertyFile - val SetupAssttRuntimeSt not found in section StandardLayouts</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Shipment-Shipment Layout</layout>
@@ -5148,9 +5000,6 @@
         <layout>UserProvisioningRequest-User Provisioning Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>VehicleUserAssignment-Vehicle User Assignment Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit-Visit Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5176,12 +5025,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>WorkOrderLineItem-Work Order Line Item Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>WorkProcedure-Work Procedure Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>WorkProcedureStep-Work Procedure Step Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>WorkThanks-Thanks Layout</layout>
@@ -5907,15 +5750,6 @@
         <allowRead>false</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Event</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>false</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>EventRelayFeedback</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -6859,22 +6693,9 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>mapcopy</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>test</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>tools</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Idea.InternalIdeasIdeaRecordType</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>copado__Artifact__c.copado__Git_Artifact</recordType>
@@ -7101,10 +6922,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>standard-AdvAcctForecastSetUse</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>standard-AlternativePaymentMethod</tab>
         <visibility>DefaultOff</visibility>
     </tabVisibilities>
@@ -7241,10 +7058,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>standard-ContractLineItem</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>standard-Customer</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -7373,10 +7186,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>standard-ManufacturingProgram</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>standard-MobileHome</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -7449,10 +7258,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>standard-ProductAvailabilityProjection</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>standard-ProductFulfillmentLocation</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -7481,10 +7286,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>standard-QuickText</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>standard-Recognition</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -7498,10 +7299,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-RefundLinePayment</tab>
-        <visibility>DefaultOff</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>standard-RescheduleAppointments</tab>
         <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -7519,10 +7316,6 @@
     <tabVisibilities>
         <tab>standard-SOSSession</tab>
         <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>standard-ScheduleAppointments</tab>
-        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-Scorecard</tab>
