@@ -30,7 +30,7 @@ table {cursor:default;}
 .selectAll:hover{text-decoration:underline; color:yellow; }
 .wsTDRight{text-align:right;}
 .wsTDCenter{text-align:center;}
-.wsTDPadding {padding:3px;}
+.XwsTDPadding {padding:3px;}
 
 .ManagerToggle  {position:absolute; left:20px; top:24px; cursor:pointer; }
 .ManagerList {position:absolute; left:40px; top:24px; cursor:pointer; 
@@ -68,6 +68,7 @@ table {cursor:default;}
 }
 .WhitespaceData{background-color: lightskyblue; }
 .WhitespaceTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
+.WhitespaceTableTotal  {color:white; background-color:#2069ae; padding-top:1px; padding-bottom:1px; }
 
 .OppsList{
     position:absolute; left:20px; top:395px; 
@@ -79,10 +80,9 @@ table {cursor:default;}
     border-top-left-radius:5px; border-top-right-radius:5px;
 }
 .OppsTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
-.WhitespaceTableTotal  {color:white; background-color:#2069ae; padding-top:1px; padding-bottom:1px; }
+
 .OppsData {    background-color: lightskyblue; }
 .OppsAccountName {position:absolute; left:20px; top:370px; font-weight:bold; font-size:140%}
-
 .OppRowsList{
     /* position:absolute; left:20px; top:525px; */
     border: 0px solid #888888; 
