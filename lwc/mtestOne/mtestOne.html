@@ -230,10 +230,10 @@
                             <td class="WhitespaceTableTotal" style="text-align:right">
                                 <lightning-formatted-number value={TotalSubscription} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
                             </td>
-                            <td class="WhitespaceTableTotal" style="text-align:right; padding-right:4px;">
+                            <td class="WhitespaceTableTotal ataRow tdRight wsTDPadding">
                                 <lightning-formatted-number value={TotalOpen} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
                             </td>
-                            <td class="WhitespaceTableTotal" style="text-align:right; padding-right:4px;"></td>
+                            <td class="WhitespaceTableTotal ataRow tdRight wsTDPadding"></td> 
                         </tr> 
                         <template for:each={wsGroups} for:item="wsGroup">
                             <tr key={wsGroup.id} data-item={wsGroup.Name} data-item2={wsGroup.Name} data-product={wsGroup.Name}>
