@@ -315,6 +315,24 @@ IF(SubTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>hasLicenses__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Only used in the UI in mtestOne.html and findLinks.cls</description>
+        <externalId>false</externalId>
+        <label>hasLicenses</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>hasOpen__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Only used in the UI in mtestOne.html and findLinks.cls</description>
+        <externalId>false</externalId>
+        <label>hasOpen</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>showHasLost__c</fullName>
         <externalId>false</externalId>
         <label>showHasLost</label>

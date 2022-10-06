@@ -182,7 +182,7 @@ public with sharing class findLinks {
         LIST<Group__c> groups = [SELECT id, Name, OppTotal__c, OppTotalString__c, SubTotal__c, SubTotalString__c, showHasLost__c
                                  FROM Group__c
                                  ORDER BY SortOrder__c];
-        System.Debug(accountId); // 
+        // System.Debug(accountId); // 
         // accountId = '0010100000TXOJy'; 
         LIST<WhiteSpace__c> wsAccount = [SELECT id, name, Account__c, Group__c, GroupName__c, 
                                                 OppTotal__c, OppQuantity__c, SubTotal__c, SubQuantity__c,
@@ -202,7 +202,9 @@ public with sharing class findLinks {
                     if ( newWS.OppTotal__c == null ) newWS.OppTotal__c = 0; // set to 0 if null
                     if ( newWS.SubTotal__c == null ) newWS.SubTotal__c = 0; // set to 0 if null
                     if ( ws.OppTotal__c != null ) newWS.OppTotal__c += ws.OppTotal__c; // groups[i].OppTotal__c = 0;
+                    if ( newWS.OppTotal__c != 0 ) newWS.hasOpen__c = true;
                     if ( ws.SubTotal__c != null ) newWS.SubTotal__c += ws.SubTotal__c; //groups[i].SubTotal__c = 0;
+                    if ( newWS.SubTotal__c !=0 ) newWs.hasLicenses__c = true;
                     newWS.Opportunity_Name__c = ws.Opportunity_Name__c;
                     newWS.AccountName__c = ws.AccountName__c;
                     newWS.Close_Date__c = ws.Close_Date__c;
@@ -213,12 +215,36 @@ public with sharing class findLinks {
                     newWs.Lost_Reason_Additional_Notes__c = ws.Lost_Reason_Additional_Notes__c;
                     newWs.Lost_Reason_Detail__c = ws.Lost_Reason_Detail__c;
                     newWS.showHasLost__c = ws.showHasLost__c;
+                    
                     // newWS.Name = 'success';
                 }
             }
             wsGroups.add(newWS);
         }
         return wsGroups;
+    }
+
+    @AuraEnabled(cacheable=true) 
+    public static decimal getTotalOpen(id accountId) {
+        LIST<WhiteSpace__c> wsAccount = [SELECT id, OppTotal__c, SubTotal__c FROM WhiteSpace__c WHERE Account__c = :accountId ];
+        decimal open = 0;
+        decimal sub = 0;
+        for ( WhiteSpace__c ws : wsAccount ){
+            if ( ws.OppTotal__c != null ) open += ws.OppTotal__c; // groups[i].OppTotal__c = 0;
+            if ( ws.SubTotal__c != null ) sub += ws.SubTotal__c; //groups[i].SubTotal__c = 0;
+        }
+        return open;
+    }
+    @AuraEnabled(cacheable=true) 
+    public static decimal getTotalSubscription(id accountId) {
+        LIST<WhiteSpace__c> wsAccount = [SELECT id, OppTotal__c, SubTotal__c FROM WhiteSpace__c WHERE Account__c = :accountId ];
+        decimal open = 0;
+        decimal sub = 0;
+        for ( WhiteSpace__c ws : wsAccount ){
+            if ( ws.OppTotal__c != null ) open += ws.OppTotal__c; // groups[i].OppTotal__c = 0;
+            if ( ws.SubTotal__c != null ) sub += ws.SubTotal__c; //groups[i].SubTotal__c = 0;
+        }
+        return sub;
     }
 
 
