@@ -14,7 +14,6 @@ private class findLinksTest {
         insert g;
 
         Whitespace__c w = new Whitespace__c();
-        w.Group__c = g.id;
         insert w;
 
         string searchValueTest = 'sm';
@@ -30,6 +29,9 @@ private class findLinksTest {
         findLinks.getOppRows(SearchUsingId);
         findLinks.getWSGroups(SearchUsingId);
         findLinks.getLostRow(SearchUsingId);
+
+        findLinks.getTotalOpen(SearchUsingId);
+        findLinks.getTotalSubscription(SearchUsingId);
 
         findLinks.getLinks(searchValueTest,true,searchValueTest);
     }
