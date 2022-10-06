@@ -41,7 +41,20 @@
                     </template>
                 </template> 
             </div>
-        </div> 
+        </div>
+        <!--<div class="AEList">
+            <div class="AEListHeader ">AE</div>
+            <div class="AEListNames ">
+                <template if:true={aes}> 
+                    <template for:each={aes} for:item="ae"> 
+                        <div id={ae.Id} key={ae.Id} data-name={ae.Name} data-item={ae.Id} data-manager={ae.Manager__c}
+                                onclick={aeSelected} class="dataRow rowOver AEListItems ">
+                            <div style="float:left;">{ae.Name}</div><div style="float:left;">xx</div>
+                        </div>
+                    </template>
+                </template> 
+            </div>
+        </div> -->
 
         <div class="AccountListAEName">{aeSelectedName}<font style="font-size:9px">&nbsp;&nbsp;{manager}</font></div>
         <div class="AccountList">
@@ -82,21 +95,34 @@
 
         <div class="SubscriptionAccountName">{accountSelectedNameSub}</div>
         <div class="SubscriptionList">
-            <div class="AEListHeader" style="width:600px;">Current Licenses</div>
+            <div class="AEListHeader" style="width:600px;">Current Licenses in Contract</div>
             <div class="SubscriptionData">
                 <table width="600px" border="0">
                     <template if:true={subscriptions}> 
+                        <tr style="background-color:#19548a; color:white;">
+                            <td class="dataRow shrinkNumbers" >Name</td>
+                            <td class="dataRow tdRight shrinkNumbers" >Qty</td>
+                            <td class="dataRow tdRight shrinkNumbers" >Each</td>
+                            <td class="dataRow tdRight shrinkNumbers" >Total</td>
+                            <td colspan="2" class="dataRow tdCenter miniNumbers" >Current Start-End</td>
+                            <!--<td class="dataRow tdCenter shrinkNumbers" >Sub End</td>-->
+                            <td class="dataRow tdCenter miniNumbers" >Term</td>
+                            <td colspan="2" class="dataRow tdCenter miniNumbers" >Contract Start-End</td>
+                           <!--<td class="dataRow tdCenter miniNumbers" >Contract End</td>-->
+                            <td class="dataRow tdCenter miniNumbers2" >Number</td>
+                            <td class="dataRow"></td>
+                        </tr> 
                         <template for:each={subscriptions} for:item="subscription"> 
                             <tr class="rowOver" key={subscription.Id} id={subscription.Id}>
-                                <td width="118px" class="dataRow shrinkNumbers" >{subscription.Name}</td>
+                                <td width="141px" class="dataRow shrinkNumbers" >{subscription.Name}</td>
                                 <td width="27px" class="dataRow tdRight shrinkNumbers" >{subscription.QuantityString__c}</td>
                                 <td width="50px" class="dataRow tdRight shrinkNumbers" >{subscription.PurchaseString__c}</td>
                                 <td width="55px" class="dataRow tdRight shrinkNumbers" >{subscription.TotalString__c}</td>
-                                <td width="58px" class="dataRow tdCenter shrinkNumbers" >
+                                <td width="45px" class="dataRow tdCenter miniNumbers" >
                                     <lightning-formatted-date-time value={subscription.Start__c} year="2-digit" month="numeric" day="numeric">
                                     </lightning-formatted-date-time> 
                                 </td>
-                                <td width="55px" class="dataRow tdCenter shrinkNumbers" >{subscription.EndString__c}</td>
+                                <td width="45px" class="dataRow tdCenter miniNumbers" >{subscription.EndString__c}</td>
                                 <td width="8px" class="dataRow tdCenter miniNumbers" >{subscription.Contract_Term__c}</td>
                                 <td width="45px" class="dataRow tdCenter miniNumbers" >{subscription.ContractStartString__c}</td>
                                 <td width="45px" class="dataRow tdCenter miniNumbers" >{subscription.ContractEndString__c}</td>
@@ -115,8 +141,8 @@
         <div class="OppsAccountName">{accountSelectedNameOpp}</div>
         <div class="OppsList">
             <div class="OppListHeader" style="width:1040px;">
-                <table>
-                    <tr key={fakeKey}>
+                <table style="width:1040px;">
+                    <tr>
                         <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}>All</td>
                         <td width="80%" class="tdCenter">Open Opportunities</td>
                         <td width="10%" class="tdCenter selectAll">&nbsp;</td>
@@ -194,21 +220,33 @@
                 <table border="0" style="width:340px; border-color:#aaaaaa; " cellpadding="3" cellspacing="3">
                     <tr>
                         <td class="WhitespaceTableHeader" style="width:140px; padding-left:4px;">Product Group</td>
-                        <td class="WhitespaceTableHeader" style="width:80px; text-align:right">Contract</td>
+                        <td class="WhitespaceTableHeader" style="width:80px; text-align:right">Licenses</td>
                         <td class="WhitespaceTableHeader" style="width:80px; text-align:right; padding-right:4px;">Open</td>
                         <td class="WhitespaceTableHeader" style="width:40px; text-align:right; padding-right:4px;">Lost</td>
                     </tr>
                     <template if:true={wsGroups}>
+                        <tr>
+                            <td class="WhitespaceTableTotal" style="padding-left:4px;">Total</td>
+                            <td class="WhitespaceTableTotal" style="text-align:right">
+                                <lightning-formatted-number value={TotalSubscription} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </td>
+                            <td class="WhitespaceTableTotal" style="text-align:right; padding-right:4px;">
+                                <lightning-formatted-number value={TotalOpen} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </td>
+                            <td class="WhitespaceTableTotal" style="text-align:right; padding-right:4px;"></td>
+                        </tr> 
                         <template for:each={wsGroups} for:item="wsGroup">
                             <tr key={wsGroup.id} data-item={wsGroup.Name} data-item2={wsGroup.Name} data-product={wsGroup.Name}>
                                 <td class="dataRow wsTDPadding">{wsGroup.Name}</td>
                                 <td class="dataRow tdRight wsTDPadding">
-                                    <lightning-formatted-number value={wsGroup.SubTotal__c} format-style="currency" 
-                                                                minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    <template if:true={wsGroup.hasLicenses__c}> 
+                                        <lightning-formatted-number value={wsGroup.SubTotal__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </template> 
                                 </td>
                                 <td class="dataRow tdRight wsTDPadding">
-                                    <lightning-formatted-number value={wsGroup.OppTotal__c} format-style="currency" 
-                                                                minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    <template if:true={wsGroup.hasOpen__c}> 
+                                        <lightning-formatted-number value={wsGroup.OppTotal__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </template>                           
                                 </td>
                                 <td onclick={openModal} data-item2={wsGroup.Lost_Reason__c} 
                                                         data-item3={wsGroup.Lost_Reason_Additional_Notes__c} 
