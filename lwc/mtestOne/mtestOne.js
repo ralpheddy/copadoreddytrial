@@ -9,6 +9,8 @@ import findOppRows from '@salesforce/apex/findLinks.getOppRows';
 // import findWhiteSpace from '@salesforce/apex/findLinks.getWhiteSpace';
 import getWSGroups from '@salesforce/apex/findLinks.getWSGroups';
 import getOneLostRow from '@salesforce/apex/findLinks.getLostRow';
+import getTotalOpen from '@salesforce/apex/findLinks.getTotalOpen'; 
+import getTotalSubscription from '@salesforce/apex/findLinks.getTotalSubscription'; 
 
 export default class MtestOne extends LightningElement {
     version = 1.0;
@@ -55,6 +57,9 @@ export default class MtestOne extends LightningElement {
     lostTotal;
     lostProduct;
     lostOppURL;
+
+    TotalSubscription;
+    TotalOpen;
 
     async openModal2() {
         
@@ -155,6 +160,8 @@ export default class MtestOne extends LightningElement {
         } else {
             this.searchsSubscriptions();
             this.getWhiteSpaceGroups(); 
+            this.getTotalOpenValue();
+            this.getTotalSubscriptionValue();
         }
         this.oppsSearchAllForAE = false;
         this.searchOpps();
@@ -432,6 +439,59 @@ export default class MtestOne extends LightningElement {
             this.showError = 'Error: ' + this.errorString;
         });
     }
+
+    getTotalOpenValue(event){ // alert(this.aeSelectedId);
+        getTotalOpen({accountId: this.accountSelectedId})
+        .then((result) => {
+            this.TotalOpen = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.TotalOpen = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+    
+    getTotalSubscriptionValue(event){ // alert(this.aeSelectedId);
+        getTotalSubscription({accountId: this.accountSelectedId})
+        .then((result) => {
+            this.TotalSubscription = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.TotalSubscription = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+
 
     getLostRowRecord(event){ 
         getOneLostRow({lostRowId: this.lostRowIdFromWS})

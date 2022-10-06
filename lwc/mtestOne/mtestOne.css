@@ -46,7 +46,7 @@ table {cursor:default;}
     border-top-left-radius:5px; border-top-right-radius:5px;
 }
 .AEListNames { width:140px; height:280px; overflow: auto; background-color: lightskyblue; }
-.AEListItems {border-bottom: #dddddd 1px solid;}
+.AEListItems {border-bottom: #dddddd 1px solid; } /* font-size:140%; */
 
 .AccountList {cursor:default; 
     border: 0px solid #dddddd; 
@@ -79,6 +79,7 @@ table {cursor:default;}
     border-top-left-radius:5px; border-top-right-radius:5px;
 }
 .OppsTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
+.WhitespaceTableTotal  {color:white; background-color:#2069ae; padding-top:1px; padding-bottom:1px; }
 .OppsData {    background-color: lightskyblue; }
 .OppsAccountName {position:absolute; left:20px; top:370px; font-weight:bold; font-size:140%}
 
