@@ -6,8 +6,9 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
-    <tabs>M1</tabs>
+    <tabs>Whitespace</tabs>
     <tabs>Map</tabs>
     <tabs>Tool</tabs>
+    <tabs>Renewal__c</tabs>
     <uiType>Aloha</uiType>
 </CustomApplication>
