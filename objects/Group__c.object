@@ -347,6 +347,8 @@ IF(SubTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>SortOrder__c</columns>
+        <columns>OppTotal__c</columns>
+        <columns>SubTotal__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

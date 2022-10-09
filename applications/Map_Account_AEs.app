@@ -14,7 +14,7 @@
     <label>Map Copado to SF</label>
     <navType>Standard</navType>
     <tabs>Map</tabs>
-    <tabs>M1</tabs>
+    <tabs>Whitespace</tabs>
     <tabs>AE_SFAE_Account__c</tabs>
     <tabs>mapAE__c</tabs>
     <tabs>mapRVP__c</tabs>
@@ -23,6 +23,7 @@
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>Tool</tabs>
+    <tabs>Renewal__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Map_Account_AEs_UtilityBar</utilityBar>
 </CustomApplication>
