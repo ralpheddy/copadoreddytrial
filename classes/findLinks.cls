@@ -120,6 +120,18 @@ public with sharing class findLinks {
 
 
 
+    @AuraEnabled(cacheable=true) 
+    public static LIST<Renewal__c> getRenewals(id aeId) {
+        
+        LIST<Renewal__c> renewals = [SELECT id, Name, Account__c, AE__c, Account_ID__c, Account_Name__c, 
+            ACV_converted__c, Close_Date__c, 
+            Expansion_ACV__c, Incremental_ACV__c, Opportunity_ID__c, Opportunity_Name__c,
+            Renewal_ACV__c, Renewal_Due_Date__c, Stage__c, Uplift__c, URL__c
+            FROM Renewal__c
+            WHERE AE__c = :aeId];
+       return renewals;
+    } 
+
 
 
     @AuraEnabled(cacheable=true) 
