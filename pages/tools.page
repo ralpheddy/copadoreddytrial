@@ -161,9 +161,14 @@
         <apex:commandButton action="{!joinAccountsToAEs}" value="Join Accounts to AEs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinAccountsToAEs}<br/>
         <br/>
         <hr/>
-         <br/>
-         <apex:commandButton action="{!getManagers}" value="Managers List" styleClass="button" disabled="true" rerender="myForm" status="showLoading" />&nbsp;{!managersSize}<br/>
         <br/>
+        <div class="toolTitle">Renewals</div>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAllRenewals}" value="Delete All Renewals" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedRenewals}<br/>
+        <br/>
+        <apex:commandButton action="{!joinRenewalsToAEsAccounts}" value="Join Renewals to AEs & Accounts" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentJoinedRenewals}<br/>
+        
     </div>
         
     <div id="xOppTools" class="toolsBox">
@@ -193,7 +198,9 @@
         {!commentSubscriptionsCreateWhitespace}<br/>
         {!mydebug}
         <br/>
-        
+        <hr/>
+        <br/>
+        <apex:commandButton action="{!getManagers}" value="Managers List" styleClass="button" disabled="true" rerender="myForm" status="showLoading" />&nbsp;{!managersSize}<br/>
         <br/>
         
     </div>
@@ -246,7 +253,7 @@
     </div>
     
     <!-- this is populated by SubscriptionTotalByAccount() in toolsController() -->
-    <div id="xOppTools" class="toolsBox">
+    <div id="xOppTools" class="toolsBox" style="display:none">
         <apex:outputPanel id="test">
             <apex:repeat value="{!totalAccounts}" var="sta">
                 <div>{!sta['apoid']}</div>
