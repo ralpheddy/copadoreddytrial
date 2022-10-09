@@ -141,7 +141,21 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayoutAssignment>Custom_Compact_Layout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Custom_Compact_Layout</fullName>
+        <fields>Name</fields>
+        <fields>Renewal_Due_Date__c</fields>
+        <fields>Close_Date__c</fields>
+        <fields>Account_Name__c</fields>
+        <fields>Uplift_Currency__c</fields>
+        <fields>Uplift__c</fields>
+        <fields>Expansion_ACV__c</fields>
+        <fields>Incremental_ACV__c</fields>
+        <fields>Renewal_ACV__c</fields>
+        <fields>Stage__c</fields>
+        <label>Custom Compact Layout</label>
+    </compactLayouts>
     <deploymentStatus>Deployed</deploymentStatus>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
@@ -154,14 +168,89 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
-        <fullName>AccountName__c</fullName>
+        <fullName>ACV_converted_Currency__c</fullName>
         <externalId>false</externalId>
-        <label>AccountName</label>
-        <length>120</length>
+        <label>ACV (converted) Currency</label>
+        <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ACV_converted__c</fullName>
+        <externalId>false</externalId>
+        <label>ACV (converted)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AE__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>AE</label>
+        <referenceTo>AE__c</referenceTo>
+        <relationshipLabel>Renewals</relationshipLabel>
+        <relationshipName>Renewals</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Account_Health__c</fullName>
+        <externalId>false</externalId>
+        <label>Account Health</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Account ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Account Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Owner__c</fullName>
+        <externalId>false</externalId>
+        <label>Account Owner</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Renewals</relationshipLabel>
+        <relationshipName>Renewals</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Close_Date__c</fullName>
@@ -172,115 +261,170 @@
         <type>Date</type>
     </fields>
     <fields>
-        <fullName>External_ID__c</fullName>
-        <externalId>true</externalId>
-        <label>External ID</label>
+        <fullName>Expansion_ACV_Currency__c</fullName>
+        <externalId>false</externalId>
+        <label>Expansion ACV Currency</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Expansion_ACV__c</fullName>
+        <externalId>false</externalId>
+        <label>Expansion ACV</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>0</scale>
+        <scale>4</scale>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>LostOppURL__c</fullName>
+        <fullName>Incremental_ACV_Currency__c</fullName>
         <externalId>false</externalId>
-        <label>LostOppURL</label>
-        <length>120</length>
+        <label>Incremental ACV Currency</label>
+        <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>LostTotal__c</fullName>
+        <fullName>Incremental_ACV__c</fullName>
         <externalId>false</externalId>
-        <label>LostTotal</label>
+        <label>Incremental ACV</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>4</scale>
         <trackTrending>false</trackTrending>
-        <type>Currency</type>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Lost_Reason_Additional_Notes__c</fullName>
+        <fullName>Next_Contact__c</fullName>
         <externalId>false</externalId>
-        <label>Lost Reason Additional Notes</label>
-        <length>32768</length>
+        <label>Next Contact</label>
+        <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>LongTextArea</type>
-        <visibleLines>5</visibleLines>
+        <type>Date</type>
     </fields>
     <fields>
-        <fullName>Lost_Reason_Detail__c</fullName>
+        <fullName>Next_Step__c</fullName>
         <externalId>false</externalId>
-        <label>Lost Reason Detail</label>
-        <length>80</length>
+        <label>Next Step</label>
+        <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Lost_Reason__c</fullName>
+        <fullName>Opportunity_ID__c</fullName>
         <externalId>false</externalId>
-        <label>Lost Reason</label>
-        <length>80</length>
+        <label>Opportunity ID</label>
+        <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>OppTotalString__c</fullName>
-        <externalId>false</externalId>
-        <formula>IF(  OppTotal__c   &lt; 0, &quot;(&quot;, &quot;&quot;)  &amp;
-IF(ABS(OppTotal__c) &gt;= 1000000, TEXT(FLOOR(ABS(OppTotal__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-IF(ABS(OppTotal__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(OppTotal__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-RIGHT(TEXT(FLOOR(ABS(OppTotal__c))), 3) &amp;
-
-IF(OppTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>OppTotalString</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>OppTotal__c</fullName>
-        <externalId>false</externalId>
-        <label>OppTotal</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
     </fields>
     <fields>
         <fullName>Opportunity_Name__c</fullName>
         <externalId>false</externalId>
         <label>Opportunity Name</label>
-        <length>120</length>
+        <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Product__c</fullName>
+        <fullName>Renewal_ACV_Currency__c</fullName>
         <externalId>false</externalId>
-        <label>Product</label>
-        <length>80</length>
+        <label>Renewal ACV Currency</label>
+        <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>SortOrder__c</fullName>
+        <fullName>Renewal_ACV__c</fullName>
         <externalId>false</externalId>
-        <label>SortOrder</label>
+        <label>Renewal ACV</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Renewal_Due_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Renewal Due Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Renewals_Manager__c</fullName>
+        <externalId>false</externalId>
+        <label>Renewals Manager</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Stage__c</fullName>
+        <externalId>false</externalId>
+        <label>Stage</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>URL__c</fullName>
+        <externalId>false</externalId>
+        <formula>$Label.CopadoDomain &amp; &quot;/lightning/r/Opportunity/&quot; &amp;  Opportunity_ID__c &amp; &quot;/view&quot;</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Uplift_Currency__c</fullName>
+        <externalId>false</externalId>
+        <label>Uplift Currency</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Uplift__c</fullName>
+        <externalId>false</externalId>
+        <label>Uplift</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>of_Days_Until_Close__c</fullName>
+        <externalId>false</externalId>
+        <label># of Days Until Close</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -288,76 +432,41 @@ IF(OppTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
         <type>Number</type>
         <unique>false</unique>
     </fields>
-    <fields>
-        <fullName>SubTotalString__c</fullName>
-        <externalId>false</externalId>
-        <formula>IF(  SubTotal__c   &lt; 0, &quot;(&quot;, &quot;&quot;)  &amp;
-IF(ABS(SubTotal__c) &gt;= 1000000, TEXT(FLOOR(ABS(SubTotal__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-IF(ABS(SubTotal__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(SubTotal__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp;
-RIGHT(TEXT(FLOOR(ABS(SubTotal__c))), 3) &amp;
-
-IF(SubTotal__c &lt; 0, &quot;)&quot;, &quot;&quot;)</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>SubTotalString</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>SubTotal__c</fullName>
-        <externalId>false</externalId>
-        <label>SubTotal</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>hasLicenses__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Only used in the UI in mtestOne.html and findLinks.cls</description>
-        <externalId>false</externalId>
-        <label>hasLicenses</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>hasOpen__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Only used in the UI in mtestOne.html and findLinks.cls</description>
-        <externalId>false</externalId>
-        <label>hasOpen</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>showHasLost__c</fullName>
-        <externalId>false</externalId>
-        <label>showHasLost</label>
-        <length>80</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <label>Group</label>
+    <label>Renewal</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>SortOrder__c</columns>
-        <columns>OppTotal__c</columns>
-        <columns>SubTotal__c</columns>
+        <columns>Renewal_Due_Date__c</columns>
+        <columns>Close_Date__c</columns>
+        <columns>Account_Name__c</columns>
+        <columns>Uplift__c</columns>
+        <columns>Expansion_ACV__c</columns>
+        <columns>Incremental_ACV__c</columns>
+        <columns>Renewal_ACV__c</columns>
+        <columns>Stage__c</columns>
+        <columns>Account_Owner__c</columns>
+        <columns>AE__c</columns>
+        <columns>Account__c</columns>
+        <columns>Opportunity_ID__c</columns>
         <filterScope>Everything</filterScope>
-        <label>All</label>
+        <label>All Records</label>
     </listViews>
     <nameField>
-        <label>Group Name</label>
+        <label>Renewal</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Groups</pluralLabel>
-    <searchLayouts />
+    <pluralLabel>Renewals</pluralLabel>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Renewal_Due_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Close_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Account_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Uplift_Currency__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Uplift__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Expansion_ACV__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Incremental_ACV__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Renewal_ACV__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Stage__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
