@@ -11,9 +11,10 @@ import getWSGroups from '@salesforce/apex/findLinks.getWSGroups';
 import getOneLostRow from '@salesforce/apex/findLinks.getLostRow';
 import getTotalOpen from '@salesforce/apex/findLinks.getTotalOpen'; 
 import getTotalSubscription from '@salesforce/apex/findLinks.getTotalSubscription'; 
+import getRenewals from '@salesforce/apex/findLinks.getRenewals'; 
 
 export default class MtestOne extends LightningElement {
-    version = 1.0;
+    version = 1.1;
     aes;
     aeSelectedId;
     aeSelectedName;
@@ -34,6 +35,7 @@ export default class MtestOne extends LightningElement {
     oppSelectedName;
     oppsSearchAllForAE; // true or
     oppRows;
+    renewals;
     whitespaces; // not using
     wsGroups; // the actual whitespace
     lostRowIdFromWS;
@@ -112,6 +114,10 @@ export default class MtestOne extends LightningElement {
         this.clearWsGroups();
     }
 
+    accountSearch(event){
+        var s = event.target.value;        // alert(s);
+        
+    }
 
     aeSelected(event){
         // alert(event.target.dataset.item);
@@ -121,7 +127,8 @@ export default class MtestOne extends LightningElement {
         // this.aeSelectedId = event.target.id;  // alert(event.target.dataset.item);
         // this.aeSelectedId = this.aeSelectedId.substring(0,18); // alert(this.aeSelectedId);
         this.aeSelectedId = event.target.dataset.item;
-        this.searchAccounts();
+        this.searchAccounts(); // alert("renewals: " + this.aeSelectedId);
+        this.searchRenewals();
         this.aeSelectedlOriginalID = event.target.id;
         if ( this.firstAEclick == true ) { // skip}
             //var myDiv = "div[data-item=" + aeSelectedPreviousItem + "]"; // 
@@ -140,7 +147,7 @@ export default class MtestOne extends LightningElement {
         this.aeSelectedPreviousItem = this.aeSelectedId
         // alert(this.firstClick); 
         
-        this.accountSelectedId = ""; 
+        this.accountSelectedId = "";
         this.clearSubscriptions();
         this.clearOpps();
         this.clearOppRows(); 
@@ -414,6 +421,35 @@ export default class MtestOne extends LightningElement {
     }*/
 
     
+    searchRenewals(event){
+        /*alert(this.accountSelectedId);*/
+        // getRenewals({accountId: this.accountSelectedId, aeId: this.aeSelectedId, searchAll: this.oppsSearchAllForAE})  
+        getRenewals({aeId: this.aeSelectedId})  // alert(this.accountSelectedId);
+        .then((result) => {
+            this.renewals = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.renewals = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+
+
     getWhiteSpaceGroups(event){ // alert(this.aeSelectedId);
         getWSGroups({accountId: this.accountSelectedId})
         .then((result) => {
@@ -523,6 +559,8 @@ export default class MtestOne extends LightningElement {
     connectedCallback() {
         this.loadAEs();
         this.loadManagers();
+        this.clearOppRows(); 
+        // this.searchRenewals();
         // this.searchAccounts();
         // this.accountSelectedId = "0010100000SoV7dAAF";
         // this.searchsSubscriptions();
