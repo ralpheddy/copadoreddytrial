@@ -6,6 +6,7 @@ public class toolsController {
     public transient LIST<Account> accounts {get;set;}
     public transient LIST<Subscription__c> subscriptions {get;set;}
     public transient LIST<SKU__c> skus {get;set;}
+    public transient LIST<Renewal__c> renewals {get;set;}
     public transient LIST<Group__c> groups {get;set;}
     public transient LIST<Group__c> wsGroups {get;set;}
     public transient LIST<WhiteSpace__c> whitespaces {get;set;}
@@ -33,6 +34,8 @@ public class toolsController {
     public integer countClearProcessedSubs {get;set;}
 
     public integer countDeletedSubscriptions {get;set;}
+    public integer countDeletedRenewals {get;set;}
+    public string commentJoinedRenewals {get;set;}
     public integer countCreatedAEsSub {get;set;}
     public string commentCreateAEsFromSubscriptions {get;set;}
     public integer countCreatedAccountsSub {get;set;}
@@ -186,7 +189,10 @@ public class toolsController {
                          // WHERE Account__r.Name = 'Abbvie'];
     }
     
-
+    public void LoadRenewals(){
+        renewals = [SELECT id, Account_ID__c, Account_Owner__c FROM Renewal__c];
+    }
+    
     public void LoadSKUs(){
         skus = [SELECT id, Name,
                        Code__c, CopadoFamily__c, CopadoGrouping__c, Group__c, New__c, 
@@ -699,8 +705,38 @@ public class toolsController {
     } 
     
 
+    // RRENEWALS
+    public void deleteAllRenewals(){
+        LoadRenewals(); // renewals = [SELECT id from Renewal__c];
+        countDeletedRenewals = renewals.size();
+        // delete renewals;
+    }
     
-    
+    public void joinRenewalsToAEsAccounts(){
+        LoadRenewals();
+        LoadAEs();
+        LoadAccounts();
+        integer numAEs = 0;
+        integer numAccounts = 0;
+        for (Renewal__c renewal : renewals ){
+            for (AE__c ae : aes) {
+                if ( ae.name == renewal.Account_Owner__c ) {
+                    renewal.AE__c = ae.id;
+                    numAEs++;
+                }
+            }
+            for (Integer i = 0; i < accounts.size(); i++) {
+                if ( accounts[i].APOAccountId__c.equals(renewal.Account_ID__c) ) {
+                    renewal.Account__c = accounts[i].id;
+                    i = accounts.size() +1;
+                    numAccounts++;
+                }
+            } 
+        }
+        
+        update renewals;
+        commentJoinedRenewals = 'Joined ' + numAEs + ' / ' + numAccounts + ' in ' + renewals.size();
+    }
     
     
     public void createWhiteSpaceFromRows(){
@@ -1437,7 +1473,8 @@ public class toolsController {
     public void plus(){
         integer i = 1;
         i++;
-
+        i++;
+  
     }
     
 }
