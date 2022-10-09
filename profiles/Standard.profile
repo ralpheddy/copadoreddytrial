@@ -7013,6 +7013,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Renewal__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>SKU__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
