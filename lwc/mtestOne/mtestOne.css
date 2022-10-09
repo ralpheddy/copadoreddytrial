@@ -1,5 +1,6 @@
 .bodyDiv {width:100%; height:1000px; background-color:#ffffff; margin:0px}
 .rowOver:hover{background-color: rgb(196, 245, 216);}
+.rowOver2:hover{background-color: rgb(165, 225, 247);}
 .linkOver:hover{color:red; text-decoration:none;}
 .linkOver{text-decoration:none; color:black; }
 .newOver:hover{color:white; text-decoration:none; background-color:black}
@@ -20,7 +21,7 @@
 table {cursor:default;}
 .oneHeader {display:none}
 .floatLeft {float:left;}
-.version {position:absolute; left:20px; top:2px; font-size:9px; }
+.version {position:absolute; left:20px; top:2px; font-size:7px; color:#999 }
 .version2 {position:absolute; left:20px; top:10px; font-size:9px; }
 .tdCenter {text-align:center} 
 .tdVertical {vertical-align: middle;}
@@ -32,14 +33,16 @@ table {cursor:default;}
 .wsTDCenter{text-align:center;}
 .XwsTDPadding {padding:3px;}
 
-.ManagerToggle  {position:absolute; left:20px; top:24px; cursor:pointer; }
+.ManagerToggle  {position:absolute; left:20px; top:14px; cursor:pointer; }
 .ManagerList {position:absolute; left:40px; top:24px; cursor:pointer; 
               background-color:lightyellow;  z-index: 99;
               border: 1px solid #aaaaaa; border-radius:3px;}
 
+.AccountSearch {position:absolute; left:44px; top:10px; font-size:9px;}
+
 .AEList {cursor:default; 
     border: 0px solid #dddddd; 
-    position:absolute; left:20px; top:40px; height:300px; }
+    position:absolute; left:20px; top:30px; height:300px; }
 .AEListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
     background-color:#19548a; 
     border-bottom: #888888 1px solid; color:white; font-weight:normal;
@@ -50,28 +53,28 @@ table {cursor:default;}
 
 .AccountList {cursor:default; 
     border: 0px solid #dddddd; 
-    position:absolute; left:185px; top:40px; 
+    position:absolute; left:185px; top:30px; 
     }
 .AccountListHeader {text-align:center; width:250px; }
 .AccountData{ height:280px; overflow: auto; width:250px; background-color: lightpink; }
-.AccountListAEName  {position:absolute; left:185px; top:15px; font-weight:bold; font-size:140%}
+.AccountListAEName  {position:absolute; left:185px; top:5px; font-weight:bold; font-size:140%}
 
 .SubscriptionList{
-    position:absolute; left:460px; top:40px; 
+    position:absolute; left:460px; top:30px; 
     border: 0px solid #cfcfcf;
 }
 .SubscriptionData{ height:280px; overflow: auto; width:600px; background-color: lightskyblue; }
-.SubscriptionAccountName {position:absolute; left:460px; top:15px; font-weight:bold; font-size:140%}
+.SubscriptionAccountName {position:absolute; left:460px; top:5px; font-weight:bold; font-size:140%}
 
 .WhiteSpace{
-    position:absolute; left:1085px; top:40px; 
+    position:absolute; left:1085px; top:30px; 
 }
 .WhitespaceData{background-color: lightskyblue; }
 .WhitespaceTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
 .WhitespaceTableTotal  {color:white; background-color:#2069ae; padding-top:1px; padding-bottom:1px; }
 
 .OppsList{
-    position:absolute; left:20px; top:395px; 
+    position:absolute; left:20px; top:375px; 
     border: 0px solid #888888; 
 }
 .OppListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
@@ -80,14 +83,26 @@ table {cursor:default;}
     border-top-left-radius:5px; border-top-right-radius:5px;
 }
 .OppsTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
-
 .OppsData {    background-color: lightskyblue; }
-.OppsAccountName {position:absolute; left:20px; top:370px; font-weight:bold; font-size:140%}
+.OppsAccountName {position:absolute; left:20px; top:350px; font-weight:bold; font-size:140%}
+
 .OppRowsList{
     /* position:absolute; left:20px; top:525px; */
     border: 0px solid #888888; 
-    
+    padding-left: 10px;;
 } 
 .OppRowsData{background-color: lightskyblue; }
-.OppName { /*position:absolute; left:20px; top:500px; */
-    font-weight:bold; font-size:140% }
+.OppName { font-weight:bold; font-size:100%; padding-left:10px; }
+
+
+.RenewalsList{
+    /*position:absolute; left:20px; top:560px; */
+    border: 0px solid #888888; 
+}
+.RenewalsListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
+    background-color:darkgreen; 
+    border-bottom: #888888 1px solid; color:white; font-weight:normal;
+    border-top-left-radius:5px; border-top-right-radius:5px;
+}
+.RenewalsTableHeader {color:white; background-color:darkgreen; padding-top:1px; padding-bottom:1px; }
+.RenewalsData {    background-color: lightgreen; }

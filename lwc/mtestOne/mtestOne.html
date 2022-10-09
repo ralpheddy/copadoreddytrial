@@ -2,15 +2,15 @@
     <div class="bodyDiv">
 
         <!--<lightning-card title="Manage" icon-name="custom:custom63">-->
-        <div class="version">{version}<font style="display:none">&nbsp;&nbsp;{showError}-{accountSelectedId}-{aeSelectedId}-{oppsSearchAllForAE}</font></div>
-        <div class="version2" style="display:none">{aeSelectedlOriginalID}</div>
-        <div style="position:absolute; top:2px; left:300px; display:none;"><lightning-button variant="brand"
+        <div class="version">v{version}<font style="display:none">&nbsp;&nbsp;{showError}-{accountSelectedId}-{aeSelectedId}-{oppsSearchAllForAE}</font></div>
+        <!--<div class="version2" style="display:none">{aeSelectedlOriginalID}</div>-->
+        <!--<div style="position:absolute; top:2px; left:300px; display:none;"><lightning-button variant="brand"
             label="Modal"
             title="Modal"
             onclick={openModal2}
             class="slds-m-left_x-small"
             >
-         </lightning-button></div> 
+         </lightning-button></div>-->
 
         <div class="ManagerToggle" onclick={showManagers}>►</div>
         <template if:true={seeManagers}>
@@ -28,6 +28,8 @@
                 </div> 
             </div>
         </template> 
+
+        <!--<div class="AccountSearch">Search Account <input type="text" onchange={accountSearch} style="width: 50px;"></input></div>-->
 
         <div class="AEList">
             <div class="AEListHeader ">AE</div>
@@ -61,6 +63,7 @@
             <div class="AEListHeader AccountListHeader">Accounts</div>
             <div class="AccountData">
                  <table  border="0">
+                    <tbody>
                     <template if:true={accounts}> 
                         <template for:each={accounts} for:item="account"> 
                             
@@ -88,6 +91,7 @@
                             </div>  -->
                         </template>
                     </template>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -98,6 +102,7 @@
             <div class="AEListHeader" style="width:600px;">Current Licenses in Contract</div>
             <div class="SubscriptionData">
                 <table width="600px" border="0">
+                    <tbody>
                     <template if:true={subscriptions}> 
                         <tr style="background-color:#19548a; color:white;">
                             <td class="dataRow shrinkNumbers" >Name</td>
@@ -133,6 +138,7 @@
                             </tr> 
                         </template>
                     </template>
+                </tbody>
                 </table>
             </div>
         </div>
@@ -143,7 +149,7 @@
             <div class="OppListHeader" style="width:1040px;">
                 <table style="width:1040px;">
                     <tr>
-                        <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}>All</td>
+                        <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>All</b></td>
                         <td width="80%" class="tdCenter">Open Opportunities</td>
                         <td width="10%" class="tdCenter selectAll">&nbsp;</td>
                     </tr>
@@ -151,6 +157,7 @@
             </div> 
             <div class="OppsData">
                 <table width="1040px" border="0">
+                    <tbody>
                     <tr>
                         <td class="OppsTableHeader" style="padding-left: 4px;">Opportunity</td>
                         <td class="OppsTableHeader tdCenter">Forecast</td>
@@ -181,16 +188,18 @@
                             </tr>
                         </template> 
                     </template> 
+                    </tbody>
                 </table> 
             </div>
            
             <div class="OppName">&nbsp;{oppSelectedName}</div>
             <div class="OppRowsList">
-                <div class="AEListHeader" style="width:1040px;">Opportunity Products</div>
+                <!--<div class="AEListHeader" style="width:1030px;">Opportunity Products</div>-->
                 <div class="OppRowsData">
                     <table width="1040px" border="0">
+                        <tbody>
                         <tr >
-                            <td class="headerOfTable" >Product</td>
+                            <td class="headerOfTable" >Products</td>
                             <td class="headerOfTable tdRight" >Quantity</td>
                             <td class="headerOfTable tdRight" >Sales Price</td>
                             <td class="headerOfTable tdRight" style="padding-right:4px;">Total</td>
@@ -208,16 +217,89 @@
                         <template if:false={oppRows}>
                             - none -
                         </template>
+                        </tbody>
                     </table>
                 </div>
             </div>
-        </div>
+        
 
+            <div>&nbsp;</div>
+            <div class="RenewalsList">
+                <div class="RenewalsListHeader" style="width:1040px;">
+                    <table style="width:1040px;">
+                        <tr>
+                            <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>All</b></td>
+                            <td width="80%" class="tdCenter">Open Renewals</td>
+                            <td width="10%" class="tdCenter selectAll">&nbsp;</td>
+                        </tr>
+                    </table>
+                </div> 
+                <div class="RenewalsData">
+                    <table width="1040px" border="0">
+                        <tbody>
+                        <tr>
+                            <td class="RenewalsTableHeader" style="padding-left: 4px;">Opportunity</td>
+                            <td class="RenewalsTableHeader tdCenter">Close Date</td>
+                            <td class="RenewalsTableHeader tdCenter">Renewal Date</td>
+                            <td class="RenewalsTableHeader tdRight">Uplift</td>
+                            <td class="RenewalsTableHeader tdRight">Expansion</td>
+                            <td class="RenewalsTableHeader tdRight">Incremental</td>
+                            <td class="RenewalsTableHeader tdRight">Renewal</td>
+                            <td class="RenewalsTableHeader"></td>
+                        </tr>
+                        <template if:true={renewals}> 
+                            <template for:each={renewals} for:item="renewal"> 
+                                <tr class="rowOver2" key={renewal.Id} id={renewal.Id}> 
+                                    <td width="288px" class="dataRow select" data-id={renewal.Id} data-name={renewal.Name} onclick={oppSelected}>{renewal.Opportunity_Name__c}</td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Close_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Renewal_Due_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Uplift__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Expansion_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >   
+                                        <lightning-formatted-number value={renewal.Incremental_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Renewal_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="24px" class="dataRow tdCenter">
+                                        <a href={renewal.URL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
+                                    </td>
+                                </tr>
+                            </template> 
+                        </template> 
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </div>
 
         <div class="WhiteSpace">
             <div class="AEListHeader" style="width:340px;">Whitespace</div>
             <div class="WhitespaceData" id="wsList" style="display:block;">
                 <table border="0" style="width:340px; border-color:#aaaaaa; " cellpadding="3" cellspacing="3">
+                    <tbody>
                     <tr>
                         <td class="WhitespaceTableHeader" style="width:140px; padding-left:4px;">Product Group</td>
                         <td class="WhitespaceTableHeader" style="width:80px; text-align:right">Licenses</td>
@@ -264,6 +346,7 @@
                             </tr> 
                         </template>
                     </template>
+                    </tbody>
                 </table>
             </div>
         </div>
