@@ -709,7 +709,7 @@ public class toolsController {
     public void deleteAllRenewals(){
         LoadRenewals(); // renewals = [SELECT id from Renewal__c];
         countDeletedRenewals = renewals.size();
-        // delete renewals;
+        delete renewals;
     }
     
     public void joinRenewalsToAEsAccounts(){
