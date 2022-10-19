@@ -106,3 +106,11 @@ table {cursor:default;}
 }
 .RenewalsTableHeader {color:white; background-color:darkgreen; padding-top:1px; padding-bottom:1px; }
 .RenewalsData {    background-color: lightgreen; }
+
+.PullForwardRenewalsListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
+    background-color:rgb(72, 1, 60); 
+    border-bottom: #888888 1px solid; color:white; font-weight:normal;
+    border-top-left-radius:5px; border-top-right-radius:5px;
+}
+.PullForwardRenewalsTableHeader {color:white; background-color:rgb(72, 1, 60); padding-top:1px; padding-bottom:1px; }
+.PullForwardRenewalsData {    background-color: rgb(183, 95, 168); }
