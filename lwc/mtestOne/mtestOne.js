@@ -12,6 +12,7 @@ import getOneLostRow from '@salesforce/apex/findLinks.getLostRow';
 import getTotalOpen from '@salesforce/apex/findLinks.getTotalOpen'; 
 import getTotalSubscription from '@salesforce/apex/findLinks.getTotalSubscription'; 
 import getRenewals from '@salesforce/apex/findLinks.getRenewals'; 
+import getPullForwardRenewals from '@salesforce/apex/findLinks.getPullForwardRenewals';
 
 export default class MtestOne extends LightningElement {
     version = 1.1;
@@ -36,6 +37,7 @@ export default class MtestOne extends LightningElement {
     oppsSearchAllForAE; // true or
     oppRows;
     renewals;
+    pullForwardRenewals;
     whitespaces; // not using
     wsGroups; // the actual whitespace
     lostRowIdFromWS;
@@ -116,7 +118,7 @@ export default class MtestOne extends LightningElement {
 
     accountSearch(event){
         var s = event.target.value;        // alert(s);
-        
+
     }
 
     aeSelected(event){
@@ -129,6 +131,7 @@ export default class MtestOne extends LightningElement {
         this.aeSelectedId = event.target.dataset.item;
         this.searchAccounts(); // alert("renewals: " + this.aeSelectedId);
         this.searchRenewals();
+        this.searchPullForwardRenewals();
         this.aeSelectedlOriginalID = event.target.id;
         if ( this.firstAEclick == true ) { // skip}
             //var myDiv = "div[data-item=" + aeSelectedPreviousItem + "]"; // 
@@ -432,6 +435,35 @@ export default class MtestOne extends LightningElement {
         .catch((error) => {
             // alert("err");
             this.renewals = undefined;
+            this.error = error;
+            this.errorString = '';
+            if (Array.isArray(error.body)) {
+                // error.body.map((e) => e.message);
+                this.errorString += 'ARRAY';
+            }
+            if (error.body && typeof error.body.message === 'string') {
+                this.errorString += error.body.message;
+            }
+            if (typeof error.message === 'string') {
+                this.errorString += error.message;
+            }
+            this.errorString += ' : ' + error.statusText;
+            this.showError = 'Error: ' + this.errorString;
+        });
+    }
+
+    
+    searchPullForwardRenewals(event){
+        /*alert(this.accountSelectedId);*/
+        // getRenewals({accountId: this.accountSelectedId, aeId: this.aeSelectedId, searchAll: this.oppsSearchAllForAE})  
+        getPullForwardRenewals({aeId: this.aeSelectedId})  // alert(this.accountSelectedId);
+        .then((result) => {
+            this.pullForwardRenewals = result;
+            this.error = undefined; 
+        })
+        .catch((error) => {
+            // alert("err");
+            this.pullForwardRenewals = undefined;
             this.error = error;
             this.errorString = '';
             if (Array.isArray(error.body)) {
