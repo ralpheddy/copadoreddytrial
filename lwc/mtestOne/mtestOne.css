@@ -9,6 +9,7 @@
 .headerRow{padding-bottom:4px; padding-top:4px; border-bottom: #aaa 1px solid; color:white; font-weight:normal;}
 .dataRow{padding-bottom:2px; padding-top:2px; padding-left:4px; border-bottom: 1px #eeeeee solid;}
 .dataRowTitle{padding-bottom:0px; padding-top:0px; padding-left:4px; }
+.dataSmaller{font-size:85%;}
 .dataBottom { border-bottom: 1px #eeeeee solid;}
 .shrinkNumbers {font-size:90%}
 .miniNumbers {font-size:70%; padding-top:4px;}
