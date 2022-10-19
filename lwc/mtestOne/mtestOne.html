@@ -228,8 +228,8 @@
                 <div class="RenewalsListHeader" style="width:1040px;">
                     <table style="width:1040px;">
                         <tr>
-                            <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>All</b></td>
-                            <td width="80%" class="tdCenter">Open Renewals</td>
+                            <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>&nbsp;</b></td>
+                            <td width="80%" class="tdCenter">Open Renewals - this Fiscal Year</td>
                             <td width="10%" class="tdCenter selectAll">&nbsp;</td>
                         </tr>
                     </table>
@@ -293,6 +293,79 @@
                     </table> 
                 </div>
             </div>
+
+
+            <div>&nbsp;</div>
+            <div class="RenewalsList">
+                <div class="PullForwardRenewalsListHeader" style="width:1040px;">
+                    <table style="width:1040px;">
+                        <tr>
+                            <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>&nbsp;</b></td>
+                            <td width="80%" class="tdCenter">Pull Forward Renewals - Q1 of Next Year</td>
+                            <td width="10%" class="tdCenter selectAll">&nbsp;</td>
+                        </tr>
+                    </table>
+                </div> 
+                <div class="PullForwardRenewalsData">
+                    <table width="1040px" border="0">
+                        <tbody>
+                        <tr>
+                            <td class="PullForwardRenewalsTableHeader" style="padding-left: 4px;">Opportunity</td>
+                            <td class="PullForwardRenewalsTableHeader tdCenter">Close Date</td>
+                            <td class="PullForwardRenewalsTableHeader tdCenter">Renewal Date</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Uplift</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Expansion</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Incremental</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Renewal</td>
+                            <td class="PullForwardRenewalsTableHeader"></td>
+                        </tr>
+                        <template if:true={pullForwardRenewals}> 
+                            <template for:each={pullForwardRenewals} for:item="renewal"> 
+                                <tr class="rowOver2" key={renewal.Id} id={renewal.Id}> 
+                                    <td width="288px" class="dataRow select" data-id={renewal.Id} data-name={renewal.Name} onclick={oppSelected}>{renewal.Opportunity_Name__c}</td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Close_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Renewal_Due_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Uplift__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Expansion_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >   
+                                        <lightning-formatted-number value={renewal.Incremental_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Renewal_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="24px" class="dataRow tdCenter">
+                                        <a href={renewal.URL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
+                                    </td>
+                                </tr>
+                            </template> 
+                        </template> 
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+            
         </div>
 
         <div class="WhiteSpace">
