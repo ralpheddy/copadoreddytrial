@@ -173,15 +173,15 @@
                     <template if:true={opps}> 
                         <template for:each={opps} for:item="opp"> 
                             <tr class="rowOver" key={opp.Id} id={opp.Id}> 
-                                <td width="288px" class="dataRow select" data-id={opp.Id} data-name={opp.Name} onclick={oppSelected}>{opp.Name}</td>
-                                <td width="100px" class="dataRow tdCenter" >{opp.Forecast__c}</td>
-                                <td width="100px" class="dataRow tdCenter" >{opp.Stage__c}</td>
-                                <td width="100px" class="dataRow tdCenter" >{opp.Type__c}</td>
-                                <td width="90px" class="dataRow tdCenter" >{opp.CloseString__c}</td>
-                                <td width="80px" class="dataRow tdCenter" >{opp.ACV_APOString__c}</td>
-                                <td width="80px" class="dataRow tdCenter" >{opp.AmountString__c}</td>
-                                <td width="80px" class="dataRow tdCenter" >{opp.IncrementalString__c}</td>
-                                <td width="90px" class="dataRow tdCenter" >{opp.Owner_Name__c}</td>
+                                <td width="288px" class="dataRow select dataSmaller" data-id={opp.Id} data-name={opp.Name} onclick={oppSelected}>{opp.Name}</td>
+                                <td width="100px" class="dataRow tdCenter dataSmaller" >{opp.Forecast__c}</td>
+                                <td width="100px" class="dataRow tdCenter dataSmaller" >{opp.Stage__c}</td>
+                                <td width="100px" class="dataRow tdCenter dataSmaller" >{opp.Type__c}</td>
+                                <td width="90px" class="dataRow tdCenter dataSmaller" >{opp.CloseString__c}</td>
+                                <td width="80px" class="dataRow tdCenter dataSmaller" >{opp.ACV_APOString__c}</td>
+                                <td width="80px" class="dataRow tdCenter dataSmaller" >{opp.AmountString__c}</td>
+                                <td width="80px" class="dataRow tdCenter dataSmaller" >{opp.IncrementalString__c}</td>
+                                <td width="90px" class="dataRow tdCenter" style="font-size:8px" >{opp.Owner_Name__c}</td>
                                 <td width="24px" class="dataRow tdCenter">
                                     <a href={opp.URL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
                                 </td>
@@ -228,9 +228,9 @@
                 <div class="RenewalsListHeader" style="width:1040px;">
                     <table style="width:1040px;">
                         <tr>
-                            <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>&nbsp;</b></td>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
                             <td width="80%" class="tdCenter">Open Renewals - this Fiscal Year</td>
-                            <td width="10%" class="tdCenter selectAll">&nbsp;</td>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
                         </tr>
                     </table>
                 </div> 
@@ -250,7 +250,7 @@
                         <template if:true={renewals}> 
                             <template for:each={renewals} for:item="renewal"> 
                                 <tr class="rowOver2" key={renewal.Id} id={renewal.Id}> 
-                                    <td width="288px" class="dataRow select" data-id={renewal.Id} data-name={renewal.Name} onclick={oppSelected}>{renewal.Opportunity_Name__c}</td>
+                                    <td width="288px" class="dataRow " data-id={renewal.Id} data-name={renewal.Name}>{renewal.Opportunity_Name__c}</td>
                                     <td width="100px" class="dataRow tdCenter" >
                                         <lightning-formatted-date-time
                                             value={renewal.Close_Date__c}
@@ -300,9 +300,9 @@
                 <div class="PullForwardRenewalsListHeader" style="width:1040px;">
                     <table style="width:1040px;">
                         <tr>
-                            <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>&nbsp;</b></td>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
                             <td width="80%" class="tdCenter">Pull Forward Renewals - Q1 of Next Year</td>
-                            <td width="10%" class="tdCenter selectAll">&nbsp;</td>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
                         </tr>
                     </table>
                 </div> 
@@ -322,7 +322,7 @@
                         <template if:true={pullForwardRenewals}> 
                             <template for:each={pullForwardRenewals} for:item="renewal"> 
                                 <tr class="rowOver2" key={renewal.Id} id={renewal.Id}> 
-                                    <td width="288px" class="dataRow select" data-id={renewal.Id} data-name={renewal.Name} onclick={oppSelected}>{renewal.Opportunity_Name__c}</td>
+                                    <td width="288px" class="dataRow" data-id={renewal.Id} data-name={renewal.Name}>{renewal.Opportunity_Name__c}</td>
                                     <td width="100px" class="dataRow tdCenter" >
                                         <lightning-formatted-date-time
                                             value={renewal.Close_Date__c}
