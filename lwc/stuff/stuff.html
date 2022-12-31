@@ -1,0 +1,33 @@
+<template>
+    <lightning-button variant="brand" label="New" onclick={newStuff} class="slds-m-left_x-small"></lightning-button>
+
+    <lightning-button variant="success" label="Refresh" onclick={refreshStuff} class="slds-m-left_x-small"></lightning-button>
+    
+    &nbsp;&nbsp;<span style="font-size:8px; color:#444;">{version}</span>
+    
+    <!--<h1><div class="center">Stuff We Need</div></h1>-->
+    <!--
+    <template if:true={stuffs}> 
+        <template for:each={stuffs} for:item="stuff"> 
+            <div key={stuff.id}>
+                {stuff.Completed__c} {stuff.Name}
+            </div> 
+        </template>
+    </template> 
+    <template if:false={stuffs}>
+        Not Working<br/>
+        {error}
+    </template>
+    <hr/> -->
+    
+    <lightning-datatable 
+        data={stuffs} 
+        columns={columns} 
+        key-field="id"
+        hide-checkbox-column="true"
+        onrowaction={callRowAction}>
+    </lightning-datatable> 
+    <!-- hide-table-header="false" -->
+   
+
+</template>
