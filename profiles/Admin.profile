@@ -11,6 +11,11 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>Stuff</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>standard__AllTabSet</application>
         <default>false</default>
         <visible>true</visible>
@@ -7100,6 +7105,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>SKU__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Stuff</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
