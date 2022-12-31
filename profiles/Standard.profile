@@ -4102,6 +4102,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Stuff__c.Completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Subscription__c.AE_SFAE_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7018,6 +7023,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>SKU__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Stuff__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
