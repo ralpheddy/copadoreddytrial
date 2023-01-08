@@ -1,0 +1,270 @@
+<apex:page controller="toolsController">
+<apex:form id="myForm">
+
+<style>
+    .button{ width:200px; }
+    #wrapper { font-weight:bold; background-color:#dddddd; border:0px solid blue; color:#C80000;}
+    .toolsBox { display:block; float:left; width:244px; height:600px;  background-color:#dddddd; border-radius:10px; 
+                box-shadow:4px 4px 4px #888888; text-align:center; padding-top:10px; padding-bottom:10px; margin-right:16px; margin-bottom:10px;}
+    #OppTools {  }
+    #SFTools {  }
+    #OppRowsTools { }
+    .toolTitle { font-weight:normal; color:blue; font-size:16px; text-shadow:1px 1px #888888;}
+    .importLabel { font-weight:bold; color:black; }
+
+    
+    .popupBackground {
+        background-color:black; opacity: 0.20; filter: alpha(opacity = 20);
+        width: 100%; height: 100%; top: 0; left: 0; z-index: 998; position: absolute;
+        cursor:wait;
+    }
+    .PopupPanel {
+        border: solid 2px darkgreen; background-color: white;
+        left: 50%; width: 300px; margin-left: -100px; top: 50%; height: 100px; margin-top: -25px; z-index: 999; position: fixed;
+        cursor:pointer;
+    }
+</style>
+
+<apex:actionStatus id="showLoading" stopText="">
+    <apex:facet name="start">
+        <div>
+            <div class="popupBackground" />
+            <div class="PopupPanel">
+                <table border="0" width="100%">
+                    <tr>
+                        <td align="center"><b>Processing...</b></td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <img src="https://codemyui.com/wp-content/uploads/2017/11/solid-colour-slide-puzzle-style-loading-animation.gif" width="50%" height="50%" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </apex:facet>
+</apex:actionStatus>
+<apex:pageMessages />
+
+    
+<center>{!comment}</center><br/>
+
+<div id="wrapper">
+<script>
+    function confirmAEDelete(){
+        if (confirm("Delete all AEs?") == true ) {
+            
+            FunctionDeleteAllAEs();
+            // alert("yes");
+        }
+    }
+    
+</script>
+<apex:actionFunction name="FunctionDeleteAllAEs" action="{!deleteAllAEs}" />
+
+    <div>
+    
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">AEs SF-AEs Accounts</div>
+        <br/>
+        <apex:commandButton action="{!createMapRVPs}" value="Create MapRVPs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapRVPs}<br/>
+        <br/>
+        <apex:commandButton action="{!createMapAEs}" value="Create MapAEs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapAEs}<br/>
+        <br/>
+        <apex:commandButton action="{!popultatetBlankSFAEsSFRVPs}" value="Populate Blank SFAEs and SFRVPs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!commentBlankSFAEsSFRVPs}<br/>
+        <br/>
+        <apex:commandButton action="{!createMapSFRVPs}" value="Create MapSFRVPs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapSFRVPs}<br/>
+        <br/>
+        <apex:commandButton action="{!createMapSFAEs}" value="Create MapSFAEs (5 times)" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreateMapSFAEs}<br/>
+        <br/>
+        <apex:commandButton action="{!joinAESFAEaccountToAE}" value="joinAESFAEaccountTo AE" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinAESFAEaccountToAE}<br/>
+        <br/>
+        <apex:commandButton action="{!joinAESFAEaccountToSFAE}" value="joinAESFAEaccountTo SFAE" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinAESFAEaccountToSFAE}<br/>
+        <br/>
+        
+        <apex:commandButton action="{!postOppsToAESFAEAccounts}" value="Post Opps to AE SFAE Account" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentPostOppsToAESFaccounts}<br/>
+        <br/>
+        <apex:commandButton action="{!postSubscriptionsToAESFAEAccounts}" value="Post Subscriptions AE SFAE (5)" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentPostSubscriptionNumbersToAESFaccounts}<br/>
+        <br/>
+ 
+        ‣<apex:commandButton action="{!deleteAll_AESFAEAccounts}" value="Clear AEs SFAEs Totals" styleClass="button" disabled="true" rerender="myForm" status="showLoading" />&nbsp;{!countAESFAEAccounts}<br/>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAll_AESFAEAccounts}" value="Delete all AEs SFAEs Accounts" styleClass="button" disabled="false" rerender="myForm" status="showLoading" />&nbsp;{!countAESFAEAccounts}<br/>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAll_AE_RVP_SFAE_SFRVPs}" value="Delete all AEs RVPs SFAEs SFRVPs" styleClass="button" disabled="false" rerender="myForm" status="showLoading" /><br/>
+        {!commentDeleteAll_AE_RVP_SFAE_SFRVPs}<br/>
+        <br/>
+        <apex:commandButton action="{!clearAESFAEAccountProcessed}" value="Clear AESFAEaccount Processed" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countClearAESFAEAccountProcessed}<br/>
+        <br/>
+ 
+        
+    </div>
+    
+    
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">AEs - Accounts - Opps</div>
+        <br/>
+        <div style="color:black"><b>Delete OppRows &amp; Import</b></div><br/>
+        <!--<button onclick="confirmAEDelete()">Delete</button><br/>-->
+        ‣<apex:commandButton action="{!deleteAllAEs}" value="Delete All AEs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedAEs}<br/>
+        <br/>
+        <apex:commandButton action="{!CreateAEsFromRows}" value="Create AEs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreatedAEs}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAllAccounts}" value="Delete All Accounts" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedAccounts}<br/>
+        <br/>
+        <apex:commandButton action="{!CreateAccountsFromRows}" value="Create Accounts" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreatedAccounts}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAllOpps}" value="Delete All Opps" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedOpps}<br/>
+        <br/>
+        <apex:commandButton action="{!CreateOppsFromRows}" value="Create Opps" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreatedOpps}<br/>
+        {!commentOppsProcessed}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAllOppRows}" value="Delete All OppRows" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedOppRows}<br/>
+        <br/>
+        <apex:commandButton action="{!joinOppRowsToOpps}" value="Join OppRows To Opps" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinOppRowsToOpps}<br/>
+        <br/>
+        <apex:commandButton action="{!joinOppRowsToAccounts}" value="Join OppRows To Accounts" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentJoinOppRowsToAccount}<br/>
+         <br/>&nbsp;
+         
+        <br/>
+    </div>
+    
+    
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">Subscriptions</div>
+        <br/>
+        <div style="color:black"><b>Delete Subscriptions &amp; Import</b></div><br/>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAllSubscriptions}" value="Delete All Subscriptions" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedSubscriptions}<br/>
+        <br/>
+        
+        <apex:commandButton action="{!createAEsFromSubscriptions}" value="Create AEs from Subscriptions" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countCreatedAEsSub}<br/>
+        <!--<font style="color:black; font-weight:normal;">-->
+            {!commentCreateAEsFromSubscriptions}<br/>
+        <br/>
+        <apex:commandButton action="{!createAccountsFromSubscriptions}" value="Create Accounts from Subscriptions" styleClass="button" rerender="myForm" status="showLoading"/>&nbsp;{!countCreatedAccountsSub}<br/>
+        {!commentSubscriptionsProcessedForCreate}<br/>
+        <br/>
+        <apex:commandButton action="{!joinSubscriptionsToAccountsAndTotalSubs}" value="Join Subs To Acc & Total Subs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!createdJoinSubscriptionsToAccounts}<br/>
+        {!commentSubscriptionsProcessed}<br/>
+        
+        <br/>
+        <apex:commandButton action="{!joinAccountsToAEs}" value="Join Accounts to AEs" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinAccountsToAEs}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        <div class="toolTitle">Renewals</div>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAllRenewals}" value="Delete All Renewals" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedRenewals}<br/>
+        <br/>
+        <apex:commandButton action="{!joinRenewalsToAEsAccounts}" value="Join Renewals to AEs & Accounts" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentJoinedRenewals}<br/>
+        
+    </div>
+        
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">SKUs &amp; Groups</div>
+        <br/>
+        ‣<apex:commandButton action="{!clearSKUTotals}" value="Clear SKU Totals" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countClearSKUTotals}<br/>
+        <br/>
+        <apex:commandButton action="{!postOppRowNumbersToSKUs}" value="Post OppRow Numbers to SKUs" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentPostOppRowNumbersToSKUs}<br/>
+        <br/>
+        <apex:commandButton action="{!postSubscriptionNumbersToSKUs}" value="Post Subscription Numbers to SKUs" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentPostSubscriptionNumbersToSKUs}<br/>
+        <br/>
+        <apex:commandButton action="{!joinSubscriptionsToGroups}" value="Join Subscriptions To Groups" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countJoinSubscriptionsToGroups}<br/>
+        <br/>
+        <hr/>
+        <br/>
+        <div class="toolTitle">Whitespace</div>
+        <br/>
+        ‣<apex:commandButton action="{!deleteAllWhiteSpace}" value="Delete All Whitespaces" styleClass="button" disabled="false" rerender="myForm" status="showLoading" />&nbsp;{!deleteWhiteSpace}<br/>
+        <br/>
+        <apex:commandButton action="{!createWhiteSpaceFromRows}" value="Create Whitespace from OppRows" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentOppRowsCreateWhitespace}<br/>
+        <br/>
+        <br/>
+        <apex:commandButton action="{!createWhiteSpaceFromSubscriptions}" value="Create Whitespace Subscriptions" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentSubscriptionsCreateWhitespace}<br/>
+        {!mydebug}
+        <br/>
+        <hr/>
+        <br/>
+        <apex:commandButton action="{!getManagers}" value="Managers List" styleClass="button" disabled="true" rerender="myForm" status="showLoading" />&nbsp;{!managersSize}<br/>
+        <br/>
+        
+    </div>
+    
+    <div id="xOppTools" class="toolsBox">
+        <div class="toolTitle">Lost Opportunities</div>
+        <br/>
+        <input type="text" /><br/>
+        <br/>
+        <apex:commandButton action="{!joinLostRowsToAccountsSKUs}" value="Join LostRows to Accounts & SKUs" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentJoinLostRowsToAccountsSKUs}<br/>
+        <br/>
+        <apex:commandButton action="{!updateLostRowsToWhitespaceHasLost}" value="Update LostRows to Whitespace Lost" styleClass="button" rerender="myForm" status="showLoading" /><br/>
+        {!commentUpdateLostRowsToWhitespaceHasLost}<br/>
+        <br/>
+        
+        <!--
+        <apex:commandButton action="{!createAEsFromLostRows}" value="Create AEs From LostRows" styleClass="button" disabled="false" rerender="myForm" status="showLoading" /><br/>
+        {!commentCreateAEsFromLostRows}<br/>
+        <br/>
+        <apex:commandButton action="{!createAccountsFromLostRows}" value="Create Accounts From LostRows" styleClass="button" disabled="false" rerender="myForm" status="showLoading" /><br/>
+        {!commentCreateAccountsFromLostRows}<br/>
+        <br/>
+        <apex:commandButton action="{!joinLostRowsToSKUs}" value="Join LostRows to SKUs" styleClass="button" disabled="false" rerender="myForm" status="showLoading" /><br/>
+        {!commentJoinLostRowsToSKUs}<br/>
+        <br/>
+        -->
+        ‣<apex:commandButton action="{!deleteLostRows}" value="Delete LostRows" styleClass="button" disabled="false" rerender="myForm" status="showLoading" />&nbsp;{!countDeletedLostRows}<br/>
+        <br/>
+        
+        
+
+        <hr/>
+        <br/>
+        <div class="toolTitle">Utilities</div>
+        <br/>
+        <apex:commandButton action="{!clearOppRowProcessed}" value="Clear OppRows Processed" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countClearProcessed}<br/>
+        <br/>
+        <apex:commandButton action="{!clearSubscriptionsProcessed}" value="Clear Subscriptions Processed" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countClearProcessedSubs}<br/>
+        <br/>
+        <apex:commandButton action="{!clearLostRowsProcessed}" value="Clear LostRows Processed" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countLostRowPropcessedClear}<br/>
+        <br/>
+        <apex:commandButton action="{!clearWhitespaceLostFields}" value="Clear Whitespace Lost Fields" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!countClearWhitespaceLostFields}<br/>
+        <br/>
+        <br/>
+        <apex:commandButton action="{!TempDeleteSKUsWithoutGroup}" value="Delete SKUs Without Group" styleClass="button" rerender="myForm" status="showLoading" />&nbsp;{!skuWithNoGroup}<br/>
+        <br/>
+        <br/>
+        
+    </div>
+    
+    <!-- this is populated by SubscriptionTotalByAccount() in toolsController() -->
+    <div id="xOppTools" class="toolsBox" style="display:none">
+        <apex:outputPanel id="test">
+            <apex:repeat value="{!totalAccounts}" var="sta">
+                <div>{!sta['apoid']}</div>
+                <div>{!sta['tot']}</div>
+            </apex:repeat>
+        </apex:outputPanel>
+    </div>
+    
+    
+    
+    </div>
+</div>
+</apex:form>
+</apex:page>

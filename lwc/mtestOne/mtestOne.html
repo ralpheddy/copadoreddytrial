@@ -1,0 +1,480 @@
+<template>
+    <div class="bodyDiv">
+
+        <!--<lightning-card title="Manage" icon-name="custom:custom63">-->
+        <div class="version">v{version}<font style="display:none">&nbsp;&nbsp;{showError}-{accountSelectedId}-{aeSelectedId}-{oppsSearchAllForAE}</font></div>
+        <!--<div class="version2" style="display:none">{aeSelectedlOriginalID}</div>-->
+        <!--<div style="position:absolute; top:2px; left:300px; display:none;"><lightning-button variant="brand"
+            label="Modal"
+            title="Modal"
+            onclick={openModal2}
+            class="slds-m-left_x-small"
+            >
+         </lightning-button></div>-->
+
+        <div class="ManagerToggle" onclick={showManagers}>►</div>
+        <template if:true={seeManagers}>
+            <div class="ManagerList" > 
+                <template if:true={managers}> 
+                    <template for:each={managers} for:item="manager"> 
+                        <div key={manager.Manager__c} data-item={manager.Manager__c} 
+                             onclick={myManager} class="dataRow rowOver AEListItems " style="padding-right:4px">
+                            {manager.Manager__c}
+                        </div> 
+                    </template>
+                </template> 
+                <div data-item="all" onclick={myManager} class="dataRow rowOver AEListItems " style="padding-right:4px">
+                    All
+                </div> 
+            </div>
+        </template> 
+
+        <!--<div class="AccountSearch">Search Account <input type="text" onchange={accountSearch} style="width: 50px;"></input></div>-->
+
+        <div class="AEList">
+            <div class="AEListHeader ">AE</div>
+            <div class="AEListNames ">
+                <template if:true={aes}> 
+                    <template for:each={aes} for:item="ae"> 
+                        <div id={ae.Id} key={ae.Id} data-name={ae.Name} data-item={ae.Id} data-manager={ae.Manager__c}
+                                onclick={aeSelected} class="dataRow rowOver AEListItems ">
+                            {ae.Name}
+                        </div>
+                    </template>
+                </template> 
+            </div>
+        </div>
+        <!--<div class="AEList">
+            <div class="AEListHeader ">AE</div>
+            <div class="AEListNames ">
+                <template if:true={aes}> 
+                    <template for:each={aes} for:item="ae"> 
+                        <div id={ae.Id} key={ae.Id} data-name={ae.Name} data-item={ae.Id} data-manager={ae.Manager__c}
+                                onclick={aeSelected} class="dataRow rowOver AEListItems ">
+                            <div style="float:left;">{ae.Name}</div><div style="float:left;">xx</div>
+                        </div>
+                    </template>
+                </template> 
+            </div>
+        </div> -->
+
+        <div class="AccountListAEName">{aeSelectedName}<font style="font-size:9px">&nbsp;&nbsp;{manager}</font></div>
+        <div class="AccountList">
+            <div class="AEListHeader AccountListHeader">Accounts</div>
+            <div class="AccountData">
+                 <table  border="0">
+                    <tbody>
+                    <template if:true={accounts}> 
+                        <template for:each={accounts} for:item="account"> 
+                            
+                            <tr class="rowOver" id={account.Id} key={account.Id} data-item={account.Id}> 
+                                <td width="220px" class="dataRow select" id={account.Id}  data-id={account.Id} 
+                                                data-name={account.Name}  data-type={account.Type} 
+                                                onclick={accountSelected}> 
+                                        {account.Name}
+                                </td>
+                                <td width="45px" class="dataRow" style="font-size:75%">{account.Type}</td>
+                                <td width="4px" class="dataRow tdCenter">
+                                    <a href={account.URL__c} target="_blank" class="linkOver" style="font-size:120%">•&nbsp;</a>
+                                </td>
+                            </tr>
+                            
+                            <!--<div key={account.Id} class="rowOver dataRow select" id={account.Id} data-id={account.Id} 
+                                 data-name={account.Name}  data-type={account.Type} onclick={accountSelected}
+                                 style="background-color: yellow;"> 
+                                        <div style="width:220px; float:left;">{account.Name}</div>
+                                        <div style="width:450px; float:left;">X{account.Type}X</div>
+                                        <div class="tdCenter" style="width:4px; font-size:75%; float:left;">
+                                            <a href={account.URL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
+                                        </div>
+   
+                            </div>  -->
+                        </template>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--  -->
+
+        <div class="SubscriptionAccountName">{accountSelectedNameSub}</div>
+        <div class="SubscriptionList">
+            <div class="AEListHeader" style="width:600px;">Current Licenses in Contract</div>
+            <div class="SubscriptionData">
+                <table width="600px" border="0">
+                    <tbody>
+                    <template if:true={subscriptions}> 
+                        <tr style="background-color:#19548a; color:white;">
+                            <td class="dataRow shrinkNumbers" >Name</td>
+                            <td class="dataRow tdRight shrinkNumbers" >Qty</td>
+                            <td class="dataRow tdRight shrinkNumbers" >Each</td>
+                            <td class="dataRow tdRight shrinkNumbers" >Total</td>
+                            <td colspan="2" class="dataRow tdCenter miniNumbers" >Current Start-End</td>
+                            <!--<td class="dataRow tdCenter shrinkNumbers" >Sub End</td>-->
+                            <td class="dataRow tdCenter miniNumbers" >Term</td>
+                            <td colspan="2" class="dataRow tdCenter miniNumbers" >Contract Start-End</td>
+                           <!--<td class="dataRow tdCenter miniNumbers" >Contract End</td>-->
+                            <td class="dataRow tdCenter miniNumbers2" >Number</td>
+                            <td class="dataRow"></td>
+                        </tr> 
+                        <template for:each={subscriptions} for:item="subscription"> 
+                            <tr class="rowOver" key={subscription.Id} id={subscription.Id}>
+                                <td width="141px" class="dataRow shrinkNumbers" >{subscription.Name}</td>
+                                <td width="27px" class="dataRow tdRight shrinkNumbers" >{subscription.QuantityString__c}</td>
+                                <td width="50px" class="dataRow tdRight shrinkNumbers" >{subscription.PurchaseString__c}</td>
+                                <td width="55px" class="dataRow tdRight shrinkNumbers" >{subscription.TotalString__c}</td>
+                                <td width="45px" class="dataRow tdCenter miniNumbers" >
+                                    <lightning-formatted-date-time value={subscription.Start__c} year="2-digit" month="numeric" day="numeric">
+                                    </lightning-formatted-date-time> 
+                                </td>
+                                <td width="45px" class="dataRow tdCenter miniNumbers" >{subscription.EndString__c}</td>
+                                <td width="8px" class="dataRow tdCenter miniNumbers" >{subscription.Contract_Term__c}</td>
+                                <td width="45px" class="dataRow tdCenter miniNumbers" >{subscription.ContractStartString__c}</td>
+                                <td width="45px" class="dataRow tdCenter miniNumbers" >{subscription.ContractEndString__c}</td>
+                                <td width="45px" class="dataRow tdCenter miniNumbers2" >{subscription.Contract_Number__c}</td>
+                                <td width="4px" class="dataRow">
+                                    <a href={subscription.APOcontractURL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
+                                </td>
+                            </tr> 
+                        </template>
+                    </template>
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="OppsAccountName">{accountSelectedNameOpp}</div>
+        <div class="OppsList">
+            <div class="OppListHeader" style="width:1040px;">
+                <table style="width:1040px;">
+                    <tr>
+                        <td width="10%" class="tdCenter selectAll" onclick={allOppsSelected}><b>All</b></td>
+                        <td width="80%" class="tdCenter">Open Opportunities</td>
+                        <td width="10%" class="tdCenter selectAll">&nbsp;</td>
+                    </tr>
+                </table>
+            </div> 
+            <div class="OppsData">
+                <table width="1040px" border="0">
+                    <tbody>
+                    <tr>
+                        <td class="OppsTableHeader" style="padding-left: 4px;">Opportunity</td>
+                        <td class="OppsTableHeader tdCenter">Forecast</td>
+                        <td class="OppsTableHeader tdCenter">Stage</td>
+                        <td class="OppsTableHeader tdCenter">Type</td>
+                        <td class="OppsTableHeader tdCenter">Close</td>
+                        <td class="OppsTableHeader tdCenter">ACV</td>
+                        <td class="OppsTableHeader tdCenter">Amount</td>
+                        <td class="OppsTableHeader tdCenter">Incremental</td>
+                        <td class="OppsTableHeader tdCenter">Owner Name</td>
+                        <td class="OppsTableHeader tdCenter">APO&nbsp;</td>
+                    </tr>
+                    <template if:true={opps}> 
+                        <template for:each={opps} for:item="opp"> 
+                            <tr class="rowOver" key={opp.Id} id={opp.Id}> 
+                                <td width="288px" class="dataRow select dataSmaller" data-id={opp.Id} data-name={opp.Name} onclick={oppSelected}>{opp.Name}</td>
+                                <td width="100px" class="dataRow tdCenter dataSmaller" >{opp.Forecast__c}</td>
+                                <td width="100px" class="dataRow tdCenter dataSmaller" >{opp.Stage__c}</td>
+                                <td width="100px" class="dataRow tdCenter dataSmaller" >{opp.Type__c}</td>
+                                <td width="90px" class="dataRow tdCenter dataSmaller" >{opp.CloseString__c}</td>
+                                <td width="80px" class="dataRow tdCenter dataSmaller" >{opp.ACV_APOString__c}</td>
+                                <td width="80px" class="dataRow tdCenter dataSmaller" >{opp.AmountString__c}</td>
+                                <td width="80px" class="dataRow tdCenter dataSmaller" >{opp.IncrementalString__c}</td>
+                                <td width="90px" class="dataRow tdCenter" style="font-size:8px" >{opp.Owner_Name__c}</td>
+                                <td width="24px" class="dataRow tdCenter">
+                                    <a href={opp.URL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
+                                </td>
+                            </tr>
+                        </template> 
+                    </template> 
+                    </tbody>
+                </table> 
+            </div>
+           
+            <div class="OppName">&nbsp;{oppSelectedName}</div>
+            <div class="OppRowsList">
+                <!--<div class="AEListHeader" style="width:1030px;">Opportunity Products</div>-->
+                <div class="OppRowsData">
+                    <table width="1040px" border="0">
+                        <tbody>
+                        <tr >
+                            <td class="headerOfTable" >Products</td>
+                            <td class="headerOfTable tdRight" >Quantity</td>
+                            <td class="headerOfTable tdRight" >Sales Price</td>
+                            <td class="headerOfTable tdRight" style="padding-right:4px;">Total</td>
+                        </tr>
+                        <template if:true={oppRows}> 
+                            <template for:each={oppRows} for:item="oppRow"> 
+                                <tr class="rowOver" key={oppRow.Id} id={oppRow.Id}>
+                                    <td width="90px" class="dataRow" >{oppRow.Product__c}</td>
+                                    <td width="8px" class="dataRow tdRight" >{oppRow.QuantityString__c}</td>
+                                    <td width="8px" class="dataRow tdRight" >{oppRow.SalesPriceString__c}</td>
+                                    <td width="8px" class="dataRow tdRight" style="padding-right:4px;" >{oppRow.TotalString__c}</td>
+                                </tr>
+                            </template>
+                        </template> 
+                        <template if:false={oppRows}>
+                            - none -
+                        </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+
+            <div>&nbsp;</div>
+            <div class="RenewalsList">
+                <div class="RenewalsListHeader" style="width:1040px;">
+                    <table style="width:1040px;">
+                        <tr>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
+                            <td width="80%" class="tdCenter">Open Renewals - this Fiscal Year</td>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
+                        </tr>
+                    </table>
+                </div> 
+                <div class="RenewalsData">
+                    <table width="1040px" border="0">
+                        <tbody>
+                        <tr>
+                            <td class="RenewalsTableHeader" style="padding-left: 4px;">Opportunity</td>
+                            <td class="RenewalsTableHeader tdCenter">Close Date</td>
+                            <td class="RenewalsTableHeader tdCenter">Renewal Date</td>
+                            <td class="RenewalsTableHeader tdRight">Uplift</td>
+                            <td class="RenewalsTableHeader tdRight">Expansion</td>
+                            <td class="RenewalsTableHeader tdRight">Incremental</td>
+                            <td class="RenewalsTableHeader tdRight">Renewal</td>
+                            <td class="RenewalsTableHeader"></td>
+                        </tr>
+                        <template if:true={renewals}> 
+                            <template for:each={renewals} for:item="renewal"> 
+                                <tr class="rowOver2" key={renewal.Id} id={renewal.Id}> 
+                                    <td width="288px" class="dataRow " data-id={renewal.Id} data-name={renewal.Name}>{renewal.Opportunity_Name__c}</td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Close_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Renewal_Due_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Uplift__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Expansion_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >   
+                                        <lightning-formatted-number value={renewal.Incremental_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Renewal_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="24px" class="dataRow tdCenter">
+                                        <a href={renewal.URL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
+                                    </td>
+                                </tr>
+                            </template> 
+                        </template> 
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+
+
+            <div>&nbsp;</div>
+            <div class="RenewalsList">
+                <div class="PullForwardRenewalsListHeader" style="width:1040px;">
+                    <table style="width:1040px;">
+                        <tr>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
+                            <td width="80%" class="tdCenter">Pull Forward Renewals - Q1 of Next Year</td>
+                            <td width="10%" class="tdCenter">&nbsp;</td>
+                        </tr>
+                    </table>
+                </div> 
+                <div class="PullForwardRenewalsData">
+                    <table width="1040px" border="0">
+                        <tbody>
+                        <tr>
+                            <td class="PullForwardRenewalsTableHeader" style="padding-left: 4px;">Opportunity</td>
+                            <td class="PullForwardRenewalsTableHeader tdCenter">Close Date</td>
+                            <td class="PullForwardRenewalsTableHeader tdCenter">Renewal Date</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Uplift</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Expansion</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Incremental</td>
+                            <td class="PullForwardRenewalsTableHeader tdRight">Renewal</td>
+                            <td class="PullForwardRenewalsTableHeader"></td>
+                        </tr>
+                        <template if:true={pullForwardRenewals}> 
+                            <template for:each={pullForwardRenewals} for:item="renewal"> 
+                                <tr class="rowOver2" key={renewal.Id} id={renewal.Id}> 
+                                    <td width="288px" class="dataRow" data-id={renewal.Id} data-name={renewal.Name}>{renewal.Opportunity_Name__c}</td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Close_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdCenter" >
+                                        <lightning-formatted-date-time
+                                            value={renewal.Renewal_Due_Date__c}
+                                            year="2-digit"
+                                            month="2-digit"
+                                            day="2-digit"
+                                            time-zone="UTC"
+                                        >
+                                        </lightning-formatted-date-time>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Uplift__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Expansion_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >   
+                                        <lightning-formatted-number value={renewal.Incremental_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="100px" class="dataRow tdRight" >
+                                        <lightning-formatted-number value={renewal.Renewal_ACV__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </td>
+                                    <td width="24px" class="dataRow tdCenter">
+                                        <a href={renewal.URL__c} target="_blank" class="linkOver" style="font-size:120%">&nbsp;•&nbsp;</a>
+                                    </td>
+                                </tr>
+                            </template> 
+                        </template> 
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="WhiteSpace">
+            <div class="AEListHeader" style="width:340px;">Whitespace</div>
+            <div class="WhitespaceData" id="wsList" style="display:block;">
+                <table border="0" style="width:340px; border-color:#aaaaaa; " cellpadding="3" cellspacing="3">
+                    <tbody>
+                    <tr>
+                        <td class="WhitespaceTableHeader" style="width:140px; padding-left:4px;">Product Group</td>
+                        <td class="WhitespaceTableHeader" style="width:80px; text-align:right">Licenses</td>
+                        <td class="WhitespaceTableHeader" style="width:80px; text-align:right; padding-right:4px;">Open</td>
+                        <td class="WhitespaceTableHeader" style="width:40px; text-align:right; padding-right:4px;">Lost</td>
+                    </tr>
+                    <template if:true={wsGroups}>
+                        <tr>
+                            <td class="WhitespaceTableTotal" style="padding-left:4px;">Total</td>
+                            <td class="WhitespaceTableTotal" style="text-align:right">
+                                <lightning-formatted-number value={TotalSubscription} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </td>
+                            <td class="WhitespaceTableTotal ataRow tdRight wsTDPadding">
+                                <lightning-formatted-number value={TotalOpen} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                            </td>
+                            <td class="WhitespaceTableTotal ataRow tdRight wsTDPadding"></td> 
+                        </tr> 
+                        <template for:each={wsGroups} for:item="wsGroup">
+                            <tr key={wsGroup.id} data-item={wsGroup.Name} data-item2={wsGroup.Name} data-product={wsGroup.Name}>
+                                <td class="dataRow wsTDPadding">{wsGroup.Name}</td>
+                                <td class="dataRow tdRight wsTDPadding">
+                                    <template if:true={wsGroup.hasLicenses__c}> 
+                                        <lightning-formatted-number value={wsGroup.SubTotal__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </template> 
+                                </td>
+                                <td class="dataRow tdRight wsTDPadding">
+                                    <template if:true={wsGroup.hasOpen__c}> 
+                                        <lightning-formatted-number value={wsGroup.OppTotal__c} format-style="currency" minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                                    </template>                           
+                                </td>
+                                <td onclick={openModal} data-item2={wsGroup.Lost_Reason__c} 
+                                                        data-item3={wsGroup.Lost_Reason_Additional_Notes__c} 
+                                                        data-item4={wsGroup.Lost_Reason_Detail__c} 
+                                                        data-item5={wsGroup.Opportunity_Name__c}
+                                                        data-item6={wsGroup.AccountName__c}
+                                                        data-item7={wsGroup.Close_Date__c}
+                                                        data-item8={wsGroup.LostTotal__c}
+                                                        data-item9={wsGroup.Product__c}
+                                                        data-item1={wsGroup.LostOppURL__c}
+                                                        class="dataRow tdCenter wsTDPadding" 
+                                                        style="font-size:115%; font-family:Salesforce Sans,Arial,sans-serif; cursor:pointer;">
+                                    {wsGroup.showHasLost__c}
+                                </td>
+                            </tr> 
+                        </template>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       
+    </div>      
+
+    <template if:true={isModalOpen}> 
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Lost Opportunity</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!--<template if:true={aes}>LOADING...</template>-->
+                    <div style="position: relative; display: none; width: 80px; height: 80px;">
+                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    </div>
+                    <!--<template if:true={lostRowRecord}>-->
+                        <p><b>Opportunity: </b>{lostOppName}</p>
+                        <p><b>Account: </b>{lostAccountName}</p>
+                        <p><b>Close Date: </b>{lostCloseDate}</p>
+                        <p><b>Amount: </b>
+                            <lightning-formatted-number value={lostTotal} format-style="currency" 
+                            minimum-fraction-digits="0" maximum-fraction-digits="0"></lightning-formatted-number>
+                        </p>
+                        <p><b>Product: </b>{lostProduct}</p>
+                            <br/>
+                        <p><b>Lost Reason: </b>{lostReason}</p>
+                        <p><b>Detail: </b>{lostDetail}</p>
+                        <p><b>Notes:</b><br/>{lostAdditionalNotes}</p>
+                        <p><br/><a href={lostOppURL} target="_blank" class="linkOver" style="color:blue; font-size:100%" onclick={doNothing}>
+                            View in APO</a>
+                        </p>
+                    <!--</template>-->
+                  <!--</p>-->
+                </div> 
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Close">Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+
+</template>

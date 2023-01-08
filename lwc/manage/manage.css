@@ -1,0 +1,78 @@
+.bodyDiv {width:100%; height:1000px; background-color:#ffffff; margin:0px}
+.rowOver:hover{background-color: rgb(196, 245, 216);}
+.linkOver:hover{color:red; text-decoration:none;}
+.linkOver{text-decoration:none; color:black; }
+.newOver:hover{color:white; text-decoration:none; background-color:black}
+.newOver{text-decoration:none; color:darkblue; font-size:120%;  background-color:white; 
+    padding-left:4px; padding-right:4px; padding-bottom:2px; padding-top:2px;}
+.headerRow{padding-bottom:4px; padding-top:4px; border-bottom: #aaa 1px solid; color:white; font-weight:normal;}
+.dataRow{padding-bottom:2px; padding-top:2px; padding-left:4px; border-bottom: 1px #eeeeee solid;}
+.dataRowTitle{padding-bottom:0px; padding-top:0px; padding-left:4px; }
+.dataBottom { border-bottom: 1px #eeeeee solid;}
+.shrinkNumbers {font-size:90%}
+.miniNumbers {font-size:70%; padding-top:4px;}
+.miniNumbers2 {font-size:60%; padding-top:4px;}
+.bigBet{color:#6161ff;}
+.floatLeft{float: left}
+.floatRight{float: right}
+.topRowCells{vertical-align: bottom; padding-left:10px; }  
+.versionStyle{color:darkred; font-size:10px;}
+table {cursor:default;}
+.oneHeader {display:none}
+.floatLeft {float:left;}
+.version {position:absolute; left:20px; top:2px; font-size:9px; }
+.tdCenter {text-align:center} 
+.tdVertical {vertical-align: middle;}
+.tdRight {text-align:right}
+.headerOfTable { background-color:#19548a; color:white; padding:4px;}
+.select:hover{text-decoration:underline; color:blue; }
+.selectAll:hover{text-decoration:underline; color:yellow; }
+.wsTDRight{text-align:right;}
+.wsTDCenter{text-align:center;}
+.wsTDPadding {padding:3px;}
+
+.AEList {cursor:default; 
+    border: 0px solid #dddddd; 
+    position:absolute; left:20px; top:40px; height:300px; }
+.AEListHeader {text-align:center; width:140px; padding-bottom:5px; padding-top:5px; 
+    background-color:#19548a; 
+    border-bottom: #888888 1px solid; color:white; font-weight:normal;}
+.AEListNames { width:140px; height:280px; overflow: auto; background-color: lightskyblue; }
+.AEListItems {border-bottom: #dddddd 1px solid;}
+
+.AccountList {cursor:default; 
+    border: 0px solid #dddddd; 
+    position:absolute; left:185px; top:40px; 
+    background-color: lightpink; }
+.AccountListHeader {text-align:center; width:250px; }
+.AccountData{ height:280px; overflow: auto; width:250px;}
+.AccountListAEName  {position:absolute; left:185px; top:15px; font-weight:bold; font-size:140%}
+
+.SubscriptionList{
+    position:absolute; left:460px; top:40px; 
+    border: 0px solid #cfcfcf; 
+    background-color: lightskyblue; 
+}
+.SubscriptionData{ height:280px; overflow: auto; width:600px;}
+.SubscriptionAccountName {position:absolute; left:460px; top:15px; font-weight:bold; font-size:140%}
+
+.WhiteSpace{
+    position:absolute; left:1085px; top:40px; 
+    background-color: lightskyblue; 
+}
+
+.OppsList{
+    position:absolute; left:20px; top:385px; 
+    border: 0px solid #888888; 
+}
+.OppsData {    background-color: lightskyblue }
+.OppsTableHeader {color:white; background-color:#19548a; padding-top:1px; padding-bottom:1px; }
+.OppsAccountName {position:absolute; left:20px; top:360px; font-weight:bold; font-size:140%}
+
+.OppRowsList{
+    /* position:absolute; left:20px; top:525px; */
+    border: 0px solid #888888; 
+    background-color: lightskyblue; 
+} 
+.OppName { /*position:absolute; left:20px; top:500px; */
+    font-weight:bold; font-size:140%}

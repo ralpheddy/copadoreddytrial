@@ -1,6 +1,15 @@
-.rowOver:hover{background-color: rgb(196, 211, 245);}
+.rowOver:hover{background-color: rgb(196, 245, 216);}
 .linkOver:hover{color:red; text-decoration:none;}
-.linkOver{text-decoration:none;}
-.headerRow{padding-bottom:4px; border-bottom: #aaa 1px solid;}
+.linkOver{text-decoration:none; }
+.newOver:hover{color:white; text-decoration:none; background-color:black}
+.newOver{text-decoration:none; color:darkblue; font-size:120%;  background-color:white; 
+    padding-left:4px; padding-right:4px; padding-bottom:2px; padding-top:2px;}
+.headerRow{padding-bottom:4px; padding-top:4px; border-bottom: #aaa 1px solid; color:white; font-weight:normal;}
+.dataRow{padding-bottom:2px; padding-top:2px;}
 .bigBet{color:#6161ff;}
 .floatLeft{float: left}
+.floatRight{float: right}
+.topRowCells{vertical-align: bottom; padding-left:10px; }  
+.versionStyle{color:darkred; font-size:10px;}
+table {cursor:default;}
+.oneHeader {display:none}

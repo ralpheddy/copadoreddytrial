@@ -1,19 +1,79 @@
 <template>
-    <lightning-card title="Links Galore" icon-name="custom:custom63">
-        <div>
-            <div>
-                <div class="floatLeft"><lightning-button variant="brand" label="Load" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button></div>
-                <div class="floatLeft" style="padding-left:10px;">Version: {version}</div>
-            </div>
 
-            <table class="slds-table_cell-buffer " border="0" cellpadding="0" cellspacing="0">
+    <!--<div style="position:absolute; top:30px;left:100px; cursor:pointer;" class="list" 
+    onclick={handleOpen}>Open</div>-->
+
+    <lightning-card ><!-- title="Links Galore" icon-name="custom:custom63" -->
+        <div>
+            <div class="slds-form-element" > 
+                
+                <!--<div class="floatRight" style="padding-right:20px;">
+                    <lightning-button variant="brand" label="Refresh" onclick={handleSearch} class="slds-m-left_x-small"></lightning-button>
+                </div>-->
+                <table border="0" cellpadding="8" cellspacing="8">
+                <tbody>
+                <tr>
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small" style="width:1%">
+                            <lightning-input type="text"
+                            value={searchValue}
+                            label="Filter this List:"
+                            onchange={searchKeyword}
+                            onkeypress={handleEnter}
+                            placeholder="What…"
+                            style="width:100px"
+                            ></lightning-input>
+                        </div>
+                    </td> 
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small floatLeft" style="white-space:nowrap;">
+                            <lightning-button label="Search" onclick={handleSearch} variant="brand"></lightning-button>
+                        </div>
+                    </td > 
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small floatLeft" style="white-space:nowrap;">
+                            <lightning-input type="checkbox" label="All" id="allCheckbox" name="input1" value={allCheck} onchange={handleAllCheck} title="Include Archive"></lightning-input>
+                        </div>
+                    </td >
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small floatLeft" style="white-space:nowrap;">
+                            <template if:true={linkPicklist.data}>
+                                <lightning-combobox name="Type" label="Type" value={value}
+                                    options={linkPicklist.data.values} onchange={handleChange}
+                                    style="width:150px; color:black;"
+                                    placeholder="Filter by type">
+                                </lightning-combobox>
+                            </template>
+                            <div style="display:none"><p>Selected value is: {valueOfSelectedType}</p></div>
+                        </div>
+                    </td > 
+                    <td class="topRowCells" width="1%">
+                        <div class="slds-m-bottom_small floatLeft" style="white-space:nowrap;">
+                            <a class="newOver" href="/lightning/o/Link__c/new" target="_blank">New</a>
+                        </div>
+                    </td > 
+                    <td class="topRowCells" width="90px">
+                        <div class="slds-m-bottom_small floatRight versionStyle" style="padding-left:10px; white-space:nowrap;">
+                            v{version}
+                        </div>
+                    </td> 
+                    <td width="80%">&nbsp;</td>
+                </tr>
+                </tbody>
+                </table>
+
+            </div>
+           
+            <table class="slds-table_cell-buffer "  border="0" cellpadding="0" cellspacing="0">
                 <thead>
-                <tr class="slds-line-height_reset">
+                <tr class="slds-line-height_reset" style="padding-bottom:5px; background-color:#19548a;">
+                    <th class="headerRow" scope="col"><div class="slds-truncate" title="Company">&nbsp;</div></th>
                     <th class="headerRow" scope="col"><div class="slds-truncate" title="Company">Name</div></th>
                     <th class="headerRow" scope="col"><div class="slds-truncate" title="AE">URL</div></th>
+                    <th class="headerRow" scope="col"><div class="slds-truncate" title="AE">Type</div></th>
                     <th class="headerRow" scope="col">
-                        <div class="slds-truncate" title="Edit">
-                            <a class="linkOver" href="/lightning/o/Link__c/new" target="_blank">New</a>
+                        <div class="slds-truncate" title="Details">Details
+                            <!--<a class="newOver" href="/lightning/o/Link__c/new" target="_blank">New</a>-->
                         </div>
                     </th>
                 </tr>
@@ -22,15 +82,27 @@
                 <template if:true={links}> <!-- <template if:true={links.data}> -->
                     <template for:each={links} for:item="link"> <!-- <template for:each={companies.data} for:item="company"> -->
                         <tr class="slds-hint-parent rowOver" key={link.Id}>
-                            <td>
-                                <div class="slds-truncate slds-m-around_none slds-text-body_medium bigBet">{link.Name}</div>
-                            </td>
-                            <td style="padding-right:2px">
-                                <div class="slds-truncate slds-m-around_none slds-text-body_medium bigBet">
-                                    <a href={link.URL__c} target="_blank" class="linkOver">view</a>
+                            <td class="dataRow">
+                                <div class="slds-truncate slds-m-around_none slds-text-body_medium ">
+                                    <a href={link.EditLink__c} target="_blank" class="linkOver">e</a>
                                 </div>
                             </td>
-                            <td><div class="slds-truncate slds-m-around_none slds-text-body_small">{link.Details__c}</div></td>      
+                            <td class="dataRow">
+                                <div class="slds-truncate slds-m-around_none slds-text-body_medium ">
+                                    {link.Name}
+                                </div>
+                            </td>
+                            <td class="dataRow" style="padding-right:2px">
+                                <div class="slds-truncate slds-m-around_none slds-text-body_medium ">
+                                    <template if:true={link.URL__c}>
+                                        <a href={link.URL__c} target="_blank" class="linkOver">open</a>
+                                    </template>
+                                </div>
+                            </td>
+                            <td class="dataRow">
+                                <div class="slds-truncate slds-m-around_none slds-text-body_medium ">{link.Type__c}</div>
+                            </td>
+                            <td class="dataRow"><div class="slds-truncate slds-m-around_none slds-text-body_small">{link.Details__c}</div></td>      
                         </tr>
                         <!--<div key={company.Id}>{company.Name} - {company.AE__c}  {company.Region__c} 
                             <a href={company.Quip__c} target="_blank">Quip</a>
@@ -45,4 +117,15 @@
 
         </div>
     </lightning-card>
+    </br>
+    <lightning-card title="Info" icon-name="standard:user">
+        <div class="slds-m-around_medium">
+            <!--<template if:true={linkPicklist.data}>
+                <lightning-combobox name="Type" label="Type" value={value}
+                    options={linkPicklist.data.values} onchange={handleChange}>
+                </lightning-combobox>
+            </template>-->
+            {browserURL} - {myPosition}
+        </div>
+    </lightning-card> 
 </template>

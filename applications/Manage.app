@@ -2,8 +2,11 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <brand>
         <headerColor>#0070D2</headerColor>
+        <logo>Calvin1</logo>
+        <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
+    <description>Whitespace and AE/RVP relationship with Salesforce.</description>
     <formFactors>Small</formFactors>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
@@ -11,11 +14,26 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Manage</label>
     <navType>Standard</navType>
-    <tabs>LinksPage</tabs>
-    <tabs>Link__c</tabs>
+    <tabs>Map</tabs>
+    <tabs>Whitespace</tabs>
+    <tabs>standard-Account</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
-    <tabs>Links</tabs>
+    <tabs>AE_SFAE_Account__c</tabs>
+    <tabs>AE__c</tabs>
+    <tabs>Subscription__c</tabs>
+    <tabs>OppRow__c</tabs>
+    <tabs>Opp__c</tabs>
+    <tabs>Lost__c</tabs>
+    <tabs>LostRow__c</tabs>
+    <tabs>Group__c</tabs>
+    <tabs>Tool</tabs>
+    <tabs>SKU__c</tabs>
+    <tabs>WhiteSpace__c</tabs>
+    <tabs>mapAE__c</tabs>
+    <tabs>mapRVP__c</tabs>
+    <tabs>mapSFAE__c</tabs>
+    <tabs>mapSFRVP__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Manage_UtilityBar</utilityBar>
 </CustomApplication>
