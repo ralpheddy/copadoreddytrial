@@ -16,5 +16,7 @@ public class mapControllerTest {
         m.getSFAEsFromAccounts();
         m.getSFRVPsFromSFAEs();
         
+        m.plus();
+        
     }
 }

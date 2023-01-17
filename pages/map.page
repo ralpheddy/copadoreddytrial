@@ -31,11 +31,11 @@
         .AElist{ height:380px; width:140px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
         
         .AccountFilter{position:absolute; left:322px; top:8px;}
-        .AccountButtons{position:absolute; left:322px; top:29px; width:528px; }
+        .AccountButtons{position:absolute; left:322px; top:29px; width:538px; }
         
         .AccountWrapper{position:absolute; left:322px; top:50px;}
-        .AccountHeader{width:528px; background-color:rgb(137, 22, 152); }
-        .AccountList{ height:380px; width:526px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
+        .AccountHeader{width:538px; background-color:rgb(137, 22, 152); }
+        .AccountList{ height:380px; width:536px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;}
         .AccountRow { }
         .AccountRowData {border-bottom: 1px solid #eee;padding-top:2px; padding-bottom:2px;}
         .AccountLink { text-decoration:none;}
@@ -47,14 +47,14 @@
           Xtext-overflow: ellipsis;
         }
         
-        .SFAEButtons{position:absolute; left:870px; top:29px; width:172; }
-        .SFAEwrapper{position:absolute; left:870px; top:50px;}
+        .SFAEButtons{position:absolute; left:880px; top:29px; width:172; }
+        .SFAEwrapper{position:absolute; left:880px; top:50px;}
         .SFAEheader{width:142px; background-color:rgb(159, 22, 22); }
         .SFAElist{ height:380px; width:140px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
         
         
-        .SFRVPButtons{position:absolute; left:1032px; top:29px;}
-        .SFRVPwrapper{position:absolute; left:1032px; top:50px;}
+        .SFRVPButtons{position:absolute; left:1042px; top:29px;}
+        .SFRVPwrapper{position:absolute; left:1042px; top:50px;}
         .SFRVPheader{width:142px; background-color:rgb(159, 22, 22); }
         .SFRVPlist{ height:380px; width:140px; overflow: auto;  border: #dddddd 1px solid; cursor:default; background-color:white;} 
     </style>  
@@ -440,6 +440,7 @@
                     <td class="tableHeader AccountRowData">Industry</td>
                     <td class="tableHeader AccountRowData" style="text-align:right;">License</td>
                     <td class="tableHeader AccountRowData" style="text-align:right;">Open</td>
+                    <td class="smaller AccountRowData" style="text-align: right">AE</td>
                     <td class="tableHeader AccountRowData"></td>
                 </tr>
                 <apex:repeat value="{!Accounts}" var="acc">
@@ -451,6 +452,7 @@
                         <td>&nbsp;</td>
                         <td width="" class="AccountRowData"><div class="truncate">{!acc.name}</div></td>
                         <td width="10px" class="smaller AccountRowData">{!acc.PCO__c}</td>
+                        
                         <td width="50px" class="smaller AccountRowData">{!acc.AOVshort__c}</td>
                         <td width="78px" class="smaller AccountRowData">{!acc.IndustryShort__c}</td>
                         <td width="48px" class="smaller AccountRowData" style="text-align:right;">
@@ -463,7 +465,8 @@
                                 <apex:param value="{!acc.TotalOpps__c}" />
                             </apex:outputText>
                         </td>
-                        <td width="" style="align:center" class="AccountRowData" >
+                        <td width="10px" class="smaller AccountRowData" style="text-align: right">{!acc.mapAE__r.Initials__c}</td>
+                        <td width="" style="text-align:center" class="AccountRowData" >
                             <a href="{!acc.URL__c}" target="_blank" class="AccountLink" style="font-size:120%">&nbsp;•&nbsp;</a>
                         </td>
                     </tr>
