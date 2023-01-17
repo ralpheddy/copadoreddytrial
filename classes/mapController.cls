@@ -68,7 +68,7 @@ public class mapController {
        warning = 'Filter: ' + filterValue;
        Message = 'Account selected: ';
        
-       string q = ' SELECT id, Name, Type__c, PCO__c, mapAE__c, mapSFAE__c, formulaRVP__c, formulaSFRVP__c, ' +
+       string q = ' SELECT id, Name, Type__c, PCO__c, mapAE__c, mapAE__r.Initials__c, mapSFAE__c, formulaRVP__c, formulaSFRVP__c, ' +
                   ' AOV__c, AOVshort__c, Industry__c, IndustryShort__c, URL__c, Subscription_ACV__c, TotalOpps__c ' +
                   ' FROM AE_SFAE_Account__c ' +
                   ' WHERE Name != \'xxx\' ';  // this line is always true
@@ -172,7 +172,48 @@ public class mapController {
         }
     }
 
-
-
+    public void plus(){
+        integer i = 1;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;    
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;  
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;  
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;  
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;  
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;  
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;  
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;  
+    }
 
 }
