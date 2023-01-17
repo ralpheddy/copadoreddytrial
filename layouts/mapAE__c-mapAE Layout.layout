@@ -14,6 +14,10 @@
                 <behavior>Edit</behavior>
                 <field>mapRVP__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Initials__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
