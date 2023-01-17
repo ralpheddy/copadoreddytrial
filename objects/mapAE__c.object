@@ -154,6 +154,19 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
+        <fullName>Initials__c</fullName>
+        <externalId>false</externalId>
+        <formula>LEFT(Name,1)
+&amp;
+if ( FIND(&quot; &quot;, Name, 1) &gt; 3,  MID(Name, FIND(&quot; &quot;, Name, 2)+1, 1) , &quot;no&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Initials</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>mapRVP__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -170,6 +183,8 @@
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>mapRVP__c</columns>
+        <columns>Initials__c</columns>
+        <columns>CREATED_DATE</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
