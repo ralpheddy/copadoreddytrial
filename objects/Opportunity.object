@@ -224,6 +224,7 @@
     </fields>
     <fields>
         <fullName>StageName</fullName>
+        <description>xx</description>
         <trackFeedHistory>true</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
