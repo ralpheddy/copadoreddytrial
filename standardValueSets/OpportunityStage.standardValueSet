@@ -20,12 +20,12 @@
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>First Call Presentation.</fullName>
+        <fullName>First Call</fullName>
         <default>false</default>
-        <label>First Call Presentation.</label>
+        <label>First Call</label>
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
-        <probability>15</probability>
+        <probability>5</probability>
         <won>false</won>
     </standardValue>
     <standardValue>
@@ -44,24 +44,6 @@
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
         <probability>20</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
-        <fullName>First Call Presentation</fullName>
-        <default>false</default>
-        <label>First Call Presentation</label>
-        <closed>false</closed>
-        <forecastCategory>Pipeline</forecastCategory>
-        <probability>20</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
-        <fullName>Demonstration</fullName>
-        <default>false</default>
-        <label>Demonstration</label>
-        <closed>false</closed>
-        <forecastCategory>Pipeline</forecastCategory>
-        <probability>25</probability>
         <won>false</won>
     </standardValue>
     <standardValue>
