@@ -11,24 +11,6 @@
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>First Meeting</fullName>
-        <default>false</default>
-        <label>First Meeting</label>
-        <closed>false</closed>
-        <forecastCategory>Pipeline</forecastCategory>
-        <probability>5</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
-        <fullName>Preparation</fullName>
-        <default>false</default>
-        <label>Preparation</label>
-        <closed>false</closed>
-        <forecastCategory>Pipeline</forecastCategory>
-        <probability>5</probability>
-        <won>false</won>
-    </standardValue>
-    <standardValue>
         <fullName>Qualification</fullName>
         <default>false</default>
         <label>Qualification</label>
@@ -38,9 +20,9 @@
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>Preparation.</fullName>
+        <fullName>Prep Work</fullName>
         <default>false</default>
-        <label>Preparation.</label>
+        <label>Prep Work</label>
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
         <probability>5</probability>
