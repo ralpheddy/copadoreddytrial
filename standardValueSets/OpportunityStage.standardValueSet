@@ -20,21 +20,21 @@
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>Preparation.</fullName>
+        <fullName>First Call</fullName>
         <default>false</default>
-        <label>Preparation.</label>
+        <label>First Call</label>
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
         <probability>5</probability>
         <won>false</won>
     </standardValue>
     <standardValue>
-        <fullName>First Meeting.</fullName>
+        <fullName>Demonstration.</fullName>
         <default>false</default>
-        <label>First Meeting.</label>
+        <label>Demonstration.</label>
         <closed>false</closed>
         <forecastCategory>Pipeline</forecastCategory>
-        <probability>5</probability>
+        <probability>15</probability>
         <won>false</won>
     </standardValue>
     <standardValue>
