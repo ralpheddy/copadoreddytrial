@@ -25,7 +25,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Source99__c</field>
+                <field>Source__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
