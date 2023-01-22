@@ -13,6 +13,7 @@
     <navType>Standard</navType>
     <tabs>Stuff</tabs>
     <tabs>Stuff__c</tabs>
+    <tabs>Check_List__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Stuff_UtilityBar</utilityBar>
 </CustomApplication>
