@@ -1,10 +1,65 @@
 <template>
-    <lightning-button variant="brand" label="New" onclick={newStuff} class="slds-m-left_x-small"></lightning-button>
+    
+    
+    
+      <lightning-tabset>
+        <lightning-tab label="Stuff" onactive={refreshStuff}>
+            <lightning-button variant="brand" label="New" onclick={newStuff} ></lightning-button>
+            <lightning-button variant="success" label="Refresh" onclick={refreshStuff} class="slds-m-left_xx-small"></lightning-button>
+            <!--<lightning-button variant="brand-outline" label="Staples" onclick={showStaples} class="slds-m-left_xx-small"></lightning-button>-->
+            &nbsp;&nbsp;<span style="font-size:8px; color:#444;">{version}</span>
+            <lightning-datatable 
+                data={stuffs} 
+                columns={columns} 
+                key-field="id"
+                hide-checkbox-column="true"
+                onrowaction={callRowAction}
+                hide-table-header="true">
+            </lightning-datatable> 
+        </lightning-tab>
 
-    <lightning-button variant="success" label="Refresh" onclick={refreshStuff} class="slds-m-left_x-small"></lightning-button>
+        <lightning-tab label="Staples">
+            <lightning-button variant="brand" label="New" onclick={newStuff} ></lightning-button>
+            <lightning-button variant="success" label="Refresh" onclick={refreshStaples} class="slds-m-left_xx-small"></lightning-button>
+            <lightning-datatable 
+                data={staples} 
+                columns={columnsStaple} 
+                key-field="id"
+                hide-checkbox-column="true"
+                onrowaction={callRowAction}
+                hide-table-header="true">
+            </lightning-datatable> 
+        </lightning-tab>
+
+        <lightning-tab label="Ck-Serene">
+            <lightning-datatable 
+                data={checkList} 
+                columns={columnsCheckList} 
+                key-field="id"
+                hide-checkbox-column="true"
+                onrowaction={callRowAction}
+                hide-table-header="false">
+            </lightning-datatable> 
+        </lightning-tab>
+
+        <lightning-tab label="Ck-MV">
+            <lightning-datatable
+                data={checkListMV} 
+                columns={columnsCheckList} 
+                key-field="id"
+                hide-checkbox-column="true"
+                onrowaction={callRowAction}
+                hide-table-header="false">
+            </lightning-datatable> 
+        </lightning-tab>
+    </lightning-tabset>
+
     
-    &nbsp;&nbsp;<span style="font-size:8px; color:#444;">{version}</span>
-    
+   
+
+
+
+
     <!--<h1><div class="center">Stuff We Need</div></h1>-->
     <!--
     <template if:true={stuffs}> 
@@ -20,14 +75,4 @@
     </template>
     <hr/> -->
     
-    <lightning-datatable 
-        data={stuffs} 
-        columns={columns} 
-        key-field="id"
-        hide-checkbox-column="true"
-        onrowaction={callRowAction}>
-    </lightning-datatable> 
-    <!-- hide-table-header="false" -->
-   
-
 </template>
