@@ -1178,6 +1178,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Check_List__c.SortOrder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Check_List__c.isMillValley__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Check_List__c.isSerene__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>CommSubscription.DataUsePurposeId</field>
         <readable>false</readable>
@@ -4224,6 +4239,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Stuff__c.StapleOrder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Stuff__c.isStaple__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Subscription__c.AE_SFAE_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5025,6 +5050,9 @@
         <layout>CaseMilestone-Case Milestone Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Check_List__c-Check List Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CommunityMemberLayout-Community Member Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5242,6 +5270,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Solution-Solution Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Stuff__c-Stuff Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Subscription__c-Subscription Layout</layout>
@@ -5710,6 +5741,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>ChatterActivity</object>
         <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Check_List__c</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -7263,6 +7303,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>AE__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Check_List__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
