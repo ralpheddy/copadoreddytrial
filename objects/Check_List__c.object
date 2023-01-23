@@ -154,17 +154,9 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <fields>
-        <fullName>Completed__c</fullName>
-        <defaultValue>false</defaultValue>
+        <fullName>SortOrder__c</fullName>
         <externalId>false</externalId>
-        <label>Completed</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>StapleOrder__c</fullName>
-        <externalId>false</externalId>
-        <label>StapleOrder</label>
+        <label>SortOrder</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>
@@ -173,27 +165,36 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>isStaple__c</fullName>
+        <fullName>isMillValley__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>isStaple</label>
+        <label>Mill Valley</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
-    <label>Stuff</label>
+    <fields>
+        <fullName>isSerene__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Serene</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Check List</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>Completed__c</columns>
-        <columns>CREATED_DATE</columns>
+        <columns>isSerene__c</columns>
+        <columns>isMillValley__c</columns>
+        <columns>SortOrder__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
     <nameField>
-        <label>Name</label>
+        <label>Check List Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Stuff</pluralLabel>
+    <pluralLabel>Check Lists</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
