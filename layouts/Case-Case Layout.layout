@@ -76,7 +76,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Source1__c</field>
+                <field>Testy__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
