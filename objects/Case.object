@@ -412,6 +412,18 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Testy__c</fullName>
+        <externalId>false</externalId>
+        <label>Testy</label>
+        <length>80</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Top__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
